@@ -9,13 +9,8 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <React.Fragment>
-      {isMonitor && <Toolbar variant="monitor" />}
-      {/* TODO: Maybe constrain to 100vh. TODO: There is something strange with this height limits and padding isn't working as expected on pages  */}
-      <main className="mx-auto h-auto min-h-[calc(100vh-4rem)] w-full max-w-4xl flex-[3] monitor:min-h-screen">
-        {children}
-      </main>
-      {!isMonitor && <Toolbar variant="mobile" />}
-      {isMonitor && <div className="flex-1" />}
+      <Toolbar variant={isMonitor ? "monitor" : "mobile"} />
+      <main className="w-full pb-48">{children}</main>
     </React.Fragment>
   );
 }

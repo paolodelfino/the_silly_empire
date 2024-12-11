@@ -5,7 +5,6 @@ import {
   Add02,
   FilterMailSquare,
   InkStroke20Filled,
-  SearchSquare,
   Square,
 } from "@/components/icons";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover";
@@ -21,10 +20,297 @@ export default function Toolbar({
       className={cn(
         variant === "mobile" &&
           "fixed bottom-0 left-1/2 h-16 w-full max-w-4xl -translate-x-1/2 overflow-x-auto bg-black scrollbar-hidden",
-        variant === "monitor" && "flex-1",
+        variant === "monitor" &&
+          "sticky top-0 max-h-screen overflow-y-auto pb-48 scrollbar-hidden",
       )}
     >
       <ul className={cn(variant === "mobile" && "flex h-16")}>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
+        <ButtonLink
+          href="/"
+          role="listitem"
+          color="ghost"
+          size="large"
+          classNames={{ button: "py-5", text: "text-neutral-300" }}
+          full={variant === "monitor"}
+          startContent={<FilterMailSquare />}
+        >
+          Queries
+        </ButtonLink>
         <ButtonLink
           href="/"
           role="listitem"
