@@ -1,0 +1,57 @@
+{
+  "name": "the_silly_empire",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev__w": "bun x dotenv-cli -e dev.env -- cmd /C 'next dev -p %WEB_PORT% --turbo --experimental-https'",
+    "build": "bun x dotenv-cli -e prod.env -- cmd /C 'next build'",
+    "prod__w": "bun x dotenv-cli -e prod.env -- cmd /C 'next start -p %WEB_PORT%'",
+    "lint": "next lint",
+    "test": "bun x dotenv-cli -e dev.env -- cmd /C 'bun run test/test.ts",
+    "ts": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.26.23",
+    "client-only": "^0.0.1",
+    "clsx": "^2.1.1",
+    "d3": "^7.9.0",
+    "kysely": "^0.27.4",
+    "minio": "^8.0.2",
+    "next": "^15.0.0-rc.0",
+    "pg": "^8.12.0",
+    "react": "19.0.0-rc-f994737d14-20240522",
+    "react-dom": "19.0.0-rc-f994737d14-20240522",
+    "react-textarea-autosize": "^8.5.3",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^2.5.2",
+    "tailwind-variants": "^0.2.1",
+    "virtua": "^0.37.2",
+    "zod": "^3.23.8",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/node": "^20",
+    "@types/pg": "^8.11.8",
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc",
+    "babel-plugin-react-compiler": "^0.0.0-experimental-4e0eccf-20240830",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.0-rc.0",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-react-compiler": "^0.0.0-experimental-b8a7b48-20240830",
+    "kysely-codegen": "^0.16.3",
+    "local-ssl-proxy": "^2.0.5",
+    "postcss": "^8",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.6",
+    "react-json-view": "^1.21.3",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc"
+  },
+  "packageManager": "pnpm@9.4.0+sha512.f549b8a52c9d2b8536762f99c0722205efc5af913e77835dbccc3b0b0b2ca9e7dc8022b78062c17291c48e88749c70ce88eb5a74f1fa8c4bf5e18bb46c8bd83a"
+}
