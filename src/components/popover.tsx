@@ -27,7 +27,7 @@ interface PopoverOptions {
   onOpenChange?: (open: boolean) => void;
   targetRef?: React.RefObject<HTMLElement | null>;
   matchRefWidth?: boolean;
-  offset?: number;
+  offset?: number; // TODO: It is not in rem
   flip?: boolean;
 }
 
@@ -145,58 +145,36 @@ export function Popover({
   );
 }
 
-interface PopoverTriggerProps {
-  children: React.ReactNode;
-  asChild?: boolean;
-}
-
 export function PopoverTrigger({
   children,
-  asChild = false,
   ref,
-  color,
-  size,
+  className,
   ...rest
-}: PopoverTriggerProps &
-  (
-    | ({ asChild?: false } & Parameters<typeof Button>["0"])
-    | ({ asChild?: true } & {
-        color?: never;
-        size?: never;
-        ref?: React.Ref<HTMLElement>;
-      })
-  )) {
+}: {
+  children: React.ReactNode;
+  ref?: React.Ref<HTMLSpanElement>;
+} & React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLSpanElement>,
+  HTMLSpanElement
+>) {
   const context = usePopoverContext();
   const childrenRef = (children as any).ref;
   // eslint-disable-next-line react-compiler/react-compiler
   const mergedRef = useMergeRefs([context.refs.setReference, ref, childrenRef]);
 
-  // `asChild` allows the user to pass any element as the anchor
-  if (asChild) {
-    if (React.isValidElement(children))
-      return React.cloneElement(
-        children,
-        context.getReferenceProps({
-          ref: mergedRef,
-          ...rest,
-          ...(children.props as any),
-          "data-state": context.open ? "open" : "closed",
-        }),
-      );
-    throw new Error("Children is not a valid react element");
-  }
-
   return (
-    <Button
+    <span
       ref={mergedRef}
-      // The user can style the trigger based on the state
       data-state={context.open ? "open" : "closed"}
-      color={color}
-      size={size}
+      className={cn(
+        // TODO: Or fit-content maybe
+        "flex",
+        className,
+      )}
       {...context.getReferenceProps(rest)}
     >
       {children}
-    </Button>
+    </span>
   );
 }
 
@@ -219,7 +197,12 @@ export const PopoverContent = React.forwardRef<
           aria-labelledby={context.labelId}
           aria-describedby={context.descriptionId}
           {...context.getFloatingProps(props)}
-          className={cn("z-10", props.className)}
+          className={cn(
+            "z-10",
+            // TODO: Or fit-content maybe
+            "flex",
+            props.className,
+          )}
         >
           {props.children}
         </div>
