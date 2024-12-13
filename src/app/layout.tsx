@@ -167,7 +167,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-black font-sans text-white antialiased flex`}
+        className={`${geistSans.variable} ${geistMono.variable} flex bg-black font-sans text-white antialiased`}
         style={{
           textRendering: "optimizeLegibility",
           WebkitTapHighlightColor: "transparent",

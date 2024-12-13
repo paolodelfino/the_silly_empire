@@ -2,6 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-size: var(--font-size);
+  user-select: none;
+}
+
+* {
+  outline: none;
+}
+
 :root {
   color-scheme: dark;
+
+  --font-size: 16px;
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --font-size: 24px;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --font-size: 24px;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --font-size: 24px;
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --font-size: 28px;
+  }
 }

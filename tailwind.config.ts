@@ -13,8 +13,6 @@ const config: Config = {
         mono: ["var(--font-geist-mono)"],
       },
       screens: {
-        "6xl": "72rem",
-        "7xl": "82rem",
         standalone: { raw: "(display-mode: standalone)" },
       },
       spacing: {
@@ -30,14 +28,13 @@ const config: Config = {
       handler: function ({ addUtilities }) {
         const newUtilities = {
           ".scrollbar-hidden": {
-            "-ms-overflow-style": "none" /* Internet Explorer 10+ */,
-            "scrollbar-width": "none" /* Firefox */,
+            "-ms-overflow-style": "none",
+            "scrollbar-width": "none",
             "&::-webkit-scrollbar": {
-              display: "none" /* Safari and Chrome */,
+              display: "none",
             },
           },
         };
-
         addUtilities(newUtilities);
       },
     },
