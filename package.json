@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev__w": "bun x dotenv-cli -e dev.env -- cmd /C 'next dev -p %WEB_PORT% --turbo'",
+    "dev__w": "bun x dotenv-cli -e dev.env -- cmd /C 'next dev -p %WEB_PORT% --turbo --experimental-https'",
     "build": "bun x dotenv-cli -e prod.env -- cmd /C 'next build'",
     "prod__w": "bun x dotenv-cli -e prod.env -- cmd /C 'next start -p %WEB_PORT%'",
+    "prod__w:proxy": "bun x dotenv-cli -e prod.env -- cmd /C 'local-ssl-proxy --source %WEB_PROXY_PORT% --target %WEB_PORT%'",
     "lint": "next lint",
     "test": "bun x dotenv-cli -e dev.env -- cmd /C 'bun run test/test.ts",
     "ts": "tsc --noEmit"

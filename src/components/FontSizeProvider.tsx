@@ -41,7 +41,12 @@ function useFontSize() {
     value,
     setValue: (value: number) => {
       setValue(value);
-      setCookie("fontSize", value);
+      setCookie("fontSize", value, {
+        maxAge: 31536000,
+        secure: true,
+        httpOnly: false,
+        sameSite: "lax",
+      });
     },
     original,
   };

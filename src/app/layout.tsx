@@ -1,6 +1,7 @@
 import FontSizeProvider from "@/components/FontSizeProvider";
 import Layout from "@/components/Layout";
 import ScreenPredictProvider from "@/components/ScreenPredictProvider";
+import { keys } from "@/keys";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { cookies } from "next/headers";
@@ -168,17 +169,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookiesStore = await cookies();
-  const fontSizeCookie = cookiesStore.get("fontSize");
-  const screenPredictCookie = cookiesStore.get("screenPredict");
+  const fontSizeCookie = cookiesStore.get("fontSize")?.value;
+  const screenPredictCookie = cookiesStore.get("screenPredict")?.value;
+  const keyCookie = cookiesStore.get("key")?.value;
 
   return (
     <html
       lang="en"
       style={{
         fontSize:
-          fontSizeCookie !== undefined
-            ? parseFloat(fontSizeCookie.value)
-            : undefined,
+          fontSizeCookie !== undefined ? parseFloat(fontSizeCookie) : undefined,
       }}
     >
       <body
@@ -191,12 +191,18 @@ export default async function RootLayout({
         <ScreenPredictProvider
           loaded={
             screenPredictCookie !== undefined
-              ? parseFloat(screenPredictCookie.value)
+              ? parseFloat(screenPredictCookie)
               : undefined
           }
         >
           <FontSizeProvider>
-            <Layout>{children}</Layout>
+            <Layout
+              authenticated={
+                keyCookie !== undefined && keys.includes(keyCookie)
+              }
+            >
+              {children}
+            </Layout>
           </FontSizeProvider>
         </ScreenPredictProvider>
       </body>

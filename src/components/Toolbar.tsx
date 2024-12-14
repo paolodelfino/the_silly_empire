@@ -3,9 +3,13 @@ import { cn } from "@/utils/cn";
 
 export default function Toolbar({
   variant,
+  authenticated,
 }: {
   variant: "monitor" | "mobile";
+  authenticated: boolean;
 }) {
+  if (!authenticated) return undefined;
+
   return (
     <nav
       className={cn(

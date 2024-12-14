@@ -4,6 +4,7 @@ const nextConfig = {
     reactCompiler: true,
     ppr: true,
     serverActions: { bodySizeLimit: `1TB` },
+    authInterrupts: true,
   },
   async headers() {
     return [

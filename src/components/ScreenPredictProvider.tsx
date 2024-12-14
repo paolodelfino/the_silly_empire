@@ -31,10 +31,21 @@ function useScreenPredict(loaded?: number | undefined) {
 
     if (cookie === undefined) {
       setValue(current);
-      setCookie("screenPredict", current);
+      setCookie("screenPredict", current, {
+        maxAge: 31536000,
+        secure: true,
+        httpOnly: false,
+        sameSite: "lax",
+      });
     } else {
       const cookieV = parseFloat(cookie as string);
-      if (cookieV !== current) setCookie("screenPredict", current);
+      if (cookieV !== current)
+        setCookie("screenPredict", current, {
+          maxAge: 31536000,
+          secure: true,
+          httpOnly: false,
+          sameSite: "lax",
+        });
     }
   }, []);
 
