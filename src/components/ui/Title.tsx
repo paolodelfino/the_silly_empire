@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 
-export default function Text({
+export default function Title({
   children,
   className,
   style,
@@ -10,20 +10,20 @@ export default function Text({
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
-  ref?: React.Ref<HTMLParagraphElement>;
+  ref?: React.Ref<HTMLHeadingElement>;
   disabled?: boolean;
 }) {
   return (
-    <p
+    <h2
       ref={ref}
       data-disabled={disabled}
       style={style}
       className={cn(
-        "hyphens-auto whitespace-pre-wrap break-words p-3 text-justify text-base text-neutral-300 transition-opacity data-[disabled=true]:opacity-50",
+        "pl-4 text-lg leading-[3rem] transition-opacity data-[disabled=true]:opacity-50",
         className,
       )}
     >
       {children}
-    </p>
+    </h2>
   );
 }

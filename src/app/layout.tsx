@@ -1,6 +1,9 @@
+import FontSizeProvider from "@/components/FontSizeProvider";
 import Layout from "@/components/Layout";
+import ScreenPredictProvider from "@/components/ScreenPredictProvider";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { cookies } from "next/headers";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -159,13 +162,25 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookiesStore = await cookies();
+  const fontSizeCookie = cookiesStore.get("fontSize");
+  const screenPredictCookie = cookiesStore.get("screenPredict");
+
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      style={{
+        fontSize:
+          fontSizeCookie !== undefined
+            ? parseFloat(fontSizeCookie.value)
+            : undefined,
+      }}
+    >
       <body
         className={`${geistSans.variable} ${geistMono.variable} flex bg-black font-sans text-white antialiased`}
         style={{
@@ -173,7 +188,17 @@ export default function RootLayout({
           WebkitTapHighlightColor: "transparent",
         }}
       >
-        <Layout>{children}</Layout>
+        <ScreenPredictProvider
+          loaded={
+            screenPredictCookie !== undefined
+              ? parseFloat(screenPredictCookie.value)
+              : undefined
+          }
+        >
+          <FontSizeProvider>
+            <Layout>{children}</Layout>
+          </FontSizeProvider>
+        </ScreenPredictProvider>
       </body>
     </html>
   );

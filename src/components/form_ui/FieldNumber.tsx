@@ -2,7 +2,7 @@
 
 import { IcBaselineCloud, IcBaselineError } from "@/components/icons";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover";
-import IconButton from "@/components/ui/Button";
+import { IconButton } from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import { cn } from "@/utils/cn";
 import { rem } from "@/utils/css";
@@ -57,7 +57,7 @@ export default function FieldNumber({
 
   const canReset = useMemo(
     () => defaultMeta !== undefined && meta !== defaultMeta,
-    [meta],
+    [meta, defaultMeta],
   );
 
   useEffect(() => {
@@ -114,7 +114,16 @@ export default function FieldNumber({
         instance?.removeEventListener("pointerleave", onPointerLeave);
       };
     },
-    [canReset, disabled],
+    [canReset, disabled, defaultMeta],
+  );
+
+  const bound = useCallback(
+    (value: number) => {
+      if (min !== undefined) value = Math.max(min, value);
+      if (max !== undefined) value = Math.min(max, value);
+      return value;
+    },
+    [min, max],
   );
 
   const canDecrease = useMemo(
@@ -131,7 +140,7 @@ export default function FieldNumber({
   const decrease = useCallback(() => {
     if (canDecrease) {
       const value = (meta || 0) - step;
-      setMeta(min !== undefined ? Math.max(min, value) : value);
+      setMeta(min !== undefined ? bound(value) : value);
     }
     animateNumber();
   }, [canDecrease, meta, animateNumber]);
@@ -150,7 +159,7 @@ export default function FieldNumber({
   const increase = useCallback(() => {
     if (canIncrease) {
       const value = (meta || 0) + step;
-      setMeta(max !== undefined ? Math.min(max, value) : value);
+      setMeta(max !== undefined ? bound(value) : value);
     }
     animateNumber();
   }, [canIncrease, meta, animateNumber]);
@@ -162,7 +171,7 @@ export default function FieldNumber({
 
   const clear = useCallback(() => {
     if (!disabled && canClear) setMeta(undefined);
-  }, [canClear, disabled]);
+  }, [canClear, disabled, setMeta]);
 
   useEffect(() => setValue(meta), [meta]);
 
@@ -176,7 +185,7 @@ export default function FieldNumber({
         ref={numberRef}
         disabled={disabled}
         className={cn(
-          "mx-0.5 flex min-w-24 items-center justify-center rounded bg-blue-500 text-white",
+          "mx-0.5 flex min-h-[calc(0.75rem*2+1.5rem)] min-w-24 items-center justify-center rounded bg-blue-500 text-white",
           "transition-[opacity,background-color,color] [&.hover]:cursor-pointer [&.hover]:bg-white [&.hover]:text-black",
           meta === undefined &&
             placeholder !== undefined &&
