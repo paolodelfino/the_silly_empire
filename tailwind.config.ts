@@ -20,6 +20,10 @@ const config: Config = {
         "safe-bottom": "env(safe-area-inset-bottom)",
         "safe-left": "env(safe-area-inset-left)",
         "safe-right": "env(safe-area-inset-right)",
+        "titlebar-area-x": "env(titlebar-area-x)",
+        "titlebar-area-y": "env(titlebar-area-y)",
+        "titlebar-area-width": "env(titlebar-area-width)",
+        "titlebar-area-height": "env(titlebar-area-height)",
       },
     },
   },
@@ -33,6 +37,9 @@ const config: Config = {
             "&::-webkit-scrollbar": {
               display: "none",
             },
+          },
+          ".app-region-drag": {
+            "-webkit-app-region": "drag",
           },
         };
         addUtilities(newUtilities);

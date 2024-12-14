@@ -4,8 +4,10 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "The Silly Empire",
     short_name: "The Silly Empire",
+    id: "the_silly_empire",
     description: "",
-    display: "browser",
+    display: "minimal-ui",
+    display_override: ["window-controls-overlay"],
     start_url: "/",
     scope: "/",
     orientation: "portrait-primary",
@@ -13,28 +15,14 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "black",
     icons: [
       {
-        src: "/manifest-icon-192.maskable.png",
+        src: "/manifest-icon-192.png",
         sizes: "192x192",
         type: "image/png",
-        purpose: "any",
       },
       {
-        src: "/manifest-icon-192.maskable.png",
-        sizes: "192x192",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
-        src: "/manifest-icon-512.maskable.png",
+        src: "/manifest-icon-512.png",
         sizes: "512x512",
         type: "image/png",
-        purpose: "any",
-      },
-      {
-        src: "/manifest-icon-512.maskable.png",
-        sizes: "512x512",
-        type: "image/png",
-        purpose: "maskable",
       },
     ],
   };

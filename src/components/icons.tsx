@@ -40,3 +40,15 @@ export function IcBaselineCloud({
     </svg>
   );
 }
+
+export function Logo({
+  className,
+  ...rest
+}: React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLImageElement>,
+  HTMLImageElement
+>) {
+  return (
+    <img {...rest} className={cn("size-8", className)} src="/favicon-196.png" />
+  );
+}
