@@ -47,46 +47,25 @@ export function ColoredSuperTitle({
       data-disabled={disabled}
       style={style}
       className={cn(
-        "my-4 ml-10 w-fit text-2xl leading-[calc(100%+1rem)] transition-opacity data-[disabled=true]:opacity-50",
-        "relative",
+        "relative mb-2 pl-4 pr-8 text-2xl",
+        "w-fit bg-gray-500 transition-opacity data-[disabled=true]:opacity-50",
         className,
       )}
     >
-      <span
+      <svg
         className={cn(
-          "absolute left-[calc(50%+1rem)] top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-s",
-          "h-full w-[calc(100%+5rem)]",
-          "bg-gray-500 mix-blend-screen",
+          "absolute -right-px",
+          "top-1/2 -translate-y-1/2 rotate-90",
+          "h-[calc(100%+1rem)]",
+          "w-auto",
         )}
+        viewBox="0 0 60 60"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        {/* <svg
-          className={cn(
-            "absolute -left-px",
-            "top-1/2 -translate-y-1/2 rotate-90",
-            "h-[calc(100%+1rem)]",
-            "w-auto",
-          )}
-          viewBox="0 0 60 60"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0 60 Q30 10 60 60 Z" fill="black" />
-        </svg> */}
-        <svg
-          className={cn(
-            "absolute -right-px",
-            "top-1/2 -translate-y-1/2 rotate-90",
-            "h-[calc(100%+1rem)]",
-            "w-auto",
-          )}
-          viewBox="0 0 60 60"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0 0 Q30 50 60 0 Z" fill="black" />
-        </svg>
-      </span>
-      <p>{children}</p>
+        <path d="M0 0 Q30 50 60 0 Z" fill="black" />
+      </svg>
+      {children}
     </h1>
   );
 }

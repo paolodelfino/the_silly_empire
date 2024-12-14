@@ -10,7 +10,7 @@ export default function Page() {
   const font = useContext(FontSizeContext);
 
   return (
-    <div className="space-y-6">
+    <div className="">
       <ColoredSuperTitle>Settings</ColoredSuperTitle>
 
       <div>
