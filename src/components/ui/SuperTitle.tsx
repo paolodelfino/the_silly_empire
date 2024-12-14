@@ -47,19 +47,19 @@ export function ColoredSuperTitle({
       data-disabled={disabled}
       style={style}
       className={cn(
-        "my-4 ml-12 w-fit text-2xl leading-[calc(100%+1rem)] transition-opacity data-[disabled=true]:opacity-50",
+        "my-4 ml-10 w-fit text-2xl leading-[calc(100%+1rem)] transition-opacity data-[disabled=true]:opacity-50",
         "relative",
         className,
       )}
     >
       <span
         className={cn(
-          "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+          "absolute left-[calc(50%+1rem)] top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-s",
           "h-full w-[calc(100%+5rem)]",
           "bg-gray-500 mix-blend-screen",
         )}
       >
-        <svg
+        {/* <svg
           className={cn(
             "absolute -left-px",
             "top-1/2 -translate-y-1/2 rotate-90",
@@ -71,7 +71,7 @@ export function ColoredSuperTitle({
           xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M0 60 Q30 10 60 60 Z" fill="black" />
-        </svg>
+        </svg> */}
         <svg
           className={cn(
             "absolute -right-px",
