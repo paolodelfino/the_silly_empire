@@ -21,7 +21,21 @@ export default function Toolbar({
             "flex h-full max-h-screen flex-col gap-2 overflow-y-auto p-4 pb-48",
         )}
       >
-        <LinkButton href="/settings">Settings</LinkButton>
+        <LinkButton
+          href="/"
+          className={cn(variant === "monitor" && "min-w-32")}
+        >
+          Home
+        </LinkButton>
+        <LinkButton
+          href="/settings"
+          className={cn(
+            variant === "monitor" && "min-w-32",
+            "[&.hover]:bg-gray-500 [&.hover_p]:text-white",
+          )}
+        >
+          Settings
+        </LinkButton>
       </ul>
     </nav>
   );
