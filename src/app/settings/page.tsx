@@ -2,7 +2,7 @@
 
 import { FontSizeContext } from "@/components/FontSizeProvider";
 import FieldNumber from "@/components/form_ui/FieldNumber";
-import { SuperTitle2 } from "@/components/ui/SuperTitle";
+import { ColoredSuperTitle, SuperTitle } from "@/components/ui/SuperTitle";
 import Title from "@/components/ui/Title";
 import { useContext } from "react";
 
@@ -11,7 +11,7 @@ export default function Page() {
 
   return (
     <div className="space-y-6">
-      <SuperTitle2>Settings</SuperTitle2>
+      <ColoredSuperTitle>Settings</ColoredSuperTitle>
 
       <div>
         <Title>Scale</Title>
