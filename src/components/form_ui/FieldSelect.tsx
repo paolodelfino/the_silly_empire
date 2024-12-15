@@ -1,10 +1,16 @@
 "use client";
-import Button from "@/components/Button";
-import { Cloud, InformationCircle } from "@/components/icons";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover";
+
+import { IcBaselineCloud } from "@/components/icons";
+import {
+  Button,
+  Button2,
+  ErrorButton,
+  IconButton,
+} from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
 import { FormField } from "@/utils/form";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 
 // TODO: Think of custom styling
 
@@ -48,8 +54,8 @@ export default function FieldSelect({
   meta,
   setMeta,
   setValue,
-  error,
-  disabled,
+  error = undefined,
+  disabled = false,
   acceptIndeterminate,
   placeholder,
 }: {
@@ -58,7 +64,7 @@ export default function FieldSelect({
   meta: Meta;
   setMeta: (meta: Partial<Meta>) => void;
   error: string | undefined;
-  disabled: boolean;
+  disabled?: boolean;
   placeholder: string;
 }) {
   useEffect(() => {
@@ -81,94 +87,95 @@ export default function FieldSelect({
     [meta.selectedItem, meta.items],
   );
 
+  const canClear = useMemo(
+    () => acceptIndeterminate === true && selectedItem !== undefined,
+    [selectedItem],
+  );
+
+  const [open, setOpen] = useState(false);
+
+  const touchDown = useRef(false);
+
   return (
-    <div className="flex gap-1">
-      <Popover>
-        <PopoverTrigger
-          disabled={disabled}
-          title={placeholder}
-          classNames={{
-            button: cn(
-              selectedItem === undefined && "text-neutral-400 bg-neutral-700",
-            ),
-          }}
-        >
-          {selectedItem === undefined ? placeholder : selectedItem.content}
-        </PopoverTrigger>
-        <PopoverContent>
-          <List meta={meta} setMeta={setMeta} disabled={disabled} />
-        </PopoverContent>
-      </Popover>
+    <div className="flex items-center">
+      <Button
+        disabled={disabled}
+        TextProps={{
+          className: cn(selectedItem === undefined && "text-neutral-400"),
+        }}
+        downAfter={() => setOpen((state) => !state)}
+      >
+        {selectedItem === undefined ? placeholder : selectedItem.content}
+      </Button>
 
-      {error !== undefined && (
-        <Popover>
-          <PopoverTrigger color="danger" disabled={disabled}>
-            <InformationCircle />
-          </PopoverTrigger>
-          <PopoverContent className="rounded border bg-neutral-700 p-4 italic">
-            {error}
-          </PopoverContent>
-        </Popover>
-      )}
+      {open &&
+        ReactDOM.createPortal(
+          <div
+            className={cn(
+              "absolute left-0 top-0",
+              "h-screen w-full pl-safe-left pr-safe-right",
+              "flex items-center justify-center",
+              "bg-neutral-600/40",
+              "z-20",
+            )}
+            onPointerDown={(e) => {
+              if (e.pointerType === "touch") touchDown.current = true;
+              else setOpen(false);
+            }}
+            onPointerUp={() => {
+              if (touchDown.current) setOpen(false);
+              touchDown.current = false;
+            }}
+          >
+            <div
+              className={cn(
+                "flex flex-col gap-2",
+                "4xl:py-4 4xl:px-8 4xl:rounded max-h-[75vh] w-full max-w-4xl overflow-y-scroll",
+                "bg-neutral-700",
+              )}
+            >
+              {meta.items.map((it) => (
+                <Button2
+                  key={it.id}
+                  disabled={disabled}
+                  downAfter={(e) => {
+                    if (e.pointerType !== "touch")
+                      setMeta({
+                        selectedItem: it.id,
+                      });
+                  }}
+                  upAfter={(e) => {
+                    if (e.pointerType === "touch")
+                      setMeta({
+                        selectedItem: it.id,
+                      });
+                  }}
+                  className="text-start"
+                >
+                  {it.content}
+                </Button2>
+              ))}
+            </div>
+          </div>,
+          document.body,
+        )}
 
-      {acceptIndeterminate === true && selectedItem !== undefined && (
-        <Button
-          aria-label="Clear"
-          disabled={disabled}
-          color="ghost"
-          onClick={() =>
+      <ErrorButton>{error}</ErrorButton>
+
+      {canClear && (
+        <IconButton
+          disabled={disabled || !canClear}
+          downAfter={() =>
             setMeta({
               selectedItem: undefined,
             })
           }
         >
-          <Cloud />
-        </Button>
+          {(className) => (
+            <IcBaselineCloud className={cn(className, "text-gray-500")} />
+          )}
+        </IconButton>
       )}
     </div>
-  );
-}
-
-function List({
-  meta,
-  setMeta,
-  disabled,
-}: {
-  meta: Meta;
-  setMeta: (meta: Partial<Meta>) => void;
-  disabled: boolean;
-}) {
-  return (
-    <ul className="flex w-full flex-col">
-      {meta.items.map((it) => (
-        <ListItem key={it.id} data={it} setMeta={setMeta} disabled={disabled} />
-      ))}
-    </ul>
-  );
-}
-
-function ListItem({
-  setMeta,
-  data,
-  disabled,
-}: {
-  setMeta: (meta: Partial<Meta>) => void;
-  disabled: boolean;
-  data: Item;
-}) {
-  return (
-    <Button
-      size="large"
-      full
-      multiple
-      disabled={disabled}
-      onClick={() =>
-        setMeta({
-          selectedItem: data.id,
-        })
-      }
-    >
-      {data.content}
-    </Button>
   );
 }

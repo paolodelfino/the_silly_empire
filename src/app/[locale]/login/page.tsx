@@ -1,11 +1,15 @@
 import { keys } from "@/keys";
+import { getDictionary } from "@/utils/locale";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function Page(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ locale: string }>;
 }) {
   const searchParams = await props.searchParams;
+  const params = await props.params;
+  const dictionary = (await getDictionary(params.locale))["/login"];
 
   async function setKey(formData: FormData) {
     "use server";
@@ -19,7 +23,7 @@ export default async function Page(props: {
         sameSite: "lax",
         priority: "high",
       });
-      redirect("/");
+      redirect("/home");
     }
   }
 
@@ -29,9 +33,11 @@ export default async function Page(props: {
         name="key"
         defaultValue={searchParams["key"]}
         className="h-12 w-full pl-4"
-        placeholder="Key"
+        placeholder={dictionary.Field.Key.name}
       />
-      <button className="h-12 w-full bg-neutral-600">Submit</button>
+      <button className="h-12 w-full bg-neutral-600">
+        {dictionary.submit}
+      </button>
     </form>
   );
 }

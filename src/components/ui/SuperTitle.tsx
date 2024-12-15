@@ -48,6 +48,7 @@ export function ColoredSuperTitle({
       style={style}
       className={cn(
         "relative mb-2 pl-4 pr-8 text-2xl",
+        "1600px:rounded-s",
         "w-fit bg-gray-500 transition-opacity data-[disabled=true]:opacity-50",
         className,
       )}

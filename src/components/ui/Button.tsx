@@ -1,10 +1,13 @@
 "use client";
 
+import { IcBaselineError } from "@/components/icons";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover";
 import Text from "@/components/ui/Text";
 import { cn } from "@/utils/cn";
 import { Props } from "@/utils/component";
+import { rem } from "@/utils/css";
 import { useRouter } from "next/navigation";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function IconButton({
   children,
@@ -301,6 +304,7 @@ export function LinkButton({
 }
 
 // TODO: Experimental
+// TODO: up e upAfter vengono chiamati anche se non è avvenuto il click e in più non vengono fornite loro le informazioni per dedurlo
 export function LinkButton2({
   href,
   external,
@@ -415,4 +419,157 @@ export function LinkButton2({
       anim={(e) => e.pointerType !== "touch"}
     />
   );
+}
+
+// TODO: Experimental
+export function Button2({
+  up,
+  upAfter,
+  ref,
+  sound = true,
+  anim = true,
+  disabled,
+  ...props
+}: Props<typeof Button> & {
+  up?: (e: PointerEvent) => boolean;
+  upAfter?: (e: PointerEvent) => void;
+}) {
+  const touchDown = useRef(false);
+
+  const over = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
+      if (props.over !== undefined && !props.over(e)) return false;
+
+      if (!disabled) {
+        if (e.pointerType === "touch") touchDown.current = true;
+      }
+
+      return true;
+    },
+    [props.over, disabled],
+  );
+
+  const down = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
+      if (props.down !== undefined && !props.down(e)) return false;
+
+      return true;
+    },
+    [props.down, disabled],
+  );
+
+  const soundCallback = useCallback(() => {
+    const audio = new Audio("/sound2.ogg");
+    audio.oncanplay = () => {
+      audio.volume = disabled ? 0.05 : 0.5;
+      // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
+      audio.play().catch((e) => console.log(e));
+    };
+  }, [disabled]);
+  const animCallback = useCallback((button: HTMLButtonElement) => {
+    button.animate(
+      [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
+      { duration: 105 },
+    );
+  }, []);
+
+  const myUp = useCallback(
+    (e: PointerEvent) => {
+      if (up !== undefined && !up(e)) return;
+
+      if (e.pointerType === "touch") {
+        if (typeof sound === "function" ? sound(e) : sound) soundCallback();
+
+        if (typeof anim === "function" ? anim(e) : anim)
+          animCallback(e.target as HTMLButtonElement);
+
+        touchDown.current = false;
+      }
+
+      upAfter?.(e);
+    },
+    [up, disabled, sound, soundCallback, anim, animCallback, upAfter],
+  );
+
+  const button = useCallback(
+    (instance: HTMLButtonElement | null) => {
+      if (ref !== undefined && ref !== null) {
+        if (typeof ref === "function") ref(instance);
+        else ref.current = instance;
+      }
+
+      instance?.addEventListener("pointerup", myUp);
+      return () => instance?.removeEventListener("pointerup", myUp);
+    },
+    [myUp, ref],
+  );
+
+  return (
+    <Button
+      {...props}
+      disabled={disabled}
+      ref={button}
+      over={over}
+      down={down}
+      sound={(e) => e.pointerType !== "touch"}
+      anim={(e) => e.pointerType !== "touch"}
+    />
+  );
+}
+
+export function ErrorButton({ children }: { children?: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const [portal, setPortal] = useState<HTMLParagraphElement | null>(null);
+
+  useEffect(() => {
+    if (portal !== null) {
+      const h = rem(getComputedStyle(portal).height);
+
+      setPortal((portal) => {
+        portal!.style.height = h - h * 0.25 + "rem";
+        return portal!;
+      });
+
+      window.requestAnimationFrame(() => {
+        setPortal((portal) => {
+          portal!.style.height = h + "rem";
+          return portal!;
+        });
+      });
+    }
+  }, [portal]);
+
+  useEffect(() => {
+    if (children === undefined && open) setOpen(false);
+  }, [children]);
+
+  if (children !== undefined)
+    return (
+      <Popover open={open} matchRefWidth>
+        <PopoverTrigger>
+          <IconButton
+            downAfter={() => setOpen((state) => !state)}
+            over={() => !open}
+            leave={() => !open}
+          >
+            {(className) => (
+              <IcBaselineError className={cn(className, "text-green-500")} />
+            )}
+          </IconButton>
+        </PopoverTrigger>
+
+        <PopoverContent>
+          <Text
+            ref={(instance) => setPortal(instance)}
+            className={cn(
+              "max-h-56 w-full max-w-64 overflow-hidden rounded bg-neutral-600",
+              "italic",
+              "transition-[height] duration-[105ms]",
+            )}
+          >
+            {children}
+          </Text>
+        </PopoverContent>
+      </Popover>
+    );
 }

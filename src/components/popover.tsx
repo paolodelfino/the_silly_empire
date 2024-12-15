@@ -154,7 +154,7 @@ export function PopoverTrigger({
   children: React.ReactNode;
   ref?: React.Ref<HTMLSpanElement>;
 } & React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLSpanElement>,
+  React.HTMLAttributes<HTMLSpanElement>,
   HTMLSpanElement
 >) {
   const context = usePopoverContext();

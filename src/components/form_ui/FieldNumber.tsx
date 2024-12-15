@@ -1,11 +1,9 @@
 "use client";
 
-import { IcBaselineCloud, IcBaselineError } from "@/components/icons";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover";
-import { IconButton } from "@/components/ui/Button";
+import { IcBaselineCloud } from "@/components/icons";
+import { ErrorButton, IconButton } from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import { cn } from "@/utils/cn";
-import { rem } from "@/utils/css";
 import { FormField } from "@/utils/form";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -199,7 +197,7 @@ export default function FieldNumber({
         +
       </IconButton>
 
-      <Error data={error} />
+      <ErrorButton>{error}</ErrorButton>
 
       {canClear && (
         <IconButton disabled={disabled || !canClear} downAfter={clear}>
@@ -210,55 +208,4 @@ export default function FieldNumber({
       )}
     </div>
   );
-}
-
-function Error({ data }: { data: string | undefined }) {
-  const [open, setOpen] = useState(false);
-  const [portal, setPortal] = useState<HTMLParagraphElement | null>(null);
-
-  useEffect(() => {
-    if (portal !== null) {
-      const h = rem(getComputedStyle(portal).height);
-
-      portal.style.height = h - h * 0.25 + "rem";
-
-      window.requestAnimationFrame(() => {
-        portal.style.height = h + "rem";
-      });
-    }
-  }, [portal]);
-
-  useEffect(() => {
-    if (data === undefined && open) setOpen(false);
-  }, [data]);
-
-  if (data !== undefined)
-    return (
-      <Popover open={open} matchRefWidth>
-        <PopoverTrigger>
-          <IconButton
-            downAfter={() => setOpen((state) => !state)}
-            over={() => !open}
-            leave={() => !open}
-          >
-            {(className) => (
-              <IcBaselineError className={cn(className, "text-green-500")} />
-            )}
-          </IconButton>
-        </PopoverTrigger>
-
-        <PopoverContent>
-          <Text
-            ref={(portal) => setPortal(portal)}
-            className={cn(
-              "max-h-56 w-full max-w-64 overflow-hidden rounded bg-neutral-600",
-              "italic",
-              "transition-[height] duration-[105ms]",
-            )}
-          >
-            {data}
-          </Text>
-        </PopoverContent>
-      </Popover>
-    );
 }

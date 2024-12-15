@@ -49,6 +49,6 @@ export function Logo({
   HTMLImageElement
 >) {
   return (
-    <img {...rest} className={cn("size-8", className)} src="/favicon-196.png" />
+    <img {...rest} alt="" className={cn("size-8", className)} src="/favicon-196.png" />
   );
 }

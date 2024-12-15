@@ -19,7 +19,7 @@ export default function Text({
       data-disabled={disabled}
       style={style}
       className={cn(
-        "hyphens-auto whitespace-pre-wrap break-words p-3 text-justify text-base text-neutral-300 transition-opacity data-[disabled=true]:opacity-50",
+        "hyphens-auto whitespace-pre-wrap break-words p-3 text-base text-neutral-300 transition-opacity data-[disabled=true]:opacity-50",
         className,
       )}
     >

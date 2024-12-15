@@ -6,6 +6,15 @@ const nextConfig = {
     serverActions: { bodySizeLimit: `1TB` },
     authInterrupts: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/home",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

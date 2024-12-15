@@ -1,10 +1,13 @@
 import FontSizeProvider from "@/components/FontSizeProvider";
+import LanguageProvider from "@/components/LanguageProvider";
 import Layout from "@/components/Layout";
 import ScreenPredictProvider from "@/components/ScreenPredictProvider";
 import { keys } from "@/keys";
+import { cn } from "@/utils/cn";
+import { getDictionary } from "@/utils/locale";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -277,11 +280,22 @@ export const metadata: Metadata = {
   ],
 };
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export async function generateStaticParams() {
+  return [{ locale: "en" }, { locale: "it" }];
+}
+
+export default async function RootLayout(
+  props: Readonly<{
+    children: React.ReactNode;
+    params: Promise<{ locale?: string }>;
+  }>,
+) {
+  const params = await props.params;
+
+  // console.log("locale", params.locale); TODO: I checked this in build process and returns undefined and the graph doesn't look good
+  const locale = params.locale ?? (await headers()).get("locale")!;
+  const dictionary = await getDictionary(locale);
+
   const cookiesStore = await cookies();
   const fontSizeCookie = cookiesStore.get("fontSize")?.value;
   const screenPredictCookie = cookiesStore.get("screenPredict")?.value;
@@ -289,14 +303,18 @@ export default async function RootLayout({
 
   return (
     <html
-      lang="en"
+      lang={locale}
       style={{
         fontSize:
           fontSizeCookie !== undefined ? parseFloat(fontSizeCookie) : undefined,
       }}
     >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex bg-black font-sans text-white antialiased`}
+        className={cn(
+          `${geistSans.variable} ${geistMono.variable} font-sans antialiased`,
+          "flex",
+          "bg-black text-white",
+        )}
         style={{
           textRendering: "optimizeLegibility",
           WebkitTapHighlightColor: "transparent",
@@ -310,13 +328,16 @@ export default async function RootLayout({
           }
         >
           <FontSizeProvider>
-            <Layout
-              authenticated={
-                keyCookie !== undefined && keys.includes(keyCookie)
-              }
-            >
-              {children}
-            </Layout>
+            <LanguageProvider loaded={locale}>
+              <Layout
+                authenticated={
+                  keyCookie !== undefined && keys.includes(keyCookie)
+                }
+                dictionary={dictionary["/home"].Toolbar}
+              >
+                {props.children}
+              </Layout>
+            </LanguageProvider>
           </FontSizeProvider>
         </ScreenPredictProvider>
       </body>

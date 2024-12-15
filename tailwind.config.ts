@@ -13,6 +13,8 @@ const config: Config = {
         mono: ["var(--font-geist-mono)"],
       },
       screens: {
+        "1600px": "1600px",
+        "4xl": "56rem",
         standalone: { raw: "(display-mode: standalone)" },
       },
       spacing: {
