@@ -1,12 +1,10 @@
 import "server-only";
 
 export type Dictionary = {
-  "/home": {
-    Toolbar: {
-      Route: {
-        home: string;
-        settings: string;
-      };
+  Toolbar: {
+    Route: {
+      home: string;
+      settings: string;
     };
   };
   "/settings": {
@@ -21,6 +19,11 @@ export type Dictionary = {
       Key: { name: string };
     };
     submit: string;
+  };
+  InstallPrompt: {
+    title: string;
+    detectMessage: string;
+    installMessage: string;
   };
   "404": {
     message: string;

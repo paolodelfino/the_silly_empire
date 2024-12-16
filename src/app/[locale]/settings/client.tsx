@@ -8,6 +8,7 @@ import { LanguageContext } from "@/components/LanguageProvider";
 import { ColoredSuperTitle } from "@/components/ui/SuperTitle";
 import Title from "@/components/ui/Title";
 import { Dictionary } from "@/utils/dictionary";
+import { locales } from "@/utils/dictionary/client";
 import { useContext } from "react";
 
 export default function Page({
@@ -43,10 +44,7 @@ export default function Page({
 
         <FieldSelect
           meta={{
-            items: [
-              { content: "English", id: "en" },
-              { content: "Italiano", id: "it" },
-            ],
+            items: locales,
             selectedItem: lang,
           }}
           setMeta={(value) =>

@@ -2,12 +2,10 @@ import { Dictionary } from "@/utils/dictionary";
 import "server-only";
 
 const it: Dictionary = {
-  "/home": {
-    Toolbar: {
-      Route: {
-        home: "Home",
-        settings: "Impostazioni",
-      },
+  Toolbar: {
+    Route: {
+      home: "Home",
+      settings: "Impostazioni",
     },
   },
   "/settings": {
@@ -30,5 +28,11 @@ const it: Dictionary = {
     submit: "Invia",
   },
   "404": { message: "Pagina non trovata" },
+  InstallPrompt: {
+    title: "Per favore scarica la pwa",
+    detectMessage: "Sei su mobile, per un'esperienza migliore, scarica l'app.",
+    installMessage:
+      "Clicca il pulsante di condivisione e poi aggiungi allo schermo.",
+  },
 } satisfies Dictionary;
 export default it;

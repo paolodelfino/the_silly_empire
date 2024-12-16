@@ -301,6 +301,8 @@ export default async function RootLayout(
   const screenPredictCookie = cookiesStore.get("screenPredict")?.value;
   const keyCookie = cookiesStore.get("key")?.value;
 
+  const authenticated = keyCookie !== undefined && keys.includes(keyCookie);
+
   return (
     <html
       lang={locale}
@@ -330,10 +332,14 @@ export default async function RootLayout(
           <FontSizeProvider>
             <LanguageProvider loaded={locale}>
               <Layout
-                authenticated={
-                  keyCookie !== undefined && keys.includes(keyCookie)
-                }
-                dictionary={dictionary["/home"].Toolbar}
+                authenticated={authenticated}
+                dictionary={{
+                  Toolbar: dictionary["Toolbar"],
+                  InstallPrompt: dictionary["InstallPrompt"],
+                  "Language.title": authenticated
+                    ? undefined
+                    : dictionary["/settings"]["Section"]["Language"]["title"],
+                }}
               >
                 {props.children}
               </Layout>
