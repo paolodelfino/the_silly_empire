@@ -436,8 +436,10 @@ export function ErrorButton({ children }: { children?: React.ReactNode }) {
   useEffect(() => {
     if (portal !== null) {
       const h = rem(getComputedStyle(portal).height);
+      const maxH = 14;
 
       setPortal((portal) => {
+        portal!.style.overflowY = h >= maxH ? "scroll" : "hidden";
         portal!.style.height = h - h * 0.25 + "rem";
         return portal!;
       });
@@ -474,8 +476,8 @@ export function ErrorButton({ children }: { children?: React.ReactNode }) {
           <Text
             ref={(instance) => setPortal(instance)}
             className={cn(
-              "max-h-56 w-full max-w-64 overflow-hidden rounded bg-neutral-600",
-              "italic",
+              "max-h-56 max-w-64 overflow-y-auto rounded",
+              "bg-neutral-600 italic",
               "transition-[height] duration-[105ms]",
             )}
           >

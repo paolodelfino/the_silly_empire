@@ -83,6 +83,7 @@ export default function Page() {
 
       <div className="pl-32">
         <ErrorButton>Test error</ErrorButton>
+        <ErrorButton>Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error Test error </ErrorButton>
       </div>
       <ErrorButton>Test error</ErrorButton>
     </div>
