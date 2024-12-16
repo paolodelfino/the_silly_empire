@@ -31,7 +31,10 @@ export default function Toolbar({
       >
         <LinkButton
           href="/home"
-          className={cn(variant === "monitor" && "min-w-32 text-start")}
+          className={cn(
+            variant === "monitor" && "min-w-32 text-start",
+            variant === "mobile" && "shrink-0",
+          )}
         >
           {dictionary.Route.home}
         </LinkButton>
@@ -40,6 +43,7 @@ export default function Toolbar({
           className={cn(
             variant === "monitor" && "min-w-32 text-start",
             "[&.hover]:bg-gray-500 [&.hover_p]:text-white",
+            variant === "mobile" && "shrink-0",
           )}
         >
           {dictionary.Route.settings}
@@ -50,6 +54,7 @@ export default function Toolbar({
             className={cn(
               variant === "monitor" && "min-w-32 text-start",
               "[&.hover]:bg-blue-500 [&.hover_p]:text-white",
+              variant === "mobile" && "shrink-0",
             )}
           >
             Test

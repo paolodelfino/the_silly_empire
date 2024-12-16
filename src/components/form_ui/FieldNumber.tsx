@@ -1,11 +1,10 @@
 "use client";
 
 import { IcBaselineCloud } from "@/components/icons";
-import { ErrorButton, IconButton } from "@/components/ui/Button";
-import Text from "@/components/ui/Text";
+import { Button, ErrorButton, IconButton } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
 import { FormField } from "@/utils/form";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 type Meta = number | undefined;
 
@@ -51,7 +50,7 @@ export default function FieldNumber({
   disabled?: boolean;
   placeholder?: string;
 }) {
-  const [number, setNumber] = useState<HTMLParagraphElement | null>(null);
+  const button = useRef<HTMLButtonElement | null>(null);
 
   const canReset = useMemo(
     () => defaultMeta !== undefined && meta !== defaultMeta,
@@ -59,61 +58,16 @@ export default function FieldNumber({
   );
 
   useEffect(() => {
-    if (!canReset && number !== null) number.classList.remove("hover");
+    if (!canReset && button.current !== null)
+      button.current!.classList.remove("hover");
   }, [canReset]); // TODO: Possiamo farlo sotto
 
-  const animateNumber = useCallback(
-    (instance?: HTMLParagraphElement) => {
-      (instance ?? number!).animate(
-        [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
-        { duration: 105 },
-      );
-    },
-    [number],
-  );
-
-  const numberRef = useCallback(
-    (instance: HTMLParagraphElement | null) => {
-      setNumber(instance);
-
-      const onPointerDown = (e: PointerEvent) => {
-        if (canReset) {
-          const audio = new Audio("/sound2.ogg");
-          audio.oncanplay = () => {
-            audio.volume = disabled ? 0.05 : 0.5;
-            audio.play();
-            audio.oncanplay = null;
-          };
-
-          animateNumber(instance!);
-
-          if (!disabled) setMeta(defaultMeta);
-        }
-      };
-
-      const onPointerOver = (e: PointerEvent) => {
-        if (canReset && e.pointerType === "mouse") {
-          instance!.classList.add("hover");
-        }
-      };
-
-      const onPointerLeave = (e: PointerEvent) => {
-        if (canReset && e.pointerType === "mouse") {
-          instance!.classList.remove("hover");
-        }
-      };
-
-      instance?.addEventListener("pointerdown", onPointerDown);
-      instance?.addEventListener("pointerover", onPointerOver);
-      instance?.addEventListener("pointerleave", onPointerLeave);
-      return () => {
-        instance?.removeEventListener("pointerdown", onPointerDown);
-        instance?.removeEventListener("pointerover", onPointerOver);
-        instance?.removeEventListener("pointerleave", onPointerLeave);
-      };
-    },
-    [canReset, disabled, defaultMeta],
-  );
+  const animateNumber = useCallback(() => {
+    button.current!.animate(
+      [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
+      { duration: 105 },
+    );
+  }, []);
 
   const bound = useCallback(
     (value: number) => {
@@ -179,19 +133,24 @@ export default function FieldNumber({
         -
       </IconButton>
 
-      <Text
-        ref={numberRef}
-        disabled={disabled}
+      <Button
+        ref={button}
+        disabled={disabled || !canReset}
         className={cn(
-          "mx-0.5 flex min-h-[calc(0.75rem*2+1.5rem)] min-w-24 items-center justify-center rounded bg-blue-500 text-white",
-          "transition-[opacity,background-color,color] [&.hover]:cursor-pointer [&.hover]:bg-white [&.hover]:text-black",
+          "min-h-[calc(0.75rem*2+1.5rem)] min-w-24",
+          !disabled && !canReset && "[&:not(.hover)]:opacity-100",
           meta === undefined &&
             placeholder !== undefined &&
-            "font-medium [&:not(.hover)]:text-blue-300",
+            "font-medium [&:not(.hover)]:text-neutral-300",
         )}
+        action={(e) => {
+          animateNumber();
+
+          if (canReset && !disabled) setMeta(defaultMeta);
+        }}
       >
-        {meta ?? placeholder}
-      </Text>
+        {meta?.toString() ?? placeholder}
+      </Button>
 
       <IconButton disabled={!canIncrease} action={increase}>
         +
