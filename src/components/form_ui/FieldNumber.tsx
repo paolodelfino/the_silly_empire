@@ -175,7 +175,7 @@ export default function FieldNumber({
 
   return (
     <div className="flex items-center">
-      <IconButton disabled={!canDecrease} downAfter={decrease}>
+      <IconButton disabled={!canDecrease} action={decrease}>
         -
       </IconButton>
 
@@ -193,14 +193,14 @@ export default function FieldNumber({
         {meta ?? placeholder}
       </Text>
 
-      <IconButton disabled={!canIncrease} downAfter={increase}>
+      <IconButton disabled={!canIncrease} action={increase}>
         +
       </IconButton>
 
       <ErrorButton>{error}</ErrorButton>
 
       {canClear && (
-        <IconButton disabled={disabled || !canClear} downAfter={clear}>
+        <IconButton disabled={disabled || !canClear} action={clear}>
           {(className) => (
             <IcBaselineCloud className={cn(className, "text-gray-500")} />
           )}

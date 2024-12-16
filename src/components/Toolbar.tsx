@@ -1,4 +1,4 @@
-import { LinkButton2 as LinkButton } from "@/components/ui/Button";
+import { LinkButton } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 

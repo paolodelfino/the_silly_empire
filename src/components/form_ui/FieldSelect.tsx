@@ -1,12 +1,7 @@
 "use client";
 
 import { IcBaselineCloud } from "@/components/icons";
-import {
-  Button,
-  Button2,
-  ErrorButton,
-  IconButton,
-} from "@/components/ui/Button";
+import { Button, ErrorButton, IconButton } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
 import { FormField } from "@/utils/form";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -103,7 +98,7 @@ export default function FieldSelect({
         TextProps={{
           className: cn(selectedItem === undefined && "text-neutral-400"),
         }}
-        downAfter={() => setOpen((state) => !state)}
+        action={() => setOpen((state) => !state)}
       >
         {selectedItem === undefined ? placeholder : selectedItem.content}
       </Button>
@@ -119,12 +114,16 @@ export default function FieldSelect({
               "z-20",
             )}
             onPointerDown={(e) => {
-              if (e.pointerType === "touch") touchDown.current = true;
-              else setOpen(false);
+              if (e.target === e.currentTarget) {
+                if (e.pointerType === "mouse") setOpen(false);
+                else touchDown.current = true;
+              }
             }}
-            onPointerUp={() => {
-              if (touchDown.current) setOpen(false);
-              touchDown.current = false;
+            onPointerUp={(e) => {
+              if (e.target === e.currentTarget) {
+                if (e.pointerType === "touch" && touchDown.current === true)
+                  setOpen(false);
+              }
             }}
           >
             <div
@@ -135,25 +134,19 @@ export default function FieldSelect({
               )}
             >
               {meta.items.map((it) => (
-                <Button2
+                <Button
                   key={it.id}
                   disabled={disabled}
-                  downAfter={(e) => {
-                    if (e.pointerType !== "touch")
-                      setMeta({
-                        selectedItem: it.id,
-                      });
-                  }}
-                  upAfter={(e) => {
-                    if (e.pointerType === "touch")
-                      setMeta({
-                        selectedItem: it.id,
-                      });
+                  action={(e) => {
+                    setMeta({
+                      selectedItem: it.id,
+                    });
+                    setOpen(false);
                   }}
                   className="text-start"
                 >
                   {it.content}
-                </Button2>
+                </Button>
               ))}
             </div>
           </div>,
@@ -165,7 +158,7 @@ export default function FieldSelect({
       {canClear && (
         <IconButton
           disabled={disabled || !canClear}
-          downAfter={() =>
+          action={() =>
             setMeta({
               selectedItem: undefined,
             })

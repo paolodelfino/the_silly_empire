@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import { cn } from "@/utils/cn";
 import {
   flip as _flip,
@@ -249,15 +248,15 @@ export const PopoverDescription = React.forwardRef<
   return <p {...props} ref={ref} id={id} />;
 });
 
-export function PopoverClose(props: Parameters<typeof Button>["0"]) {
-  const { setOpen } = usePopoverContext();
-  return (
-    <Button
-      {...props}
-      onClick={(event) => {
-        props.onClick?.(event);
-        setOpen(false);
-      }}
-    />
-  );
-}
+// export function PopoverClose(props: Parameters<typeof Button>["0"]) {
+//   const { setOpen } = usePopoverContext();
+//   return (
+//     <Button
+//       {...props}
+//       onClick={(event) => {
+//         props.onClick?.(event);
+//         setOpen(false);
+//       }}
+//     />
+//   );
+// }

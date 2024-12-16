@@ -19,15 +19,22 @@ export function IconButton({
   styles,
   down,
   downAfter,
+  up,
+  upAfter,
   leave,
   leaveAfter,
   over,
   overAfter,
+  action,
 }: {
   children?: string | ((className: string) => React.ReactNode);
   disabled?: boolean;
-  sound?: boolean;
-  anim?: boolean;
+  sound?:
+    | boolean
+    | ((e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean);
+  anim?:
+    | boolean
+    | ((e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean);
   classNames?: {
     button?: string;
     p?: string;
@@ -45,13 +52,35 @@ export function IconButton({
   };
   down?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
   downAfter?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => void;
+  up?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
+  upAfter?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => void;
   over?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
   overAfter?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => void;
   leave?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
   leaveAfter?: (
     e: React.PointerEvent<HTMLButtonElement> | PointerEvent,
   ) => void;
+  action?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => void;
 }) {
+  const touchDown = useRef(false);
+  const playSound = useCallback(() => {
+    const audio = new Audio("/sound2.ogg");
+    audio.oncanplay = () => {
+      audio.volume = disabled ? 0.05 : 0.5;
+      // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
+      audio.play().catch((e) => console.log(e));
+    };
+  }, []);
+  const playAnim = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
+      const button = e.target as HTMLButtonElement;
+      button.animate(
+        [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
+        { duration: 105 },
+      );
+    },
+    [],
+  );
   return (
     <button
       ref={refs?.button}
@@ -70,31 +99,59 @@ export function IconButton({
       onPointerDown={(e) => {
         if (down !== undefined && !down(e)) return;
 
-        if (sound) {
-          const audio = new Audio("/sound2.ogg");
-          audio.oncanplay = () => {
-            audio.volume = disabled ? 0.05 : 0.5;
-            // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
-            audio.play().catch((e) => console.log(e));
-          };
-        }
+        if (e.target === e.currentTarget) {
+          if (e.pointerType === "mouse") {
+            if (typeof sound === "function" ? sound(e) : sound) {
+              playSound();
+            }
 
-        if (anim) {
-          const button = e.target as HTMLButtonElement;
-          button.animate(
-            [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
-            { duration: 105 },
-          );
+            if (typeof anim === "function" ? anim(e) : anim) {
+              playAnim(e);
+            }
+
+            action?.(e);
+          } else touchDown.current = true;
         }
 
         downAfter?.(e);
       }}
+      onPointerUp={(e) => {
+        if (up !== undefined && !up(e)) return;
+
+        if (e.target === e.currentTarget) {
+          if (e.pointerType === "touch" && touchDown.current === true) {
+            const button = e.target as HTMLButtonElement;
+            const rect = button.getBoundingClientRect();
+            const intersect =
+              e.clientX >= rect.x &&
+              e.clientX <= rect.x + rect.width &&
+              e.clientY >= rect.y &&
+              e.clientY <= rect.y + rect.height;
+
+            if (intersect) {
+              if (typeof sound === "function" ? sound(e) : sound) {
+                playSound();
+              }
+
+              if (typeof anim === "function" ? anim(e) : anim) {
+                playAnim(e);
+              }
+
+              action?.(e);
+            }
+          }
+        }
+
+        upAfter?.(e);
+      }}
       onPointerOver={(e) => {
         if (over !== undefined && !over(e)) return;
 
-        if (e.pointerType === "mouse") {
-          const button = e.target as HTMLButtonElement;
-          button.classList.add("hover");
+        if (e.target === e.currentTarget) {
+          if (e.pointerType === "mouse") {
+            const button = e.target as HTMLButtonElement;
+            button.classList.add("hover");
+          }
         }
 
         overAfter?.(e);
@@ -102,9 +159,11 @@ export function IconButton({
       onPointerLeave={(e) => {
         if (leave !== undefined && !leave(e)) return;
 
-        if (e.pointerType === "mouse") {
-          const button = e.target as HTMLButtonElement;
-          button.classList.remove("hover");
+        if (e.target === e.currentTarget) {
+          if (e.pointerType === "mouse") {
+            const button = e.target as HTMLButtonElement;
+            button.classList.remove("hover");
+          }
         }
 
         leaveAfter?.(e);
@@ -162,10 +221,13 @@ export function Button({
   style,
   down,
   downAfter,
+  up,
+  upAfter,
   leave,
   leaveAfter,
   over,
   overAfter,
+  action,
   TextProps,
 }: {
   children?: string;
@@ -181,14 +243,36 @@ export function Button({
   ref?: React.Ref<HTMLButtonElement>;
   down?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
   downAfter?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => void;
+  up?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
+  upAfter?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => void;
   over?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
   overAfter?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => void;
   leave?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
   leaveAfter?: (
     e: React.PointerEvent<HTMLButtonElement> | PointerEvent,
   ) => void;
+  action?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => void;
   TextProps?: Props<typeof Text>;
 }) {
+  const touchDown = useRef(false);
+  const playSound = useCallback(() => {
+    const audio = new Audio("/sound2.ogg");
+    audio.oncanplay = () => {
+      audio.volume = disabled ? 0.05 : 0.5;
+      // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
+      audio.play().catch((e) => console.log(e));
+    };
+  }, []);
+  const playAnim = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
+      const button = e.target as HTMLButtonElement;
+      button.animate(
+        [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
+        { duration: 105 },
+      );
+    },
+    [],
+  );
   return (
     <button
       ref={ref}
@@ -203,31 +287,59 @@ export function Button({
       onPointerDown={(e) => {
         if (down !== undefined && !down(e)) return;
 
-        if (typeof sound === "function" ? sound(e) : sound) {
-          const audio = new Audio("/sound2.ogg");
-          audio.oncanplay = () => {
-            audio.volume = disabled ? 0.05 : 0.5;
-            // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
-            audio.play().catch((e) => console.log(e));
-          };
-        }
+        if (e.target === e.currentTarget) {
+          if (e.pointerType === "mouse") {
+            if (typeof sound === "function" ? sound(e) : sound) {
+              playSound();
+            }
 
-        if (typeof anim === "function" ? anim(e) : anim) {
-          const button = e.target as HTMLButtonElement;
-          button.animate(
-            [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
-            { duration: 105 },
-          );
+            if (typeof anim === "function" ? anim(e) : anim) {
+              playAnim(e);
+            }
+
+            action?.(e);
+          } else touchDown.current = true;
         }
 
         downAfter?.(e);
       }}
+      onPointerUp={(e) => {
+        if (up !== undefined && !up(e)) return;
+
+        if (e.target === e.currentTarget) {
+          if (e.pointerType === "touch" && touchDown.current === true) {
+            const button = e.target as HTMLButtonElement;
+            const rect = button.getBoundingClientRect();
+            const intersect =
+              e.clientX >= rect.x &&
+              e.clientX <= rect.x + rect.width &&
+              e.clientY >= rect.y &&
+              e.clientY <= rect.y + rect.height;
+
+            if (intersect) {
+              if (typeof sound === "function" ? sound(e) : sound) {
+                playSound();
+              }
+
+              if (typeof anim === "function" ? anim(e) : anim) {
+                playAnim(e);
+              }
+
+              action?.(e);
+            }
+          }
+        }
+
+        upAfter?.(e);
+      }}
       onPointerOver={(e) => {
         if (over !== undefined && !over(e)) return;
 
-        if (e.pointerType === "mouse") {
-          const button = e.target as HTMLButtonElement;
-          button.classList.add("hover");
+        if (e.target === e.currentTarget) {
+          if (e.pointerType === "mouse") {
+            const button = e.target as HTMLButtonElement;
+            button.classList.add("hover");
+          }
         }
 
         overAfter?.(e);
@@ -235,9 +347,11 @@ export function Button({
       onPointerLeave={(e) => {
         if (leave !== undefined && !leave(e)) return;
 
-        if (e.pointerType === "mouse") {
-          const button = e.target as HTMLButtonElement;
-          button.classList.remove("hover");
+        if (e.target === e.currentTarget) {
+          if (e.pointerType === "mouse") {
+            const button = e.target as HTMLButtonElement;
+            button.classList.remove("hover");
+          }
         }
 
         leaveAfter?.(e);
@@ -256,10 +370,19 @@ export function Button({
 export function LinkButton({
   href,
   external,
+  action,
+  actionAfter,
+  over,
+  overAfter,
+  disabled,
   ...props
-}: Props<typeof Button> & {
+}: Omit<Props<typeof Button>, "action"> & {
   href?: string;
   external?: boolean;
+  action?: (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => boolean;
+  actionAfter?: (
+    e: React.PointerEvent<HTMLButtonElement> | PointerEvent,
+  ) => void;
 }) {
   const router = useRouter();
   const prefetch = useCallback(() => {
@@ -269,250 +392,39 @@ export function LinkButton({
     if (href !== undefined) router.push(href);
   }, [href]);
 
-  const over = useCallback(
+  const myOver = useCallback(
     (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
-      if (props.over !== undefined && !props.over(e)) return false;
+      if (over !== undefined && !over(e)) return false;
 
-      if (!props.disabled) prefetch();
+      if (e.target === e.currentTarget) {
+        if (!disabled) prefetch();
+      }
 
       return true;
     },
-    [prefetch, props.over, props.disabled],
+    [prefetch, over, disabled],
   );
-  const down = useCallback(
+  const myAction = useCallback(
     (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
-      if (props.down !== undefined && !props.down(e)) return false;
+      if (action !== undefined && !action(e)) return;
 
-      if (!props.disabled) {
+      if (!disabled) {
         if (external) window.open(href);
         else push();
       }
 
-      return true;
+      actionAfter?.(e);
     },
-    [push, props.down, props.disabled, external],
+    [action, disabled, actionAfter],
   );
 
   return (
     <Button
       {...props}
       className={cn("bg-black", props.className)}
-      over={over}
-      down={down}
-    />
-  );
-}
-
-// TODO: Experimental
-// TODO: up e upAfter vengono chiamati anche se non è avvenuto il click e in più non vengono fornite loro le informazioni per dedurlo
-export function LinkButton2({
-  href,
-  external,
-  up,
-  upAfter,
-  ref,
-  sound = true,
-  anim = true,
-  disabled,
-  ...props
-}: Props<typeof Button> & {
-  href?: string;
-  external?: boolean;
-  up?: (e: PointerEvent) => boolean;
-  upAfter?: (e: PointerEvent) => void;
-}) {
-  const router = useRouter();
-  const prefetch = useCallback(() => {
-    if (href !== undefined) router.prefetch(href);
-  }, [href]);
-  const push = useCallback(() => {
-    if (href !== undefined) {
-      if (external) window.open(href);
-      else router.push(href);
-    }
-  }, [href, external]);
-
-  const touchDown = useRef(false);
-
-  const over = useCallback(
-    (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
-      if (props.over !== undefined && !props.over(e)) return false;
-
-      if (!disabled) {
-        prefetch();
-
-        if (e.pointerType === "touch") touchDown.current = true;
-      }
-
-      return true;
-    },
-    [prefetch, props.over, disabled],
-  );
-
-  const down = useCallback(
-    (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
-      if (props.down !== undefined && !props.down(e)) return false;
-
-      if (!disabled && e.pointerType !== "touch") push();
-
-      return true;
-    },
-    [push, props.down, disabled],
-  );
-
-  const soundCallback = useCallback(() => {
-    const audio = new Audio("/sound2.ogg");
-    audio.oncanplay = () => {
-      audio.volume = disabled ? 0.05 : 0.5;
-      // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
-      audio.play().catch((e) => console.log(e));
-    };
-  }, [disabled]);
-  const animCallback = useCallback((button: HTMLButtonElement) => {
-    button.animate(
-      [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
-      { duration: 105 },
-    );
-  }, []);
-
-  const myUp = useCallback(
-    (e: PointerEvent) => {
-      if (up !== undefined && !up(e)) return;
-
-      if (e.pointerType === "touch") {
-        if (typeof sound === "function" ? sound(e) : sound) soundCallback();
-
-        if (typeof anim === "function" ? anim(e) : anim)
-          animCallback(e.target as HTMLButtonElement);
-
-        if (!disabled && touchDown.current) push();
-        touchDown.current = false;
-      }
-
-      upAfter?.(e);
-    },
-    [up, disabled, push, sound, soundCallback, anim, animCallback, upAfter],
-  );
-
-  const button = useCallback(
-    (instance: HTMLButtonElement | null) => {
-      if (ref !== undefined && ref !== null) {
-        if (typeof ref === "function") ref(instance);
-        else ref.current = instance;
-      }
-
-      instance?.addEventListener("pointerup", myUp);
-      return () => instance?.removeEventListener("pointerup", myUp);
-    },
-    [myUp, ref],
-  );
-
-  return (
-    <Button
-      {...props}
       disabled={disabled}
-      ref={button}
-      className={cn("bg-black", props.className)}
-      over={over}
-      down={down}
-      sound={(e) => e.pointerType !== "touch"}
-      anim={(e) => e.pointerType !== "touch"}
-    />
-  );
-}
-
-// TODO: Experimental
-export function Button2({
-  up,
-  upAfter,
-  ref,
-  sound = true,
-  anim = true,
-  disabled,
-  ...props
-}: Props<typeof Button> & {
-  up?: (e: PointerEvent) => boolean;
-  upAfter?: (e: PointerEvent) => void;
-}) {
-  const touchDown = useRef(false);
-
-  const over = useCallback(
-    (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
-      if (props.over !== undefined && !props.over(e)) return false;
-
-      if (!disabled) {
-        if (e.pointerType === "touch") touchDown.current = true;
-      }
-
-      return true;
-    },
-    [props.over, disabled],
-  );
-
-  const down = useCallback(
-    (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
-      if (props.down !== undefined && !props.down(e)) return false;
-
-      return true;
-    },
-    [props.down, disabled],
-  );
-
-  const soundCallback = useCallback(() => {
-    const audio = new Audio("/sound2.ogg");
-    audio.oncanplay = () => {
-      audio.volume = disabled ? 0.05 : 0.5;
-      // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
-      audio.play().catch((e) => console.log(e));
-    };
-  }, [disabled]);
-  const animCallback = useCallback((button: HTMLButtonElement) => {
-    button.animate(
-      [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],
-      { duration: 105 },
-    );
-  }, []);
-
-  const myUp = useCallback(
-    (e: PointerEvent) => {
-      if (up !== undefined && !up(e)) return;
-
-      if (e.pointerType === "touch") {
-        if (typeof sound === "function" ? sound(e) : sound) soundCallback();
-
-        if (typeof anim === "function" ? anim(e) : anim)
-          animCallback(e.target as HTMLButtonElement);
-
-        touchDown.current = false;
-      }
-
-      upAfter?.(e);
-    },
-    [up, disabled, sound, soundCallback, anim, animCallback, upAfter],
-  );
-
-  const button = useCallback(
-    (instance: HTMLButtonElement | null) => {
-      if (ref !== undefined && ref !== null) {
-        if (typeof ref === "function") ref(instance);
-        else ref.current = instance;
-      }
-
-      instance?.addEventListener("pointerup", myUp);
-      return () => instance?.removeEventListener("pointerup", myUp);
-    },
-    [myUp, ref],
-  );
-
-  return (
-    <Button
-      {...props}
-      disabled={disabled}
-      ref={button}
-      over={over}
-      down={down}
-      sound={(e) => e.pointerType !== "touch"}
-      anim={(e) => e.pointerType !== "touch"}
+      over={myOver}
+      action={myAction}
     />
   );
 }
@@ -548,7 +460,7 @@ export function ErrorButton({ children }: { children?: React.ReactNode }) {
       <Popover open={open} matchRefWidth>
         <PopoverTrigger>
           <IconButton
-            downAfter={() => setOpen((state) => !state)}
+            action={() => setOpen((state) => !state)}
             over={() => !open}
             leave={() => !open}
           >

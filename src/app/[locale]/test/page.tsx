@@ -3,7 +3,7 @@
 // import { notFound } from "next/navigation";
 
 import FieldSelect, { fieldSelect } from "@/components/form_ui/FieldSelect";
-import { ErrorButton } from "@/components/ui/Button";
+import { ErrorButton, IconButton } from "@/components/ui/Button";
 import { createForm } from "@/utils/form";
 import { z } from "zod";
 
@@ -54,6 +54,32 @@ export default function Page() {
         setValue={form.setValue.bind(null, "foo")}
         acceptIndeterminate
       />
+
+      <div className="p-10">
+        {/* <Button asChild action={() => console.log("Say hi")}>
+          <div>Hi</div>
+        </Button> */}
+      </div>
+
+      <button
+        onPointerUp={(e) => {
+          console.log(e.target, e.currentTarget);
+        }}
+      >
+        <span>hllo</span>
+      </button>
+      <IconButton
+        action={() => alert("A")}
+        classNames={{ button: "bg-green-500" }}
+      >
+        A
+      </IconButton>
+      <IconButton
+        action={() => alert("B")}
+        classNames={{ button: "bg-blue-500" }}
+      >
+        B
+      </IconButton>
 
       <div className="pl-32">
         <ErrorButton>Test error</ErrorButton>
