@@ -1,8 +1,8 @@
 "use client";
 
-import UIEntry__Search from "@/components/db_ui/UIEntry__Search";
+import UIEntry__Simple from "@/components/db_ui/UIEntry__Simple";
 import useInfiniteQuery from "@/hooks/useInfiniteQuery";
-import schemaEntry__Search from "@/schemas/schemaEntry__Search";
+import schemaEntry__Query__Form from "@/schemas/schemaEntry__Query__Form";
 import useFormQuery__Entry from "@/stores/forms/useFormQuery__Entry";
 import useQueryEntry__Query from "@/stores/queries/useQueryEntry__Query";
 import { Dictionary } from "@/utils/dictionary";
@@ -14,7 +14,7 @@ export default function Page(props: {
   dictionary: Pick<Dictionary, "fetching" | "loadingNoCache">;
 }) {
   const values = useMemo(
-    () => schemaEntry__Search.parse(formValuesFromString(props.values)),
+    () => schemaEntry__Query__Form.parse(formValuesFromString(props.values)),
     [props.values],
   );
 
@@ -48,7 +48,7 @@ export default function Page(props: {
   return (
     <div className="flex h-fit gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
       {query.data.map((it) => (
-        <UIEntry__Search
+        <UIEntry__Simple
           id={`${id}_${it.slug}-${it.id}`}
           data={it}
           key={`${it.slug}-${it.id}`}

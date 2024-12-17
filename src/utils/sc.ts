@@ -1,15 +1,15 @@
-import schemaEntry__Search from "@/schemas/schemaEntry__Search";
-import schemaEntry__Search__DB from "@/schemas/schemaEntry__Search__DB";
+import schemaEntry__Query__Form from "@/schemas/schemaEntry__Query__Form";
+import schemaEntry__Query__DB from "@/schemas/schemaEntry__Query__DB";
 import { FormValues } from "@/utils/form";
 import { z } from "zod";
 
 export async function scSearch(
   _offset: number,
-  values: FormValues<typeof schemaEntry__Search>,
+  values: FormValues<typeof schemaEntry__Query__Form>,
 ) {
   const offset = z.number().int().gte(0).lte(1000).parse(_offset);
   const { age, genre, kind, search, quality, service, year } =
-    schemaEntry__Search.parse(values);
+    schemaEntry__Query__Form.parse(values);
 
   const url = new URL(`https://streamingcommunity.family/api/archive`);
   url.searchParams.append("sort", "created_at");
@@ -36,7 +36,7 @@ export async function scSearch(
   }
   const json = await result.json();
 
-  const entries = json.titles as z.infer<typeof schemaEntry__Search__DB>[];
+  const entries = json.titles as z.infer<typeof schemaEntry__Query__DB>[];
 
   return { data: entries, total: -1 };
 }

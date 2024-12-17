@@ -1,7 +1,7 @@
 import schemaImage__Entry from "@/schemas/schemaImage__Entry";
 import { z } from "zod";
 
-const schemaEntry__Search__DB = z
+const schemaEntry__Query__DB = z
   .object({
     id: z.number().positive().int(),
     slug: z.string().trim().min(1),
@@ -15,4 +15,4 @@ const schemaEntry__Search__DB = z
     images: z.array(schemaImage__Entry),
   })
   .strict();
-export default schemaEntry__Search__DB;
+export default schemaEntry__Query__DB;

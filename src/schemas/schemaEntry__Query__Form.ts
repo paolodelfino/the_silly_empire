@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const schemaEntry__Search = z
+const schemaEntry__Query__Form = z
   .object({
     search: z.string().trim().min(1).optional(),
     kind: z.enum(["tv", "movie"]).optional(),
@@ -87,4 +87,4 @@ const schemaEntry__Search = z
       },
     },
   );
-export default schemaEntry__Search;
+export default schemaEntry__Query__Form;

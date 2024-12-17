@@ -1,15 +1,15 @@
 import { LinkButton } from "@/components/ui/Button";
-import schemaEntry__Search__DB from "@/schemas/schemaEntry__Search__DB";
+import schemaEntry__Query__DB from "@/schemas/schemaEntry__Query__DB";
 import { cn } from "@/utils/cn";
 import { useMemo } from "react";
 import { z } from "zod";
 
-export default function UIEntry__Search({
+export default function UIEntry__Simple({
   data,
   id,
 }: {
   id?: string;
-  data: z.infer<typeof schemaEntry__Search__DB>;
+  data: Pick<z.infer<typeof schemaEntry__Query__DB>, "images">;
 }) {
   const poster = useMemo(
     () => data.images.find((it) => it.type === "poster"),

@@ -1,10 +1,10 @@
 import { fieldSelect } from "@/components/form_ui/FieldSelect";
 import { fieldText } from "@/components/form_ui/FieldText";
-import schemaEntry__Search from "@/schemas/schemaEntry__Search";
+import schemaEntry__Query__Form from "@/schemas/schemaEntry__Query__Form";
 import { createForm } from "@/utils/form";
 
 const useFormQuery__Entry = createForm(
-  schemaEntry__Search,
+  schemaEntry__Query__Form,
   {
     search: fieldText(),
     kind: fieldSelect({
