@@ -5,6 +5,7 @@ import ScreenPredictProvider from "@/components/ScreenPredictProvider";
 import { keys } from "@/keys";
 import { cn } from "@/utils/cn";
 import { getDictionary } from "@/utils/locale";
+import { localeConfigureZod } from "@/utils/locale.zod";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { cookies, headers } from "next/headers";
@@ -295,6 +296,7 @@ export default async function RootLayout(
   // console.log("locale", params.locale); TODO: I checked this in build process and returns undefined and the graph doesn't look good
   const locale = params.locale ?? (await headers()).get("locale")!;
   const dictionary = await getDictionary(locale);
+  await localeConfigureZod(locale);
 
   const cookiesStore = await cookies();
   const fontSizeCookie = cookiesStore.get("fontSize")?.value;
@@ -333,7 +335,8 @@ export default async function RootLayout(
             <LanguageProvider loaded={locale}>
               <Layout
                 authenticated={authenticated}
-                dictionary={{                  toolbar: dictionary["toolbar"],
+                dictionary={{
+                  toolbar: dictionary["toolbar"],
                   installPrompt: dictionary["installPrompt"],
                   "settings.language": authenticated
                     ? undefined

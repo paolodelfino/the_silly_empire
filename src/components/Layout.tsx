@@ -11,6 +11,7 @@ import Text from "@/components/ui/Text";
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { locales } from "@/utils/locale.client";
+import { localeConfigureZod } from "@/utils/locale.zod";
 import { ReactNode, useContext } from "react";
 
 export default function Layout({
@@ -28,6 +29,7 @@ export default function Layout({
 }) {
   const screen = useContext(ScreenPredictContext);
   const lang = useContext(LanguageContext);
+  localeConfigureZod(lang!); // TODO: Maybe I will be constrained to put a loading state to wait for this
 
   return (
     <div className={cn("flex flex-col", "min-h-screen w-screen")}>

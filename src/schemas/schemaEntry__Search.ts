@@ -81,6 +81,10 @@ const schemaEntry__Search = z
     (value) =>
       Object.entries(value).filter((entry) => entry[1] !== undefined).length >
       0, // Note: Update accordingly with above props
-    "A predicate must be provided",
+    {
+      params: {
+        i18n: { key: "onePredicate", values: {} },
+      },
+    },
   );
 export default schemaEntry__Search;
