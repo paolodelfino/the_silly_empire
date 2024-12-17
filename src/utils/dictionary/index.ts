@@ -5,6 +5,7 @@ export type Dictionary = {
     Route: {
       home: string;
       settings: string;
+      query: string;
     };
   };
   "/settings": {
@@ -24,6 +25,15 @@ export type Dictionary = {
     title: string;
     detectMessage: string;
     installMessage: string;
+  };
+  Query: {
+    title: string;
+    name: string;
+    kind: string;
+    genre: string;
+    year: string;
+    service: string;
+    age: string;
   };
   "404": {
     message: string;

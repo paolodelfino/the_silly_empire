@@ -159,7 +159,7 @@ export default function FieldNumber({
       <ErrorButton>{error}</ErrorButton>
 
       {canClear && (
-        <IconButton disabled={disabled || !canClear} action={clear}>
+        <IconButton disabled={disabled} action={clear}>
           {(className) => (
             <IcBaselineCloud className={cn(className, "text-gray-500")} />
           )}

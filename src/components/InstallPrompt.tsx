@@ -27,7 +27,7 @@ export default function InstallPrompt({
     return ReactDOM.createPortal(
       <div
         className={cn(
-          "absolute left-0 top-0",
+          "fixed left-0 top-0",
           "h-screen w-full pl-safe-left pr-safe-right",
           "flex items-center justify-center",
           "bg-neutral-600/40",

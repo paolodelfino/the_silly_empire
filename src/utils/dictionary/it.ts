@@ -6,6 +6,7 @@ const it: Dictionary = {
     Route: {
       home: "Home",
       settings: "Impostazioni",
+      query: "Cerca",
     },
   },
   "/settings": {
@@ -33,6 +34,15 @@ const it: Dictionary = {
     detectMessage: "Sei su mobile, per un'esperienza migliore, scarica l'app.",
     installMessage:
       "Clicca il pulsante di condivisione e poi aggiungi allo schermo.",
+  },
+  Query: {
+    title: "Cerca",
+    name: "Nome",
+    kind: "Categoria",
+    genre: "Genere",
+    year: "Anno",
+    service: "Servizio",
+    age: "Restrizione di età",
   },
 } satisfies Dictionary;
 export default it;

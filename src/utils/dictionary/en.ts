@@ -6,6 +6,7 @@ const en: Dictionary = {
     Route: {
       home: "Home",
       settings: "Settings",
+      query: "Query",
     },
   },
   "/settings": {
@@ -35,6 +36,15 @@ const en: Dictionary = {
     detectMessage:
       "I detected you're on mobile, for the best experience, install the app.",
     installMessage: "Click the share button and then add to screen.",
+  },
+  Query: {
+    title: "Query",
+    name: "Name",
+    kind: "Kind",
+    genre: "Genre",
+    year: "Year",
+    service: "Service",
+    age: "Age",
   },
 } satisfies Dictionary;
 export default en;

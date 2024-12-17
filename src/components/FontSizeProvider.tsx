@@ -8,6 +8,7 @@ export const FontSizeContext = createContext<
   ReturnType<typeof useFontSize> | undefined
 >(undefined);
 
+// TODO: I could also allow for loaded value from server
 export default function FontSizeProvider({
   children,
 }: {

@@ -45,6 +45,7 @@ export function fieldSelect(
   };
 }
 
+// TODO: Support default
 export default function FieldSelect({
   meta,
   setMeta,
@@ -53,6 +54,7 @@ export default function FieldSelect({
   disabled = false,
   acceptIndeterminate,
   placeholder,
+  full,
 }: {
   acceptIndeterminate?: boolean;
   setValue: (value: Value) => void;
@@ -61,6 +63,7 @@ export default function FieldSelect({
   error: string | undefined;
   disabled?: boolean;
   placeholder: string;
+  full?: boolean; // TODO: Temporary
 }) {
   useEffect(() => {
     setValue(
@@ -95,6 +98,7 @@ export default function FieldSelect({
     <div className="flex items-center">
       <Button
         disabled={disabled}
+        className={cn(full && "w-full text-start", "z-[3]")}
         TextProps={{
           className: cn(selectedItem === undefined && "text-neutral-400"),
         }}
@@ -107,7 +111,7 @@ export default function FieldSelect({
         ReactDOM.createPortal(
           <div
             className={cn(
-              "absolute left-0 top-0",
+              "fixed left-0 top-0",
               "h-screen w-full pl-safe-left pr-safe-right",
               "flex items-center justify-center",
               "bg-neutral-600/40",
@@ -129,7 +133,7 @@ export default function FieldSelect({
             <div
               className={cn(
                 "flex flex-col gap-2",
-                "4xl:py-4 4xl:px-8 4xl:rounded max-h-[75vh] w-full max-w-4xl overflow-y-scroll",
+                "max-h-[75vh] w-full max-w-4xl overflow-y-scroll 4xl:rounded 4xl:px-8 4xl:py-4",
                 "bg-neutral-700",
               )}
             >

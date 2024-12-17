@@ -9,7 +9,7 @@ export default function Toolbar({
 }: {
   variant: "monitor" | "mobile";
   authenticated: boolean;
-  dictionary: Dictionary["/home"]["Toolbar"];
+  dictionary: Dictionary["Toolbar"];
 }) {
   if (!authenticated) return undefined;
 
@@ -17,7 +17,7 @@ export default function Toolbar({
     <nav
       className={cn(
         variant === "mobile" &&
-          "fixed bottom-0 w-full bg-black pb-safe-bottom pl-safe-left pr-safe-right",
+          "fixed bottom-0 z-[5] w-full bg-black pb-safe-bottom pl-safe-left pr-safe-right",
         variant === "monitor" && "sticky top-0 h-full max-h-screen",
       )}
     >
@@ -37,6 +37,16 @@ export default function Toolbar({
           )}
         >
           {dictionary.Route.home}
+        </LinkButton>
+        <LinkButton
+          href="/query/form"
+          className={cn(
+            variant === "monitor" && "min-w-32 text-start",
+            "[&.hover]:bg-red-500 [&.hover_p]:text-white",
+            variant === "mobile" && "shrink-0",
+          )}
+        >
+          {dictionary.Route.query}
         </LinkButton>
         <LinkButton
           href="/settings"

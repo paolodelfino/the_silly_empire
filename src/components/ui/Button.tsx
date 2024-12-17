@@ -94,12 +94,13 @@ export function IconButton({
         typeof children === "string"
           ? "[&.hover_p]:scale-110"
           : "[&.hover_svg]:scale-110",
+        "z-[2]",
         classNames?.button,
       )}
       onPointerDown={(e) => {
         if (down !== undefined && !down(e)) return;
 
-        if (e.target === e.currentTarget) {
+        if (e.target === e.currentTarget && e.button === 0) {
           if (e.pointerType === "mouse") {
             if (typeof sound === "function" ? sound(e) : sound) {
               playSound();
@@ -118,7 +119,7 @@ export function IconButton({
       onPointerUp={(e) => {
         if (up !== undefined && !up(e)) return;
 
-        if (e.target === e.currentTarget) {
+        if (e.target === e.currentTarget && e.button === 0) {
           if (e.pointerType === "touch" && touchDown.current === true) {
             const button = e.target as HTMLButtonElement;
             const rect = button.getBoundingClientRect();
@@ -230,7 +231,7 @@ export function Button({
   action,
   TextProps,
 }: {
-  children?: string;
+  children?: string | ((args: { className: string }) => React.ReactNode);
   disabled?: boolean;
   sound?:
     | boolean
@@ -282,12 +283,13 @@ export function Button({
         "disabled:opacity-50",
         "rounded bg-neutral-700",
         "transition-[background-color,transform,opacity] [&.hover]:scale-105 [&.hover]:bg-white [&.hover_p]:text-black [&_p]:transition-colors",
+        "z-[2]",
         className,
       )}
       onPointerDown={(e) => {
         if (down !== undefined && !down(e)) return;
 
-        if (e.target === e.currentTarget) {
+        if (e.target === e.currentTarget && e.button === 0) {
           if (e.pointerType === "mouse") {
             if (typeof sound === "function" ? sound(e) : sound) {
               playSound();
@@ -306,7 +308,7 @@ export function Button({
       onPointerUp={(e) => {
         if (up !== undefined && !up(e)) return;
 
-        if (e.target === e.currentTarget) {
+        if (e.target === e.currentTarget && e.button === 0) {
           if (e.pointerType === "touch" && touchDown.current === true) {
             const button = e.target as HTMLButtonElement;
             const rect = button.getBoundingClientRect();
@@ -357,12 +359,16 @@ export function Button({
         leaveAfter?.(e);
       }}
     >
-      <Text
-        {...TextProps}
-        className={cn("pointer-events-none text-white", TextProps?.className)}
-      >
-        {TextProps?.children ?? children}
-      </Text>
+      {typeof children === "string" ? (
+        <Text
+          {...TextProps}
+          className={cn("pointer-events-none text-white", TextProps?.className)}
+        >
+          {TextProps?.children ?? children}
+        </Text>
+      ) : (
+        children?.({ className: cn("pointer-events-none") })
+      )}
     </button>
   );
 }
