@@ -1,32 +1,26 @@
 import "server-only";
 
 export type Dictionary = {
-  Toolbar: {
-    Route: {
-      home: string;
-      settings: string;
-      query: string;
-    };
+  toolbar: {
+    home: string;
+    settings: string;
+    query: string;
   };
-  "/settings": {
+  settings: {
     title: string;
-    Section: {
-      FontSize: { title: string };
-      Language: { title: string };
-    };
+    fontSize: string;
+    language: string;
   };
-  "/login": {
-    Field: {
-      Key: { name: string };
-    };
+  login: {
+    key: string;
     submit: string;
   };
-  InstallPrompt: {
+  installPrompt: {
     title: string;
     detectMessage: string;
     installMessage: string;
   };
-  Query: {
+  query: {
     title: string;
     name: string;
     kind: string;
@@ -35,9 +29,9 @@ export type Dictionary = {
     service: string;
     age: string;
   };
-  "404": {
-    message: string;
-  };
+  notFound: string;
+  fetching: string;
+  loadingNoCache: string;
 };
 
 export const dictionary: {

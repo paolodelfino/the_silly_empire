@@ -9,7 +9,7 @@ export default async function Page(props: {
 }) {
   const searchParams = await props.searchParams;
   const params = await props.params;
-  const dictionary = (await getDictionary(params.locale))["/login"];
+  const dictionary = (await getDictionary(params.locale)).login;
 
   async function setKey(formData: FormData) {
     "use server";
@@ -33,7 +33,7 @@ export default async function Page(props: {
         name="key"
         defaultValue={searchParams["key"]}
         className="h-12 w-full pl-4"
-        placeholder={dictionary.Field.Key.name}
+        placeholder={dictionary.key}
       />
       <button className="h-12 w-full bg-neutral-600">
         {dictionary.submit}

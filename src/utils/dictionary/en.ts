@@ -2,42 +2,28 @@ import { Dictionary } from "@/utils/dictionary";
 import "server-only";
 
 const en: Dictionary = {
-  Toolbar: {
-    Route: {
-      home: "Home",
-      settings: "Settings",
-      query: "Query",
-    },
+  toolbar: {
+    home: "Home",
+    settings: "Settings",
+    query: "Query",
   },
-  "/settings": {
+  settings: {
     title: "Settings",
-    Section: {
-      FontSize: {
-        title: "Font size",
-      },
-      Language: {
-        title: "Language",
-      },
-    },
+    fontSize: "Font size",
+    language: "Language",
   },
-  "/login": {
-    Field: {
-      Key: {
-        name: "Key",
-      },
-    },
+  login: {
+    key: "Key",
     submit: "Submit",
   },
-  404: {
-    message: "Not found",
-  },
-  InstallPrompt: {
+  notFound: "Not found",
+  installPrompt: {
     title: "Please install the pwa",
     detectMessage:
       "I detected you're on mobile, for the best experience, install the app.",
     installMessage: "Click the share button and then add to screen.",
   },
-  Query: {
+  query: {
     title: "Query",
     name: "Name",
     kind: "Kind",
@@ -46,5 +32,7 @@ const en: Dictionary = {
     service: "Service",
     age: "Age",
   },
+  fetching: "fetching...",
+  loadingNoCache: "loading no cache",
 } satisfies Dictionary;
 export default en;

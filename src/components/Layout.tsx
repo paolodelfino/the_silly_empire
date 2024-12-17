@@ -21,9 +21,9 @@ export default function Layout({
   children: ReactNode;
   authenticated: boolean;
   dictionary: {
-    Toolbar: Dictionary["Toolbar"];
-    InstallPrompt: Dictionary["InstallPrompt"];
-    "Language.title"?: Dictionary["/settings"]["Section"]["Language"]["title"];
+    toolbar: Dictionary["toolbar"];
+    installPrompt: Dictionary["installPrompt"];
+    "settings.language"?: Dictionary["settings"]["language"];
   };
 }) {
   const screen = useContext(ScreenPredictContext);
@@ -31,7 +31,7 @@ export default function Layout({
 
   return (
     <div className={cn("flex flex-col", "min-h-screen w-screen")}>
-      <div className="app-region-drag flex w-full items-center pl-[calc(env(safe-area-inset-left)+0.5rem)] pr-[calc(env(safe-area-inset-right)+0.5rem)] pt-safe-top">
+      <div className="flex w-full items-center pl-[calc(env(safe-area-inset-left)+0.5rem)] pr-[calc(env(safe-area-inset-right)+0.5rem)] pt-safe-top app-region-drag">
         <Logo />
         <Text>The Silly Empire</Text>
 
@@ -44,7 +44,7 @@ export default function Layout({
             setMeta={(value) =>
               ActionSet__Lang({ value: value.selectedItem! as any })
             }
-            placeholder={dictionary["Language.title"]!}
+            placeholder={dictionary["settings.language"]!}
             setValue={() => {}}
             error={undefined}
           />
@@ -57,12 +57,12 @@ export default function Layout({
           variant={
             screen === undefined || screen >= 1600 ? "monitor" : "mobile"
           }
-          dictionary={dictionary.Toolbar}
+          dictionary={dictionary.toolbar}
         />
-        <main className={cn("h-full w-full", "pb-48")}>{children}</main>
+        {children}
       </div>
 
-      {authenticated && <InstallPrompt dictionary={dictionary.InstallPrompt} />}
+      {authenticated && <InstallPrompt dictionary={dictionary.installPrompt} />}
     </div>
   );
 }

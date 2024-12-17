@@ -9,7 +9,7 @@ export default function Toolbar({
 }: {
   variant: "monitor" | "mobile";
   authenticated: boolean;
-  dictionary: Dictionary["Toolbar"];
+  dictionary: Dictionary["toolbar"];
 }) {
   if (!authenticated) return undefined;
 
@@ -36,7 +36,7 @@ export default function Toolbar({
             variant === "mobile" && "shrink-0",
           )}
         >
-          {dictionary.Route.home}
+          {dictionary.home}
         </LinkButton>
         <LinkButton
           href="/query/form"
@@ -46,7 +46,7 @@ export default function Toolbar({
             variant === "mobile" && "shrink-0",
           )}
         >
-          {dictionary.Route.query}
+          {dictionary.query}
         </LinkButton>
         <LinkButton
           href="/settings"
@@ -56,7 +56,7 @@ export default function Toolbar({
             variant === "mobile" && "shrink-0",
           )}
         >
-          {dictionary.Route.settings}
+          {dictionary.settings}
         </LinkButton>
         {process.env.NODE_ENV === "development" && (
           <LinkButton

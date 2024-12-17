@@ -14,7 +14,7 @@ import { useContext } from "react";
 export default function Page({
   dictionary,
 }: {
-  dictionary: Dictionary["/settings"];
+  dictionary: Dictionary["settings"];
 }) {
   const font = useContext(FontSizeContext);
   const lang = useContext(LanguageContext);
@@ -24,7 +24,7 @@ export default function Page({
       <ColoredSuperTitle>{dictionary.title}</ColoredSuperTitle>
 
       <div>
-        <Title>{dictionary.Section.FontSize.title}</Title>
+        <Title>{dictionary.fontSize}</Title>
 
         <FieldNumber
           meta={font?.value}
@@ -40,7 +40,7 @@ export default function Page({
       </div>
 
       <div>
-        <Title>{dictionary.Section.Language.title}</Title>
+        <Title>{dictionary.language}</Title>
 
         <FieldSelect
           meta={{
@@ -50,7 +50,7 @@ export default function Page({
           setMeta={(value) =>
             ActionSet__Lang({ value: value.selectedItem! as any })
           }
-          placeholder={dictionary.Section.Language.title}
+          placeholder={dictionary.language}
           setValue={() => {}}
           error={undefined}
         />

@@ -1,5 +1,4 @@
 import { LinkButton } from "@/components/ui/Button";
-import Title from "@/components/ui/Title";
 import schemaEntry__Search__DB from "@/schemas/schemaEntry__Search__DB";
 import { cn } from "@/utils/cn";
 import { useMemo } from "react";
@@ -14,10 +13,6 @@ export default function UIEntry__Search({
 }) {
   const poster = useMemo(
     () => data.images.find((it) => it.type === "poster"),
-    [data.images],
-  );
-  const logo = useMemo(
-    () => data.images.find((it) => it.type === "logo"),
     [data.images],
   );
 

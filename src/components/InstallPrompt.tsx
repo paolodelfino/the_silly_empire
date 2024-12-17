@@ -11,7 +11,7 @@ import { UAParser } from "ua-parser-js";
 export default function InstallPrompt({
   dictionary,
 }: {
-  dictionary: Dictionary["InstallPrompt"];
+  dictionary: Dictionary["installPrompt"];
 }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function InstallPrompt({
         <div
           className={cn(
             "flex flex-col gap-2",
-            "4xl:py-4 4xl:px-8 4xl:rounded max-h-[75vh] w-full max-w-4xl overflow-y-scroll",
+            "max-h-[75vh] w-full max-w-4xl overflow-y-scroll 4xl:rounded 4xl:px-8 4xl:py-4",
             "bg-neutral-700",
           )}
         >

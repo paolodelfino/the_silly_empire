@@ -2,40 +2,28 @@ import { Dictionary } from "@/utils/dictionary";
 import "server-only";
 
 const it: Dictionary = {
-  Toolbar: {
-    Route: {
-      home: "Home",
-      settings: "Impostazioni",
-      query: "Cerca",
-    },
+  toolbar: {
+    home: "Home",
+    settings: "Impostazioni",
+    query: "Cerca",
   },
-  "/settings": {
+  settings: {
     title: "Impostazioni",
-    Section: {
-      FontSize: {
-        title: "Grandezza del font",
-      },
-      Language: {
-        title: "Lingua",
-      },
-    },
+    fontSize: "Grandezza del font",
+    language: "Lingua",
   },
-  "/login": {
-    Field: {
-      Key: {
-        name: "Chiave",
-      },
-    },
+  login: {
+    key: "Chiave",
     submit: "Invia",
   },
-  "404": { message: "Pagina non trovata" },
-  InstallPrompt: {
+  notFound: "Pagina non trovata",
+  installPrompt: {
     title: "Per favore scarica la pwa",
     detectMessage: "Sei su mobile, per un'esperienza migliore, scarica l'app.",
     installMessage:
       "Clicca il pulsante di condivisione e poi aggiungi allo schermo.",
   },
-  Query: {
+  query: {
     title: "Cerca",
     name: "Nome",
     kind: "Categoria",
@@ -44,5 +32,7 @@ const it: Dictionary = {
     service: "Servizio",
     age: "Restrizione di età",
   },
+  fetching: "recupero...",
+  loadingNoCache: "caricamento no cache",
 } satisfies Dictionary;
 export default it;

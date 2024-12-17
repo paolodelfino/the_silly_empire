@@ -17,7 +17,7 @@ import { useContext, useEffect, useState } from "react";
 export default function Page({
   dictionary,
 }: {
-  dictionary: Dictionary["Query"];
+  dictionary: Dictionary["query"];
 }) {
   const form = useFormQuery__Entry();
   const [isPending, setIsPending] = useState(false);

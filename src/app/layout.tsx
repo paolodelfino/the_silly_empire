@@ -333,12 +333,11 @@ export default async function RootLayout(
             <LanguageProvider loaded={locale}>
               <Layout
                 authenticated={authenticated}
-                dictionary={{
-                  Toolbar: dictionary["Toolbar"],
-                  InstallPrompt: dictionary["InstallPrompt"],
-                  "Language.title": authenticated
+                dictionary={{                  toolbar: dictionary["toolbar"],
+                  installPrompt: dictionary["installPrompt"],
+                  "settings.language": authenticated
                     ? undefined
-                    : dictionary["/settings"]["Section"]["Language"]["title"],
+                    : dictionary.settings.language,
                 }}
               >
                 {props.children}
