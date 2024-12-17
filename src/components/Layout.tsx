@@ -10,7 +10,7 @@ import Toolbar from "@/components/Toolbar";
 import Text from "@/components/ui/Text";
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
-import { locales } from "@/utils/dictionary/client";
+import { locales } from "@/utils/locale.client";
 import { ReactNode, useContext } from "react";
 
 export default function Layout({

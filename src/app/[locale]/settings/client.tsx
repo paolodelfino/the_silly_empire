@@ -8,7 +8,7 @@ import { LanguageContext } from "@/components/LanguageProvider";
 import { ColoredSuperTitle } from "@/components/ui/SuperTitle";
 import Title from "@/components/ui/Title";
 import { Dictionary } from "@/utils/dictionary";
-import { locales } from "@/utils/dictionary/client";
+import { locales } from "@/utils/locale.client";
 import { useContext } from "react";
 
 export default function Page({
