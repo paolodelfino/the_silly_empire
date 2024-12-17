@@ -1,5 +1,4 @@
 export type Dictionary = {
-  onePredicate: string;
 };
 
 export const zodCustomDictionary: {

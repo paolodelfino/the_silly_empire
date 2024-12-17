@@ -1,20 +1,29 @@
 import { fieldSelect } from "@/components/form_ui/FieldSelect";
 import { fieldText } from "@/components/form_ui/FieldText";
 import schemaEntry__Query__Form from "@/schemas/schemaEntry__Query__Form";
+import { Dictionary } from "@/utils/dictionary";
 import { createForm } from "@/utils/form";
 
 const useFormQuery__Entry = createForm(
   schemaEntry__Query__Form,
+  undefined as unknown as ReturnType<typeof init__formQuery__Entry>,
   {
+    lastValues: undefined as string | undefined,
+  },
+);
+export default useFormQuery__Entry;
+
+export function init__formQuery__Entry(dictionary: Dictionary["queryForm"]) {
+  return {
     search: fieldText(),
     kind: fieldSelect({
       items: [
         {
-          content: "Movie",
+          content: dictionary.kind.movie,
           id: "movie",
         },
         {
-          content: "Tv series",
+          content: dictionary.kind.tvSeries,
           id: "tv",
         },
       ],
@@ -22,107 +31,107 @@ const useFormQuery__Entry = createForm(
     genre: fieldSelect({
       items: [
         {
-          content: "Action & Adventure",
+          content: dictionary.genre.actionAdventure,
           id: "13",
         },
         {
-          content: "Animazione",
+          content: dictionary.genre.animation,
           id: "19",
         },
         {
-          content: "Avventura",
+          content: dictionary.genre.adventure,
           id: "11",
         },
         {
-          content: "Azione",
+          content: dictionary.genre.action,
           id: "4",
         },
         {
-          content: "Commedia",
+          content: dictionary.genre.comedy,
           id: "12",
         },
         {
-          content: "Crime",
+          content: dictionary.genre.crime,
           id: "2",
         },
         {
-          content: "Documentario",
+          content: dictionary.genre.documentary,
           id: "24",
         },
         {
-          content: "Dramma",
+          content: dictionary.genre.drama,
           id: "1",
         },
         {
-          content: "Famiglia",
+          content: dictionary.genre.family,
           id: "16",
         },
         {
-          content: "Fantascienza",
+          content: dictionary.genre.sciFi,
           id: "10",
         },
         {
-          content: "Fantasy",
+          content: dictionary.genre.fantasy,
           id: "8",
         },
         {
-          content: "Guerra",
+          content: dictionary.genre.war,
           id: "9",
         },
         {
-          content: "Horror",
+          content: dictionary.genre.horror,
           id: "7",
         },
         {
-          content: "Kids",
+          content: dictionary.genre.kids,
           id: "25",
         },
         {
-          content: "Korean drama",
+          content: dictionary.genre.koreanDrama,
           id: "26",
         },
         {
-          content: "Mistero",
+          content: dictionary.genre.mystery,
           id: "6",
         },
         {
-          content: "Musica",
+          content: dictionary.genre.music,
           id: "14",
         },
         {
-          content: "Reality",
+          content: dictionary.genre.reality,
           id: "18",
         },
         {
-          content: "Romance",
+          content: dictionary.genre.romance,
           id: "15",
         },
         {
-          content: "Sci-Fi & Fantasy",
+          content: dictionary.genre.sciFiFantasy,
           id: "3",
         },
         {
-          content: "Soap",
+          content: dictionary.genre.soap,
           id: "23",
         },
         {
-          content: "Storia",
+          content: dictionary.genre.history,
           id: "22",
         },
         {
-          content: "televisione film",
+          content: dictionary.genre.televisionFilm,
           id: "21",
         },
         {
-          content: "Thriller",
+          content: dictionary.genre.thriller,
           id: "5",
         },
         {
-          content: "War & Politics",
+          content: dictionary.genre.warPolitics,
           id: "17",
         },
         {
-          content: "Western",
+          content: dictionary.genre.western,
           id: "20",
         },
       ],
@@ -293,9 +302,5 @@ const useFormQuery__Entry = createForm(
         { content: "18+", id: "18" },
       ],
     }),
-  },
-  {
-    lastValues: undefined as string | undefined,
-  },
-);
-export default useFormQuery__Entry;
+  } as const;
+}

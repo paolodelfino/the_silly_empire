@@ -22,6 +22,7 @@ export type FormState<T extends FormFields, FormMeta, U extends FormSchema> = {
   meta: FormMeta;
   isInvalid: boolean;
   error: string | undefined;
+  init: boolean;
   onSubmit?: (form: FormState<T, FormMeta, U>) => void; // TODO: Could return something
   values: () => FormValues<U>;
   reset: () => void;
@@ -44,6 +45,7 @@ export type FormState<T extends FormFields, FormMeta, U extends FormSchema> = {
   ) => void;
   setOnSubmit: (callback: (form: FormState<T, FormMeta, U>) => void) => void;
   submit: () => void; // TODO: Wait for callback
+  initialize: (fields: T) => void;
 };
 
 // export type FormValues<T extends ZodType> = {
@@ -122,6 +124,7 @@ export function createForm<
       meta,
       isInvalid: false,
       error: undefined,
+      init: fields !== undefined,
       reset() {
         set((state) => ({
           fields: Object.entries(state.fields).reduce((acc, [key, value]) => {
@@ -202,15 +205,26 @@ export function createForm<
         const state = get();
         if (!state.isInvalid) state.onSubmit?.(state);
       },
+      initialize(fields) {
+        const state = get();
+        const [_fields, isInvalid, formError] = validate(fields, state.schema);
+        state.fields = _fields;
+        state.isInvalid = isInvalid;
+        state.error = formError;
+        state.init = true;
+        set(state);
+      },
     };
 
-    const [_fields, isInvalid, formError] = validate(
-      state.fields,
-      state.schema,
-    );
-    state.fields = _fields;
-    state.isInvalid = isInvalid;
-    state.error = formError;
+    if (state.init) {
+      const [_fields, isInvalid, formError] = validate(
+        state.fields,
+        state.schema,
+      );
+      state.fields = _fields;
+      state.isInvalid = isInvalid;
+      state.error = formError;
+    }
 
     return state;
   });

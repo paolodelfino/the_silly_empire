@@ -32,6 +32,40 @@ export type Dictionary = {
   notFound: string;
   fetching: string;
   loadingNoCache: string;
+  queryForm: {
+    kind: {
+      movie: string;
+      tvSeries: string;
+    };
+    genre: {
+      actionAdventure: string;
+      animation: string;
+      adventure: string;
+      action: string;
+      comedy: string;
+      crime: string;
+      documentary: string;
+      drama: string;
+      family: string;
+      sciFi: string;
+      fantasy: string;
+      war: string;
+      horror: string;
+      kids: string;
+      koreanDrama: string;
+      mystery: string;
+      music: string;
+      reality: string;
+      romance: string;
+      sciFiFantasy: string;
+      soap: string;
+      history: string;
+      televisionFilm: string;
+      thriller: string;
+      warPolitics: string;
+      western: string;
+    };
+  };
 };
 
 export const dictionary: {

@@ -76,15 +76,5 @@ const schemaEntry__Query__Form = z
     quality: z.enum(["hd", "sd", "ts", "cam"]).optional(),
     age: z.enum(["7", "12", "14", "16", "18"]).optional(),
   })
-  .strict()
-  .refine(
-    (value) =>
-      Object.entries(value).filter((entry) => entry[1] !== undefined).length >
-      0, // Note: Update accordingly with above props
-    {
-      params: {
-        i18n: { key: "onePredicate", values: {} },
-      },
-    },
-  );
+  .strict();
 export default schemaEntry__Query__Form;
