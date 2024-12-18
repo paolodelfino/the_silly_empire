@@ -68,5 +68,10 @@ const en: Dictionary = {
       western: "Western",
     },
   },
+  home: {
+    title: "Home",
+    featured: "Featured",
+    upcoming: "Upcoming",
+  },
 } satisfies Dictionary;
 export default en;

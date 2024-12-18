@@ -20,6 +20,7 @@ export default function UIEntry__Simple({
     <LinkButton className="shrink-0 overflow-hidden [&.hover]:bg-black">
       {({ className }) => (
         <img
+          alt=""
           id={id}
           className={cn(className)}
           src={`https://cdn.streamingcommunity.family/images/${poster!.filename}`}

@@ -66,6 +66,11 @@ export type Dictionary = {
       western: string;
     };
   };
+  home: {
+    title: string;
+    featured: string;
+    upcoming: string;
+  };
 };
 
 export const dictionary: {

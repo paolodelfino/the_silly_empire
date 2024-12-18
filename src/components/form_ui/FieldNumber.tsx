@@ -57,11 +57,6 @@ export default function FieldNumber({
     [meta, defaultMeta],
   );
 
-  useEffect(() => {
-    if (!canReset && button.current !== null)
-      button.current!.classList.remove("hover");
-  }, [canReset]); // TODO: Possiamo farlo sotto
-
   const animateNumber = useCallback(() => {
     button.current!.animate(
       [{ transform: "scale(0.95)" }, { transform: "scale(1.05)" }],

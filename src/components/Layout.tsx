@@ -53,7 +53,7 @@ export default function Layout({
         )}
       </div>
 
-      <div className="flex h-full w-full">
+      <div className="flex h-full w-full pb-48">
         <Toolbar
           authenticated={authenticated}
           variant={
