@@ -11,6 +11,14 @@ const it: Dictionary = {
     title: "Impostazioni",
     fontSize: "Grandezza del font",
     language: "Lingua",
+    sc: {
+      warning:
+        "(Necessita di un aggiornamento -- clicca qui per le informazioni)",
+      update: "Come aggiornare sc's tld",
+      howTo1: "Apri Telegram, invia un messaggio casuale a ",
+      howTo2: " e inserisci la seguente parte dello url ",
+      howTo3: " nel campo sottostante.",
+    },
   },
   login: {
     key: "Chiave",
@@ -73,5 +81,6 @@ const it: Dictionary = {
     featured: "In primo piano",
     upcoming: "In arrivo",
   },
+  save: "Salva",
 } satisfies Dictionary;
 export default it;

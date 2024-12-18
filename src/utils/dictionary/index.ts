@@ -10,6 +10,13 @@ export type Dictionary = {
     title: string;
     fontSize: string;
     language: string;
+    sc: {
+      warning: string;
+      update: string;
+      howTo1: string;
+      howTo2: string;
+      howTo3: string;
+    };
   };
   login: {
     key: string;
@@ -71,6 +78,7 @@ export type Dictionary = {
     featured: string;
     upcoming: string;
   };
+  save: string;
 };
 
 export const dictionary: {

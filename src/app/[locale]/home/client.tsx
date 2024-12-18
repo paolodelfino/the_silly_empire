@@ -37,7 +37,7 @@ export default function Page({
   }, []);
 
   return (
-    <div>
+    <div className="w-full">
       <ColoredSuperTitle className="bg-white text-black">
         {dictionary.home.title}
       </ColoredSuperTitle>

@@ -5,6 +5,10 @@ export default async function RootPage(props: {
   params: Promise<{ locale: string }>;
 }) {
   const params = await props.params;
-  const dictionary = (await getDictionary(params.locale)).settings;
-  return <Page dictionary={dictionary} />;
+  const dictionary = await getDictionary(params.locale);
+  return (
+    <Page
+      dictionary={{ settings: dictionary.settings, save: dictionary.save }}
+    />
+  );
 }

@@ -1,18 +1,23 @@
 import schemaEntry__Query__DB from "@/schemas/schemaEntry__Query__DB";
 import schemaEntry__Query__Form from "@/schemas/schemaEntry__Query__Form";
 import schemaEntry__Upcoming from "@/schemas/schemaEntry__Upcoming";
+import { decodeHtml, decodeUtf8 } from "@/utils/encoding";
 import { FormValues } from "@/utils/form";
+import { urlConnectionExists } from "@/utils/url";
+import { getCookie } from "cookies-next";
 import { z } from "zod";
 
 export async function scSearch(
   _offset: number,
   values: FormValues<typeof schemaEntry__Query__Form>,
 ) {
+  const tld = getCookie("scTld") ?? SC_DEFAULT_TLD;
+
   const offset = z.number().int().gte(0).lte(1000).parse(_offset);
   const { age, genre, kind, search, quality, service, year } =
     schemaEntry__Query__Form.parse(values);
 
-  const url = new URL(`https://streamingcommunity.family/api/archive`);
+  const url = new URL(`https://streamingcommunity.${tld}/api/archive`);
   url.searchParams.append("sort", "created_at");
   url.searchParams.append("offset", offset.toString());
 
@@ -42,10 +47,10 @@ export async function scSearch(
   return { data: entries, total: -1 };
 }
 
-export async function scUpcoming(_offset: number) {
+export async function scUpcoming(_offset: number, tld: string) {
   const offset = z.number().int().gte(0).parse(_offset);
 
-  const url = new URL(`https://streamingcommunity.family/api/sliders/fetch`);
+  const url = new URL(`https://streamingcommunity.${tld}/api/sliders/fetch`);
 
   const body = {
     sliders: [
@@ -84,7 +89,7 @@ export async function scUpcoming(_offset: number) {
   };
 }
 
-export async function scFeatured() {
+export async function scFeatured(tld: string) {
   async function get(url: string) {
     const result = await fetch(url, {
       next: { revalidate: 3600 * 48 },
@@ -97,7 +102,7 @@ export async function scFeatured() {
     const text = await result.text();
     const data = DATA_PAGE_REGEX.exec(text)?.[DATA_PAGE_GROUP_INDEX];
 
-    const json = JSON.parse(decode_utf8(decode_html(data!)));
+    const json = JSON.parse(decodeUtf8(decodeHtml(data!)));
     return {
       id: json.props.title.id,
       slug: json.props.title.slug,
@@ -109,39 +114,21 @@ export async function scFeatured() {
   }
 
   return await Promise.all([
-    get(`https://streamingcommunity.family/`),
-    get(`https://streamingcommunity.family/serie-tv`),
-    get(`https://streamingcommunity.family/film`),
+    get(`https://streamingcommunity.${tld}/`),
+    get(`https://streamingcommunity.${tld}/serie-tv`),
+    get(`https://streamingcommunity.${tld}/film`),
   ]);
+}
+
+export async function scCheck(tld: string) {
+  return await urlConnectionExists(
+    `https://streamingcommunity.${tld}/api/search`,
+  );
 }
 
 const DATA_PAGE_REGEX = new RegExp('<div id="app" data-page="(.+)"><\/div>');
 const DATA_PAGE_GROUP_INDEX = 1;
+export const SC_DEFAULT_TLD = "family";
 
-export function decode_utf8(utf8_encoded: string): string {
-  return decode_with_table(utf8_encoded, {
-    "\u00e8": "è",
-    "\u0027": "'",
-  });
-}
-
-export function decode_html(html_encoded: string): string {
-  return decode_with_table(html_encoded, {
-    "&quot;": '"',
-    "&#39;": "'",
-    "&#039;": "'",
-    "&amp;": "&",
-  });
-}
-
-function decode_with_table(s: string, table: Record<string, string>): string {
-  let replace = s;
-  for (const key in table) {
-    replace = replace.replace(new RegExp(key, "g"), table[key]);
-  }
-  return replace;
-}
-
-const location = "https://streamingcommunity.family";
-const scws_url = "https://vixcloud.co";
-const cdn_url = "https://cdn.streamingcommunity.family";
+const scwsUrl = "https://vixcloud.co";
+const cdnUrl = "https://cdn.streamingcommunity.family";

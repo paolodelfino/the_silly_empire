@@ -11,6 +11,13 @@ const en: Dictionary = {
     title: "Settings",
     fontSize: "Font size",
     language: "Language",
+    sc: {
+      warning: "(Needs update -- click here for info)",
+      update: "How to update sc's tld",
+      howTo1: "Open Telegram, send a random message to ",
+      howTo2: " and set the following part of the url ",
+      howTo3: " in the input below.",
+    },
   },
   login: {
     key: "Key",
@@ -73,5 +80,6 @@ const en: Dictionary = {
     featured: "Featured",
     upcoming: "Upcoming",
   },
+  save: "Save",
 } satisfies Dictionary;
 export default en;

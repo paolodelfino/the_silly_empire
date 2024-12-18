@@ -17,7 +17,7 @@ export default function UIEntry__Simple({
   );
 
   return (
-    <LinkButton className="shrink-0 overflow-hidden [&.hover]:bg-black">
+    <LinkButton className="aspect-auto w-32 shrink-0 overflow-hidden sm:w-auto [&.hover]:bg-black">
       {({ className }) => (
         <img
           alt=""

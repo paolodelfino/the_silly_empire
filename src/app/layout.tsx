@@ -1,11 +1,13 @@
 import FontSizeProvider from "@/components/FontSizeProvider";
 import LanguageProvider from "@/components/LanguageProvider";
 import Layout from "@/components/Layout";
+import ScProvider from "@/components/ScProvider";
 import ScreenPredictProvider from "@/components/ScreenPredictProvider";
 import { keys } from "@/keys";
 import { cn } from "@/utils/cn";
 import { getDictionary } from "@/utils/locale";
 import { localeConfigureZod } from "@/utils/locale.zod";
+import { SC_DEFAULT_TLD } from "@/utils/sc";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { cookies, headers } from "next/headers";
@@ -301,8 +303,9 @@ export default async function RootLayout(
   const cookiesStore = await cookies();
   const fontSizeCookie = cookiesStore.get("fontSize")?.value;
   const screenPredictCookie = cookiesStore.get("screenPredict")?.value;
-  const keyCookie = cookiesStore.get("key")?.value;
+  const scTldCookie = cookiesStore.get("scTld")?.value ?? SC_DEFAULT_TLD;
 
+  const keyCookie = cookiesStore.get("key")?.value;
   const authenticated = keyCookie !== undefined && keys.includes(keyCookie);
 
   return (
@@ -333,18 +336,20 @@ export default async function RootLayout(
         >
           <FontSizeProvider>
             <LanguageProvider loaded={locale}>
-              <Layout
-                authenticated={authenticated}
-                dictionary={{
-                  toolbar: dictionary["toolbar"],
-                  installPrompt: dictionary["installPrompt"],
-                  "settings.language": authenticated
-                    ? undefined
-                    : dictionary.settings.language,
-                }}
-              >
-                {props.children}
-              </Layout>
+              <ScProvider loaded={scTldCookie}>
+                <Layout
+                  authenticated={authenticated}
+                  dictionary={{
+                    toolbar: dictionary["toolbar"],
+                    installPrompt: dictionary["installPrompt"],
+                    "settings.language": authenticated
+                      ? undefined
+                      : dictionary.settings.language,
+                  }}
+                >
+                  {props.children}
+                </Layout>
+              </ScProvider>
             </LanguageProvider>
           </FontSizeProvider>
         </ScreenPredictProvider>

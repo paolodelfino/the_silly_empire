@@ -6,7 +6,7 @@ import schemaEntry__Query__Form from "@/schemas/schemaEntry__Query__Form";
 import useFormQuery__Entry from "@/stores/forms/useFormQuery__Entry";
 import useQueryEntry__Query from "@/stores/queries/useQueryEntry__Query";
 import { Dictionary } from "@/utils/dictionary";
-import { formValuesFromString } from "@/utils/url";
+import { formValuesFromString } from "@/utils/url.client";
 import { useEffect, useMemo } from "react";
 
 export default function Page(props: {
