@@ -1,7 +1,8 @@
+import { ScContext } from "@/components/ScProvider";
 import { LinkButton } from "@/components/ui/Button";
 import schemaEntry__Query__DB from "@/schemas/schemaEntry__Query__DB";
 import { cn } from "@/utils/cn";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { z } from "zod";
 
 export default function UIEntry__Simple({
@@ -15,6 +16,7 @@ export default function UIEntry__Simple({
     () => data.images.find((it) => it.type === "poster"),
     [data.images],
   );
+  const sc = useContext(ScContext);
 
   return (
     <LinkButton className="aspect-auto w-32 shrink-0 overflow-hidden sm:w-auto [&.hover]:bg-black">
@@ -23,7 +25,7 @@ export default function UIEntry__Simple({
           alt=""
           id={id}
           className={cn(className)}
-          src={`https://cdn.streamingcommunity.family/images/${poster!.filename}`}
+          src={`${sc!.cdn}/images/${poster!.filename}`}
         />
       )}
     </LinkButton>

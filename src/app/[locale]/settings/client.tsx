@@ -18,7 +18,6 @@ import useFormSet__ScTld, {
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { locales } from "@/utils/locale.client";
-import { scCheck } from "@/utils/sc";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 
@@ -52,11 +51,7 @@ export default function Page({
 
   useEffect(() => {
     if (!scForm.init) {
-      scForm.initialize(init__formSet__ScTld({ scTld: sc! }));
-
-      scCheck(sc!).then((isFine) => {
-        scForm.setFormMeta({ isOutdated: !isFine });
-      });
+      scForm.initialize(init__formSet__ScTld({ scTld: sc!.tld }));
     }
   }, [scForm.init]);
 
@@ -66,9 +61,9 @@ export default function Page({
         <div>
           <Title>
             SC{" "}
-            {scForm.meta.isOutdated && (
+            {sc!.outdated && (
               <Button
-                className="!bg-transparent text-start"
+                className="ml-2 !bg-transparent text-start"
                 TextProps={{ className: "!text-green-500 p-0" }}
                 action={() => setScTldModalOpen((state) => !state)}
               >
@@ -84,8 +79,8 @@ export default function Page({
               setMeta={scForm.setMeta.bind(null, "value")}
               setValue={scForm.setValue.bind(null, "value")}
               error={scForm.fields.value.error}
-              defaultMeta={sc}
-              disabled={scFormIsPending || !scForm.meta.isOutdated}
+              defaultMeta={sc!.tld}
+              disabled={scFormIsPending || !sc!.outdated}
             />
 
             {scTldModalOpen &&
@@ -154,10 +149,10 @@ export default function Page({
 
             <Button
               disabled={
-                !scForm.meta.isOutdated ||
+                !sc!.outdated ||
                 scFormIsPending ||
                 scForm.isInvalid ||
-                scForm.values().value === sc
+                scForm.values().value === sc!.tld
               }
               action={scForm.submit}
             >
@@ -166,7 +161,7 @@ export default function Page({
           </div>
         </div>
       );
-  }, [scForm, scTldModalOpen]);
+  }, [scForm, scTldModalOpen, sc!.outdated]);
 
   return (
     <div className="">

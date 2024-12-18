@@ -131,4 +131,3 @@ const DATA_PAGE_GROUP_INDEX = 1;
 export const SC_DEFAULT_TLD = "family";
 
 const scwsUrl = "https://vixcloud.co";
-const cdnUrl = "https://cdn.streamingcommunity.family";

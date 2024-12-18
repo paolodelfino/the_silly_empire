@@ -5,7 +5,7 @@ import { createForm } from "@/utils/form";
 const useFormSet__ScTld = createForm(
   schemaScTld__Set,
   undefined as unknown as ReturnType<typeof init__formSet__ScTld>,
-  { isOutdated: false },
+  {},
 );
 export default useFormSet__ScTld;
 

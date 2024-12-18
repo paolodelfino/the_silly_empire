@@ -1,10 +1,12 @@
 "use client";
 
 import { scCheck } from "@/utils/sc";
-import { usePathname, useRouter } from "next/navigation";
-import { createContext, ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
-export const ScContext = createContext<string | undefined>(undefined);
+type State = { tld: string; cdn: string; outdated: boolean };
+
+export const ScContext = createContext<State | undefined>(undefined);
 
 export default function ScProvider({
   children,
@@ -13,11 +15,17 @@ export default function ScProvider({
   children?: ReactNode;
   loaded: string;
 }) {
+  const [state, setState] = useState<State>({
+    tld: loaded,
+    cdn: `https://cdn.streamingcommunity.${loaded}`,
+    outdated: false,
+  });
   const router = useRouter();
-  const pathname = usePathname();
 
   useEffect(() => {
     scCheck(loaded).then((isFine) => {
+      setState((state) => ({ ...state, outdated: !isFine }));
+
       if (!isFine) {
         alert(
           `Sc'tld is outdated, I'll redirect to settings. Please, update it.`,
@@ -27,5 +35,5 @@ export default function ScProvider({
     });
   }, []);
 
-  return <ScContext.Provider value={loaded}>{children}</ScContext.Provider>;
+  return <ScContext.Provider value={state}>{children}</ScContext.Provider>;
 }
