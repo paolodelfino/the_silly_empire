@@ -78,7 +78,7 @@ export async function scUpcoming(_offset: number) {
     data: entries.map((it) => ({
       id: it.id,
       slug: it.slug,
-      images: it.images,
+      images: it.images.filter((it) => it.type === "poster"),
     })),
     total: -1,
   };
@@ -101,7 +101,7 @@ export async function scFeatured() {
     return {
       id: json.props.title.id,
       slug: json.props.title.slug,
-      images: json.props.title.images,
+      images: json.props.title.images.filter((it: any) => it.type === "poster"),
     } satisfies Pick<
       z.infer<typeof schemaEntry__Query__DB>,
       "id" | "slug" | "images"
