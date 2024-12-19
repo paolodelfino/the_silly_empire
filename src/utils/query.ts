@@ -1,30 +1,38 @@
+import { isObject, PartialIfObject } from "@/utils/object";
 import { create } from "zustand";
 
 // TODO: Problema con le richieste in parallelo (ad esempio, quello dello state isFetching)
 // TODO: Implementa meccanismo per bloccare fetch simultanei
 
-export interface QueryState<Fn extends (...args: any) => any> {
+export interface QueryState<Fn extends (...args: any) => any, Meta> {
   data: Awaited<ReturnType<Fn>> | undefined;
   isFresh: boolean;
   isFetching: boolean;
   lastArgs: Parameters<Fn> | undefined;
   isActive: boolean;
+  meta: Meta;
   active: () => Promise<void>;
   inactive: () => void;
   fetch: (...args: Parameters<Fn>) => Promise<Awaited<ReturnType<Fn>>>;
   invalidate: () => Promise<void>;
+  setMeta: (value: PartialIfObject<Meta>) => void;
+  reset: () => void;
 }
 
 /**
  * Query function must not return undefined because it is a guard value
  */
-export function createQuery<Fn extends (...args: any) => any>(fn: Fn) {
-  return create<QueryState<Fn>>((set, get, api) => ({
+export function createQuery<Fn extends (...args: any) => any, Meta>(
+  fn: Fn,
+  meta: Meta,
+) {
+  return create<QueryState<Fn, Meta>>((set, get, api) => ({
     data: undefined,
     isFresh: true,
     isFetching: false,
     lastArgs: undefined,
     isActive: false,
+    meta: meta,
     async active() {
       set({ isActive: true });
 
@@ -61,6 +69,20 @@ export function createQuery<Fn extends (...args: any) => any>(fn: Fn) {
       if (state.isActive) await state.fetch(...state.lastArgs!);
       else set({ isFresh: false });
     },
+    setMeta(value) {
+      set((state) => {
+        // @ts-expect-error
+        return { meta: isObject(value) ? { ...state.meta, ...value } : value };
+      });
+    },
+    reset() {
+      set({
+        data: undefined,
+        isFresh: true,
+        lastArgs: undefined,
+        isActive: false,
+      });
+    },
   }));
 }
 
@@ -70,6 +92,7 @@ export interface InfiniteQueryState<
     limit: number,
     ...args: any
   ) => Promise<{ data: Array<any>; total: number }>,
+  Meta,
 > {
   data: Awaited<ReturnType<Fn>>["data"] | undefined;
   total: number;
@@ -86,6 +109,7 @@ export interface InfiniteQueryState<
         ? P
         : []);
   isActive: boolean;
+  meta: Meta;
   reset: () => void;
   active: () => Promise<void>;
   inactive: () => void;
@@ -99,6 +123,7 @@ export interface InfiniteQueryState<
       : []
   ) => Promise<void>;
   invalidate: () => Promise<void>;
+  setMeta: (value: PartialIfObject<Meta>) => void;
 }
 
 export function createInfiniteQuery<
@@ -107,8 +132,9 @@ export function createInfiniteQuery<
     limit: number,
     ...args: any
   ) => Promise<{ data: Array<any>; total: number }>,
->(limit: number, fn: Fn) {
-  return create<InfiniteQueryState<Fn>>((set, get, api) => {
+  Meta,
+>(limit: number, fn: Fn, meta: Meta) {
+  return create<InfiniteQueryState<Fn, Meta>>((set, get, api) => {
     const fetch = async (
       offset: number,
       limit: number,
@@ -141,6 +167,7 @@ export function createInfiniteQuery<
       lastArgs: undefined,
       nextOffset: 0,
       isActive: false,
+      meta: meta,
       reset() {
         set({
           data: undefined,
@@ -224,6 +251,14 @@ export function createInfiniteQuery<
             isFresh: true,
           });
         } else set({ isFresh: false });
+      },
+      setMeta(value) {
+        set((state) => {
+          return {
+            // @ts-expect-error
+            meta: isObject(value) ? { ...state.meta, ...value } : value,
+          };
+        });
       },
     };
   });

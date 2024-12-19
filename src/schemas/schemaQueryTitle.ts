@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const schemaEntry__Query__Form = z
+const schemaQueryTitle = z
   .object({
     search: z.string().trim().min(1).optional(),
     kind: z.enum(["tv", "movie"]).optional(),
@@ -77,4 +77,4 @@ const schemaEntry__Query__Form = z
     age: z.enum(["7", "12", "14", "16", "18"]).optional(),
   })
   .strict();
-export default schemaEntry__Query__Form;
+export default schemaQueryTitle;

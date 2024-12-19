@@ -1,19 +1,19 @@
 import { fieldSelect } from "@/components/form_ui/FieldSelect";
 import { fieldText } from "@/components/form_ui/FieldText";
-import schemaEntry__Query__Form from "@/schemas/schemaEntry__Query__Form";
+import schemaQueryTitle from "@/schemas/schemaQueryTitle";
 import { Dictionary } from "@/utils/dictionary";
 import { createForm } from "@/utils/form";
 
-const useFormQuery__Entry = createForm(
-  schemaEntry__Query__Form,
-  undefined as unknown as ReturnType<typeof init__formQuery__Entry>,
+const useFormQueryTitle = createForm(
+  schemaQueryTitle,
+  undefined as unknown as ReturnType<typeof formQueryTitle>,
   {
     lastValues: undefined as string | undefined,
   },
 );
-export default useFormQuery__Entry;
+export default useFormQueryTitle;
 
-export function init__formQuery__Entry(dictionary: Dictionary["queryForm"]) {
+export function formQueryTitle(dictionary: Dictionary["queryForm"]) {
   return {
     search: fieldText(),
     kind: fieldSelect({

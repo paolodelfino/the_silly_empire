@@ -1,6 +1,6 @@
 "use client";
 
-import ActionSet__Lang from "@/actions/ActionSet__Lang";
+import ActionSetLang from "@/actions/ActionSetLang";
 import FieldSelect from "@/components/form_ui/FieldSelect";
 import { Logo } from "@/components/icons";
 import InstallPrompt from "@/components/InstallPrompt";
@@ -44,7 +44,7 @@ export default function Layout({
               selectedItem: lang,
             }}
             setMeta={(value) =>
-              ActionSet__Lang({ value: value.selectedItem! as any })
+              ActionSetLang({ value: value.selectedItem! as any })
             }
             placeholder={dictionary["settings.language"]!}
             setValue={() => {}}

@@ -1,22 +1,19 @@
 import { LanguageContext } from "@/components/LanguageProvider";
 import { ScContext } from "@/components/ScProvider";
 import { LinkButton } from "@/components/ui/Button";
-import schemaEntry__Query__DB from "@/schemas/schemaEntry__Query__DB";
 import { cn } from "@/utils/cn";
-import { useContext, useMemo } from "react";
-import { z } from "zod";
+import { useContext } from "react";
 
-export default function UIEntry__Simple({
+export default function TitleCard({
   data,
   id,
 }: {
   id?: string;
-  data: Pick<z.infer<typeof schemaEntry__Query__DB>, "images" | "id" | "slug">;
+  data: {
+    poster: string;
+    id: number;
+  };
 }) {
-  const poster = useMemo(
-    () => data.images.find((it) => it.type === "poster"),
-    [data.images],
-  );
   const sc = useContext(ScContext);
   const locale = useContext(LanguageContext);
 
@@ -30,7 +27,7 @@ export default function UIEntry__Simple({
           alt=""
           id={id}
           className={cn(className)}
-          src={`${sc!.cdn}/images/${poster!.filename}`}
+          src={`${sc!.cdn}/images/${data.poster}`}
         />
       )}
     </LinkButton>

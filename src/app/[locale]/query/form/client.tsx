@@ -7,9 +7,9 @@ import { LanguageContext } from "@/components/LanguageProvider";
 import { ErrorButton, IconButton } from "@/components/ui/Button";
 import { ColoredSuperTitle } from "@/components/ui/SuperTitle";
 import Title from "@/components/ui/Title";
-import useFormQuery__Entry, {
-  init__formQuery__Entry,
-} from "@/stores/forms/useFormQuery__Entry";
+import useFormQueryTitle, {
+  formQueryTitle,
+} from "@/stores/forms/useFormQueryTitle";
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { formValuesToString } from "@/utils/url.client";
@@ -24,14 +24,14 @@ export default function Page({
     queryForm: Dictionary["queryForm"];
   };
 }) {
-  const form = useFormQuery__Entry();
+  const form = useFormQueryTitle();
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
   const locale = useContext(LanguageContext);
 
   useEffect(() => {
     if (!form.init) {
-      form.initialize(init__formQuery__Entry(dictionary.queryForm));
+      form.initialize(formQueryTitle(dictionary.queryForm));
     }
   }, [form.init]);
 

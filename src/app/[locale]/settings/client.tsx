@@ -1,7 +1,7 @@
 "use client";
 
-import ActionSet__Lang from "@/actions/ActionSet__Lang";
-import ActionSet__ScTld from "@/actions/ActionSet__ScTld";
+import ActionSetLang from "@/actions/ActionSetLang";
+import ActionSetScTld from "@/actions/ActionSetScTld";
 import { FontSizeContext } from "@/components/FontSizeProvider";
 import FieldNumber from "@/components/form_ui/FieldNumber";
 import FieldSelect from "@/components/form_ui/FieldSelect";
@@ -12,9 +12,7 @@ import { Button } from "@/components/ui/Button";
 import { ColoredSuperTitle, SuperTitle } from "@/components/ui/SuperTitle";
 import Text from "@/components/ui/Text";
 import Title from "@/components/ui/Title";
-import useFormSet__ScTld, {
-  init__formSet__ScTld,
-} from "@/stores/forms/useFormSet__ScTld";
+import useFormSetScTld, { formSetScTld } from "@/stores/forms/useFormSetScTld";
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { locales } from "@/utils/locale.client";
@@ -30,7 +28,7 @@ export default function Page({
   const lang = useContext(LanguageContext);
 
   const sc = useContext(ScContext);
-  const scForm = useFormSet__ScTld();
+  const scForm = useFormSetScTld();
   const [scFormIsPending, setScFormIsPending] = useState(false);
   const [scTldModalOpen, setScTldModalOpen] = useState(false);
   const touchDown = useRef(false);
@@ -40,7 +38,7 @@ export default function Page({
       scForm.setOnSubmit(async (form) => {
         setScFormIsPending(true);
 
-        const result = await ActionSet__ScTld(form.values());
+        const result = await ActionSetScTld(form.values());
         if (result === "set") window.location.reload();
         else if (result === "not-set") alert("Invalid");
 
@@ -51,7 +49,7 @@ export default function Page({
 
   useEffect(() => {
     if (!scForm.init) {
-      scForm.initialize(init__formSet__ScTld({ scTld: sc!.tld }));
+      scForm.initialize(formSetScTld({ scTld: sc!.tld }));
     }
   }, [scForm.init]);
 
@@ -189,7 +187,7 @@ export default function Page({
           selectedItem: lang,
         }}
         setMeta={(value) =>
-          ActionSet__Lang({ value: value.selectedItem! as any })
+          ActionSetLang({ value: value.selectedItem! as any })
         }
         placeholder={dictionary.settings.language}
         setValue={() => {}}

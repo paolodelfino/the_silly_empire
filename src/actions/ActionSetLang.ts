@@ -1,14 +1,14 @@
 "use server";
 
-import schemaLang__Set from "@/schemas/schemaLang__Set";
+import schemaSetLang from "@/schemas/schemaSetLang";
 import { FormValues } from "@/utils/form";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function ActionSet__Lang(
-  values: FormValues<typeof schemaLang__Set>,
+export default async function ActionSetLang(
+  values: FormValues<typeof schemaSetLang>,
 ) {
-  const { value } = schemaLang__Set.parse(values);
+  const { value } = schemaSetLang.parse(values);
 
   (await cookies()).set("locale", value, {
     maxAge: 31536000,

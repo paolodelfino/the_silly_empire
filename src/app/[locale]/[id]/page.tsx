@@ -1,11 +1,11 @@
 import Page from "@/app/[locale]/[id]/client";
-import schemaEntry__Details from "@/schemas/schemaEntry__Details";
+import schemaFetchTitle from "@/schemas/schemaFetchTitle";
 
 export default async function RootPage(props: {
   params: Promise<{ locale: string; id: string }>;
 }) {
   const params = await props.params;
-  const values = schemaEntry__Details.parse({ id: Number(params.id) });
+  const values = schemaFetchTitle.parse({ id: Number(params.id) });
 
   // const dictionary = await getDictionary(params.locale);
   return (

@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-const schemaScTld__Set = z
+const schemaSetScTld = z
   .object({
     value: z.string().trim().min(1),
   })
   .strict();
-export default schemaScTld__Set;
+export default schemaSetScTld;

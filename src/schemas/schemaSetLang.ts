@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-const schemaLang__Set = z
+const schemaSetLang = z
   .object({
     value: z.enum(["en", "it"]),
   })
   .strict();
-export default schemaLang__Set;
+export default schemaSetLang;

@@ -1,10 +1,9 @@
 "use client";
 
-import UIEntry__Simple from "@/components/db_ui/UIEntry__Simple";
+import TitleCard from "@/components/title/TitleCard";
 import useInfiniteQuery from "@/hooks/useInfiniteQuery";
-import schemaEntry__Query__Form from "@/schemas/schemaEntry__Query__Form";
-import useFormQuery__Entry from "@/stores/forms/useFormQuery__Entry";
-import useQueryEntry__Query from "@/stores/queries/useQueryEntry__Query";
+import schemaQueryTitle from "@/schemas/schemaQueryTitle";
+import useQueryTitle from "@/stores/queries/useQueryTitle";
 import { Dictionary } from "@/utils/dictionary";
 import { formValuesFromString } from "@/utils/url.client";
 import { useEffect, useMemo } from "react";
@@ -14,16 +13,15 @@ export default function Page(props: {
   dictionary: Pick<Dictionary, "fetching" | "loadingNoCache">;
 }) {
   const values = useMemo(
-    () => schemaEntry__Query__Form.parse(formValuesFromString(props.values)),
+    () => schemaQueryTitle.parse(formValuesFromString(props.values)),
     [props.values],
   );
 
-  const form = useFormQuery__Entry();
-  const query = useQueryEntry__Query();
+  const query = useQueryTitle();
 
   useEffect(() => {
-    if (props.values !== form.meta.lastValues) {
-      form.setFormMeta({ lastValues: props.values });
+    if (props.values !== query.meta.lastValues) {
+      query.setMeta({ lastValues: props.values });
 
       query.reset();
       query.active();
@@ -37,7 +35,7 @@ export default function Page(props: {
     data: query.data,
     fetchIfNoData: false,
     getId(item) {
-      return `${item.slug}-${item.id}`;
+      return item.id.toString();
     },
     inactive: query.inactive,
     nextOffset: query.nextOffset,
@@ -48,11 +46,7 @@ export default function Page(props: {
   return (
     <div className="flex h-fit gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
       {query.data.map((it) => (
-        <UIEntry__Simple
-          id={`${id}_${it.slug}-${it.id}`}
-          data={it}
-          key={`${it.slug}-${it.id}`}
-        />
+        <TitleCard id={`${id}_${it.id}`} data={it} key={it.id.toString()} />
       ))}
 
       {query.isFetching && <p>{props.dictionary.fetching}</p>}
