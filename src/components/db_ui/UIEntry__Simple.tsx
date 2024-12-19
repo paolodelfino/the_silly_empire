@@ -1,3 +1,4 @@
+import { LanguageContext } from "@/components/LanguageProvider";
 import { ScContext } from "@/components/ScProvider";
 import { LinkButton } from "@/components/ui/Button";
 import schemaEntry__Query__DB from "@/schemas/schemaEntry__Query__DB";
@@ -10,16 +11,20 @@ export default function UIEntry__Simple({
   id,
 }: {
   id?: string;
-  data: Pick<z.infer<typeof schemaEntry__Query__DB>, "images">;
+  data: Pick<z.infer<typeof schemaEntry__Query__DB>, "images" | "id" | "slug">;
 }) {
   const poster = useMemo(
     () => data.images.find((it) => it.type === "poster"),
     [data.images],
   );
   const sc = useContext(ScContext);
+  const locale = useContext(LanguageContext);
 
   return (
-    <LinkButton className="aspect-auto w-32 shrink-0 overflow-hidden sm:w-auto [&.hover]:bg-black">
+    <LinkButton
+      href={`/${locale!}/${data.id}`}
+      className="aspect-auto w-32 shrink-0 overflow-hidden sm:w-auto [&.hover]:bg-black"
+    >
       {({ className }) => (
         <img
           alt=""

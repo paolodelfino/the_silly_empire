@@ -119,7 +119,7 @@ export function createForm<
     }
 
     const state: FormState<T, FormMeta, U> = {
-      fields,
+      fields: fields,
       schema: schema,
       meta,
       isInvalid: false,
@@ -206,13 +206,17 @@ export function createForm<
         if (!state.isInvalid) state.onSubmit?.(state);
       },
       initialize(fields) {
-        const state = get();
-        const [_fields, isInvalid, formError] = validate(fields, state.schema);
-        state.fields = _fields;
-        state.isInvalid = isInvalid;
-        state.error = formError;
-        state.init = true;
-        set(state);
+        set((state) => {
+          const [_fields, isInvalid, formError] = validate(
+            fields,
+            state.schema,
+          );
+          state.fields = _fields;
+          state.isInvalid = isInvalid;
+          state.error = formError;
+          state.init = true;
+          return state;
+        });
       },
     };
 

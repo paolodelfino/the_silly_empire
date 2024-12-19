@@ -8,7 +8,6 @@ const schemaEntry__Query__DB = z
     name: z.string().trim().min(1),
     type: z.enum(["tv", "movie"]),
     score: z.string().refine((value) => !Number.isNaN(Number(value))),
-    sub_it: z.union([z.literal(0), z.literal(1)]),
     last_air_date: z.string().nullable(),
     age: z.number().gte(0).int().nullable(),
     seasons_count: z.number().gte(0).int(),

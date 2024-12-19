@@ -16,5 +16,6 @@ const schemaEntry__Upcoming = z
       }),
     ),
   })
-  .merge(schemaEntry__Query__DB);
+  .merge(schemaEntry__Query__DB)
+  .strict();
 export default schemaEntry__Upcoming;
