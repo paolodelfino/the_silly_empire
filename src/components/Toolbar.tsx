@@ -49,6 +49,17 @@ export default function Toolbar({
           {dictionary.query}
         </LinkButton>
         <LinkButton
+          href="https://grok.x.com"
+          external
+          className={cn(
+            variant === "monitor" && "min-w-32 text-start",
+            "[&.hover]:bg-black [&.hover_p]:text-white",
+            variant === "mobile" && "shrink-0",
+          )}
+        >
+          Try Grok
+        </LinkButton>
+        <LinkButton
           href="/settings"
           className={cn(
             variant === "monitor" && "min-w-32 text-start",

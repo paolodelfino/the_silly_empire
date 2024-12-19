@@ -82,5 +82,20 @@ const it: Dictionary = {
     upcoming: "In arrivo",
   },
   save: "Salva",
+  titleStatus: {
+    Canceled: "Cancellato",
+    "Post Production": "Post Produzione",
+    "Returning Series": "Serie in ritorno",
+    Released: "Rilasciato",
+    Planned: "Pianificato",
+    "In Production": "In Produzione",
+    Ended: "Concluso",
+  },
+  titlePage: {
+    services: "Servizi",
+    status: "Stato",
+    genres: "Generi",
+    keywords: "Keywords",
+  },
 } satisfies Dictionary;
 export default it;

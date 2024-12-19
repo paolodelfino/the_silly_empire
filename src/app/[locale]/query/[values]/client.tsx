@@ -44,7 +44,7 @@ export default function Page(props: {
   if (query.data === undefined) return props.dictionary.loadingNoCache;
 
   return (
-    <div className="flex h-fit gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
+    <div className="flex h-fit gap-5 items-center overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
       {query.data.map((it) => (
         <TitleCard id={`${id}_${it.id}`} data={it} key={it.id.toString()} />
       ))}

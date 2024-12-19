@@ -26,7 +26,7 @@ export default function Page({
     if (featured.data === undefined) return <p>{dictionary.loadingNoCache}</p>;
     else
       return (
-        <div className="flex h-fit gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
+        <div className="flex h-fit items-center gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
           {featured.data.map((it) => (
             <TitleCard data={it} key={it.id} />
           ))}

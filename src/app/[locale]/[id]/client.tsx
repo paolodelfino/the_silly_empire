@@ -1,17 +1,38 @@
 "use client";
 
 import FieldSelect, { fieldSelect } from "@/components/form_ui/FieldSelect";
+import {
+  CbiDisneyPlus,
+  CibImdb,
+  LogosNetflix,
+  SimpleIconsAppletv,
+  SimpleIconsPrimevideo,
+} from "@/components/icons";
 import { LanguageContext } from "@/components/LanguageProvider";
 import { ScContext } from "@/components/ScProvider";
+import TitleCard from "@/components/title/TitleCard";
 import { Button, LinkButton } from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
+import Title from "@/components/ui/Title";
 import useQueryFetchSeason from "@/stores/queries/useQueryFetchSeason";
 import useQueryFetchTitle from "@/stores/queries/useQueryFetchTitle";
 import { cn } from "@/utils/cn";
-import { useContext, useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import { Dictionary } from "@/utils/dictionary";
+import { formValuesToString } from "@/utils/url.client";
+import { useContext, useEffect } from "react";
 
-export default function Page({ params }: { params: { id: number } }) {
+export default function Page({
+  params,
+  dictionary,
+}: {
+  params: { id: number };
+  dictionary: {
+    genres: Record<string, string>;
+  } & Pick<
+    Dictionary,
+    "loadingNoCache" | "fetching" | "titleStatus" | "titlePage"
+  >;
+}) {
   const sc = useContext(ScContext);
   const locale = useContext(LanguageContext);
   const query = useQueryFetchTitle();
@@ -66,107 +87,138 @@ export default function Page({ params }: { params: { id: number } }) {
     }
   }, [season.meta.season?.value]);
 
-  const [keywordsOpen, setKeywordsOpen] = useState(false);
-  const keywordsTouchDown = useRef(false);
-
   if (query.data === undefined) return "loading no cache";
   if (query.isFetching) return "fetching...";
 
   return (
     <div className="w-full">
-      <div className="relative flex h-auto w-full">
-        <img
-          src={`${sc!.cdn}/images/${query.data.background}`}
-          className="w-full rounded-t"
-        />
-        {query.data.logo !== undefined && (
-          <div className="absolute bottom-10 left-10">
-            <img
-              src={`${sc!.cdn}/images/${query.data.logo}`}
-              className="h-auto w-32 sm:w-48 md:w-56 1600px:w-full"
-            />
-          </div>
-        )}
+      <div className="1600px:mr-4">
+        <div className="relative flex h-auto w-full overflow-hidden rounded border-b border-white">
+          <img
+            src={`${sc!.cdn}/images/${query.data.background}`}
+            className="w-full"
+          />
+
+          {query.data.logo !== undefined && (
+            <div className="absolute bottom-0 left-0 flex w-full flex-col items-start gap-4 bg-gradient-to-t from-neutral-700 p-10">
+              <img
+                src={`${sc!.cdn}/images/${query.data.logo}`}
+                className="h-auto w-32 sm:w-48 md:w-56 1600px:w-fit"
+              />
+
+              <Button className="w-fit border-b border-red-900 bg-red-700 px-4">
+                Play
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="pl-safe-left pr-safe-right">
-        <div className="flex flex-wrap gap-2 p-4">
-          <Button className="rounded-full px-3">{query.data.status}</Button>
-          <Button
-            className="rounded-full px-3"
-            action={() => setKeywordsOpen((state) => !state)}
-          >
-            Keywords
-          </Button>
-          {keywordsOpen &&
-            ReactDOM.createPortal(
-              <div
-                className={cn(
-                  "fixed left-0 top-0",
-                  "h-screen w-full pl-safe-left pr-safe-right",
-                  "flex items-center justify-center",
-                  "bg-neutral-600/40",
-                  "z-20",
-                )}
-                onPointerDown={(e) => {
-                  if (e.target === e.currentTarget) {
-                    if (e.pointerType === "mouse") setKeywordsOpen(false);
-                    else keywordsTouchDown.current = true;
-                  }
-                }}
-                onPointerUp={(e) => {
-                  if (e.target === e.currentTarget) {
-                    if (
-                      e.pointerType === "touch" &&
-                      keywordsTouchDown.current === true
-                    )
-                      setKeywordsOpen(false);
-                  }
-                }}
-              >
-                <div
-                  className={cn(
-                    "flex flex-wrap gap-2",
-                    "max-h-[75vh] w-full max-w-4xl overflow-y-scroll 4xl:rounded 4xl:px-8 4xl:py-4",
-                    "bg-neutral-700",
-                  )}
-                >
-                  {query.data.keywords.map((it) => (
-                    <LinkButton key={it.name}>{it.name}</LinkButton>
-                  ))}
-                </div>
-              </div>,
-              document.body,
-            )}
-          {query.data.imdb_id !== null && (
-            <Button className="rounded-full px-3">IMDB</Button>
+        <Title>{dictionary.titlePage.services}</Title>
+
+        <div className="flex flex-wrap items-center gap-5">
+          {query.data.netflix_id !== null && (
+            <LinkButton
+              className="[&.hover]:bg-transparent"
+              href={`https://www.netflix.com/title/${query.data.netflix_id}`}
+              external
+            >
+              {({ className }) => (
+                <LogosNetflix className={cn(className, "size-20")} />
+              )}
+            </LinkButton>
           )}
           {query.data.apple_id !== null && (
-            <Button className="rounded-full px-3">Apple TV</Button>
-          )}
-          {query.data.disney_id !== null && (
-            <Button className="rounded-full px-3">Disney+</Button>
+            <LinkButton
+              className="[&.hover]:bg-transparent"
+              href={`https://tv.apple.com/${query.data.type === "movie" ? "movie" : "show"}/${query.data.apple_id}`}
+              external
+            >
+              {({ className }) => (
+                <SimpleIconsAppletv className={cn(className, "size-16")} />
+              )}
+            </LinkButton>
           )}
           {query.data.prime_id !== null && (
-            <Button className="rounded-full px-3">Prime Video</Button>
+            <LinkButton
+              className="[&.hover]:bg-transparent"
+              href={`https://primevideo.com/detail/${query.data.prime_id}`}
+              external
+            >
+              {({ className }) => (
+                <SimpleIconsPrimevideo
+                  className={cn(className, "size-20 text-sky-500")}
+                />
+              )}
+            </LinkButton>
           )}
-          {query.data.netflix_id !== null && (
-            <Button className="rounded-full px-3">Netflix</Button>
+          {query.data.disney_id !== null && (
+            <LinkButton
+              className="[&.hover]:bg-transparent"
+              href={`https://www.disneyplus.com/${locale === "en" ? "en-it" : "it-it"}/${query.data.type === "movie" ? "movies" : "series"}/dummy/${query.data.disney_id}`}
+              external
+            >
+              {({ className }) => (
+                <CbiDisneyPlus
+                  className={cn(className, "size-14 text-purple-500")}
+                />
+              )}
+            </LinkButton>
           )}
-          {query.data.now_id !== null && (
-            <Button className="rounded-full px-3">Now TV</Button>
+          {query.data.imdb_id !== null && (
+            <LinkButton
+              className="[&.hover]:bg-transparent"
+              href={`https://imdb.com/title/${query.data.imdb_id}`}
+              external
+            >
+              {({ className }) => (
+                <CibImdb className={cn(className, "size-16 text-yellow-500")} />
+              )}
+            </LinkButton>
           )}
+        </div>
+
+        <Title>{dictionary.titlePage.status}</Title>
+
+        <Text>{dictionary.titleStatus[query.data.status]}</Text>
+
+        <Title>{dictionary.titlePage.genres}</Title>
+
+        <div className="flex flex-wrap items-center gap-1">
           {query.data.genres.map((genre) => {
-            // TODO: Qui è un numero...
             return (
-              <Button className="rounded-full px-3" key={genre.id}>
-                {genre.id!.toString()}
-              </Button>
+              <LinkButton
+                key={genre}
+                href={`/${locale}/query/${formValuesToString({ genre: genre })}`}
+              >{`${dictionary.genres[genre!]}`}</LinkButton>
             );
           })}
         </div>
 
-        {season.meta.season !== undefined && (
+        <Title>{dictionary.titlePage.keywords}</Title>
+
+        <div className="flex flex-wrap items-center gap-1">
+          {query.data.keywords.map((keyword) => {
+            return (
+              <LinkButton
+                key={keyword}
+                href={`/${locale}/fuzzy/${formValuesToString({ search: keyword })}`}
+                className="[&.hover]:scale-[1.01]"
+              >{`${keyword}`}</LinkButton>
+            );
+          })}
+        </div>
+
+        <Title>Related</Title>
+
+        <div className="flex h-fit items-center gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
+          {query.data.related.map((it) => (
+            <TitleCard data={it} key={it.id} />
+          ))}
+        </div>
+
+        {/* {season.meta.season !== undefined && (
           <FieldSelect
             setMeta={(value) => {
               const a = { ...season.meta.season! };
@@ -202,7 +254,7 @@ export default function Page({ params }: { params: { id: number } }) {
                 <div key={it.id}>{it.number}</div>
               ))}
             </div>
-          )}
+          )} */}
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
+import schemaTitle from "@/schemas/schemaTitle";
 import "server-only";
+import { z } from "zod";
 
 export type Dictionary = {
   toolbar: {
@@ -79,6 +81,13 @@ export type Dictionary = {
     upcoming: string;
   };
   save: string;
+  titleStatus: Record<z.infer<typeof schemaTitle>["status"], string>;
+  titlePage: {
+    services: string;
+    status: string;
+    genres: string;
+    keywords: string;
+  };
 };
 
 export const dictionary: {

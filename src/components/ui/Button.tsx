@@ -362,7 +362,7 @@ export function Button({
       {typeof children === "string" ? (
         <Text
           {...TextProps}
-          className={cn("pointer-events-none text-white", TextProps?.className)}
+          className={cn("pointer-events-none", TextProps?.className)}
         >
           {TextProps?.children ?? children}
         </Text>

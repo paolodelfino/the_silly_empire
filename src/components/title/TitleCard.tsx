@@ -20,7 +20,7 @@ export default function TitleCard({
   return (
     <LinkButton
       href={`/${locale!}/${data.id}`}
-      className="aspect-auto w-32 shrink-0 overflow-hidden sm:w-auto [&.hover]:bg-black"
+      className="aspect-auto h-fit w-32 shrink-0 overflow-hidden sm:w-auto [&.hover]:bg-black"
     >
       {({ className }) => (
         <img

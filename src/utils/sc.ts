@@ -30,7 +30,7 @@ export async function scSearch(
 
   if (age !== undefined) url.searchParams.append("age", age);
 
-  if (genre !== undefined) url.searchParams.append("genre", genre);
+  if (genre !== undefined) url.searchParams.append("genre[]", genre);
 
   if (kind !== undefined) url.searchParams.append("kind", kind);
 
@@ -56,7 +56,9 @@ export async function scSearch(
       (it: any) =>
         ({
           id: it.id,
-          poster: it.images.find((it: any) => it.type === "poster").filename,
+          poster:
+            it.images.find((it: any) => it.type === "poster")?.filename ??
+            it.images.find((it: any) => it.type === "cover").filename,
         }) satisfies z.infer<typeof schemaQueuedTitle> as z.infer<
           typeof schemaQueuedTitle
         >,
@@ -101,7 +103,9 @@ export async function scUpcoming(_offset: number, tld: string) {
       (it) =>
         ({
           id: it.id,
-          poster: it.images.find((it: any) => it.type === "poster").filename,
+          poster:
+            it.images.find((it: any) => it.type === "poster")?.filename ??
+            it.images.find((it: any) => it.type === "cover").filename,
         }) satisfies z.infer<typeof schemaQueuedTitle> as z.infer<
           typeof schemaQueuedTitle
         >,
@@ -126,8 +130,10 @@ export async function scFeatured(tld: string) {
     const json = JSON.parse(decodeUtf8(decodeHtml(data!)));
     return {
       id: json.props.title.id,
-      poster: json.props.title.images.find((it: any) => it.type === "poster")
-        .filename,
+      poster:
+        json.props.title.images.find((it: any) => it.type === "poster")
+          ?.filename ??
+        json.props.title.images.find((it: any) => it.type === "cover").filename,
     } satisfies z.infer<typeof schemaQueuedTitle> as z.infer<
       typeof schemaQueuedTitle
     >;
@@ -166,9 +172,9 @@ export async function scTitle(id: number) {
     netflix_id: json.props.title.netflix_id,
     prime_id: json.props.title.prime_id,
     disney_id: json.props.title.disney_id,
-    now_id: json.props.title.now_id,
+    // now_id: json.props.title.now_id,
     apple_id: json.props.title.apple_id,
-    paramount_id: json.props.title.paramount_id,
+    // paramount_id: json.props.title.paramount_id,
     seasons: json.props.title.seasons.map(
       (it: any) =>
         ({
@@ -179,13 +185,15 @@ export async function scTitle(id: number) {
           typeof schemaTitle
         >["seasons"][number],
     ),
-    genres: json.props.title.genres.map((it: any) => ({ id: it.id })),
-    keywords: json.props.title.keywords.map((it: any) => ({ name: it.name })),
+    genres: json.props.title.genres.map((it: any) => it.id.toString()),
+    keywords: json.props.title.keywords.map((it: any) => it.name),
     related: json.props.sliders[0].titles.map(
       (it: any) =>
         ({
           id: it.id,
-          poster: it.images.find((it: any) => it.type === "poster").filename,
+          poster:
+            it.images.find((it: any) => it.type === "poster")?.filename ??
+            it.images.find((it: any) => it.type === "cover").filename,
         }) satisfies z.infer<typeof schemaTitle>["related"][number] as z.infer<
           typeof schemaTitle
         >["related"][number],
@@ -195,7 +203,7 @@ export async function scTitle(id: number) {
       (it: any) => it.type === "background",
     ).filename,
     logo: json.props.title.images.find((it: any) => it.type === "logo")
-      .filenamea,
+      .filename,
     type: json.props.title.type,
   } satisfies z.infer<typeof schemaTitle> as z.infer<typeof schemaTitle>;
 }
@@ -230,3 +238,32 @@ export async function scSeason(id: number, number: number) {
     ),
   } satisfies z.infer<typeof schemaSeason> as z.infer<typeof schemaSeason>;
 }
+
+export const genresMap = {
+  "13": "actionAdventure",
+  "19": "animation",
+  "11": "adventure",
+  "4": "action",
+  "12": "comedy",
+  "2": "crime",
+  "24": "documentary",
+  "1": "drama",
+  "16": "family",
+  "10": "sciFi",
+  "8": "fantasy",
+  "9": "war",
+  "7": "horror",
+  "25": "kids",
+  "26": "koreanDrama",
+  "6": "mystery",
+  "14": "music",
+  "18": "reality",
+  "15": "romance",
+  "3": "sciFiFantasy",
+  "23": "soap",
+  "22": "history",
+  "21": "televisionFilm",
+  "5": "thriller",
+  "17": "warPolitics",
+  "20": "western",
+};

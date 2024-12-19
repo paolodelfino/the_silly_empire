@@ -18,9 +18,9 @@ const schemaTitle = z
     netflix_id: z.number().int().nullable(),
     prime_id: z.string().trim().min(1).nullable(),
     disney_id: z.string().trim().min(1).nullable(),
-    now_id: z.string().trim().min(1).nullable(),
+    // now_id: z.string().trim().min(1).nullable(),
     apple_id: z.string().trim().min(1).nullable(),
-    paramount_id: z.literal(null),
+    // paramount_id: z.literal(null),
     seasons: z.array(
       z.object({
         number: z.number().int(),
@@ -28,16 +28,8 @@ const schemaTitle = z
         release_date: z.string().trim().min(1).nullable(),
       }),
     ),
-    genres: z.array(
-      z.object({
-        id: schemaQueryTitle.shape.genre,
-      }),
-    ),
-    keywords: z.array(
-      z.object({
-        name: z.string().trim().min(1),
-      }),
-    ),
+    genres: z.array(schemaQueryTitle.shape.genre),
+    keywords: z.array(z.string().trim().min(1)),
     related: z.array(schemaQueuedTitle),
     logo: z.string().trim().min(1),
     type: z.enum(["movie", "tv"]),
