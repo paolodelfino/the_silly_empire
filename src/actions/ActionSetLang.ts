@@ -3,7 +3,6 @@
 import schemaSetLang from "@/schemas/schemaSetLang";
 import { FormValues } from "@/utils/form";
 import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 export default async function ActionSetLang(
   values: FormValues<typeof schemaSetLang>,
@@ -20,6 +19,6 @@ export default async function ActionSetLang(
   const referer = (await headers()).get("referer")!;
   const pathname = new URL(referer).pathname;
   const i = pathname.indexOf("/", 1);
-  if (i === -1) redirect(`/${value}`);
-  else redirect(`/${value}${pathname.slice(i)}`);
+  if (i === -1) return `/${value}`;
+  else return `/${value}${pathname.slice(i)}`;
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import FieldSelect, { fieldSelect } from "@/components/form_ui/FieldSelect";
 import {
   CbiDisneyPlus,
   CibImdb,
@@ -11,15 +10,14 @@ import {
 import { LanguageContext } from "@/components/LanguageProvider";
 import { ScContext } from "@/components/ScProvider";
 import TitleCard from "@/components/title/TitleCard";
-import { Button, LinkButton } from "@/components/ui/Button";
+import { LinkButton } from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import Title from "@/components/ui/Title";
-import useQueryFetchSeason from "@/stores/queries/useQueryFetchSeason";
 import useQueryFetchTitle from "@/stores/queries/useQueryFetchTitle";
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { formValuesToString } from "@/utils/url.client";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 
 export default function Page({
   params,
@@ -36,81 +34,145 @@ export default function Page({
   const sc = useContext(ScContext);
   const locale = useContext(LanguageContext);
   const query = useQueryFetchTitle();
-  const season = useQueryFetchSeason();
 
   useEffect(() => {
     query.active();
-    season.active();
 
     if (params.id !== query.meta.lastId) {
       query.reset();
-      season.reset();
       query.active();
-      season.active();
       query.setMeta({ lastId: params.id });
-      season.setMeta({ season: undefined });
-
-      query.fetch({ id: params.id }).then((data) => {
-        if (data.type === "tv")
-          season.setMeta({
-            season: fieldSelect({
-              items:
-                data.seasons.length > 0
-                  ? data.seasons.map((it) => ({
-                      content: `Season ${it.number} (${it.episodes_count})`,
-                      id: it.number.toString(),
-                    }))
-                  : [{ content: "Not yet released", id: "not_yet_released" }],
-            }),
-          });
-      });
-
-      return () => {
-        query.inactive();
-        season.inactive();
-      };
+      query.fetch({ id: params.id });
     }
-  }, [params.id]);
 
-  useEffect(() => {
-    if (
-      season.meta.season?.value !== undefined &&
-      season.meta.season.value !== "not_yet_released" &&
-      season.isActive &&
-      season.meta.season.value !== season.meta.lastSeason
-    ) {
-      season.setMeta({ lastSeason: season.meta.season.value });
-      season.fetch({
-        number: Number(season.meta.season.value!),
-        id: query.data!.id,
-      });
+    return () => {
+      query.inactive();
+    };
+  }, []);
+
+  // const season = useQueryFetchSeason();
+
+  // useEffect(() => {
+  //   query.active();
+  //   season.active();
+
+  //   if (params.id !== query.meta.lastId) {
+  //     query.reset();
+  //     season.reset();
+  //     query.active();
+  //     season.active();
+  //     query.setMeta({ lastId: params.id });
+  //     season.setMeta({ season: undefined });
+
+  //     query.fetch({ id: params.id }).then((data) => {
+  //       if (data.type === "tv")
+  //         season.setMeta({
+  //           season: fieldSelect({
+  //             items:
+  //               data.seasons.length > 0
+  //                 ? data.seasons.map((it) => ({
+  //                     content: `Season ${it.number} (${it.episodes_count})`,
+  //                     id: it.number.toString(),
+  //                   }))
+  //                 : [{ content: "Not yet released", id: "not_yet_released" }],
+  //           }),
+  //         });
+  //     });
+
+  //     return () => {
+  //       query.inactive();
+  //       season.inactive();
+  //     };
+  //   }
+  // }, [params.id]);
+
+  // useEffect(() => {
+  //   if (
+  //     season.meta.season?.value !== undefined &&
+  //     season.meta.season.value !== "not_yet_released" &&
+  //     season.isActive &&
+  //     season.meta.season.value !== season.meta.lastSeason
+  //   ) {
+  //     season.setMeta({ lastSeason: season.meta.season.value });
+  //     season.fetch({
+  //       number: Number(season.meta.season.value!),
+  //       id: query.data!.id,
+  //     });
+  //   }
+  // }, [season.meta.season?.value]);
+
+  const canPlay = useMemo(
+    () =>
+      query.data !== undefined &&
+      ((query.data.type === "movie" && query.data.scws_id !== null) ||
+        (query.data.type === "tv" &&
+          query.data.seasons.length > 0 &&
+          query.data.seasons[0].episodes_count > 0)),
+    [query.data],
+  );
+
+  const upcoming = useMemo(() => {
+    if (query.data !== undefined) {
+      if (query.data.type === "movie") {
+        if (!canPlay)
+          return (
+            <Text>
+              {query.data.release_date !== null
+                ? dictionary.titlePage.comingOn1 + query.data.release_date
+                : dictionary.titlePage.notYetAvailable1}
+            </Text>
+          );
+      } else {
+        const upcomingSeasons = query.data.seasons.filter(
+          (it) => it.episodes_count <= 0,
+        );
+        if (upcomingSeasons.length > 0)
+          return upcomingSeasons.map((it) => (
+            <Text
+              key={it.number}
+            >{`${dictionary.titlePage.season} ${it.number} ${it.release_date !== null ? `${dictionary.titlePage.comingOn2} ${it.release_date}` : dictionary.titlePage.notYetAvailable2}`}</Text>
+          ));
+        else if (!canPlay)
+          return <Text>{dictionary.titlePage.notYetAvailable1}</Text>;
+      }
     }
-  }, [season.meta.season?.value]);
+  }, [canPlay, query.data]);
 
-  if (query.data === undefined) return "loading no cache";
-  if (query.isFetching) return "fetching...";
+  if (query.data === undefined) return dictionary.loadingNoCache;
+  if (query.isFetching) return dictionary.fetching;
 
   return (
     <div className="w-full">
       <div className="1600px:mr-4">
-        <div className="relative flex h-auto w-full overflow-hidden rounded border-b border-white">
+        <div className="relative flex h-auto w-full overflow-hidden rounded">
           <img
             src={`${sc!.cdn}/images/${query.data.background}`}
             className="w-full"
           />
 
-          {query.data.logo !== undefined && (
-            <div className="absolute bottom-0 left-0 flex w-full flex-col items-start gap-4 bg-gradient-to-t from-neutral-700 p-10">
+          <div className="absolute bottom-0 left-0 flex h-full w-full items-end justify-between gap-4 bg-gradient-to-t from-neutral-900 p-2 sm:flex-col sm:items-start sm:justify-end sm:p-10">
+            {query.data.logo !== undefined ? (
               <img
                 src={`${sc!.cdn}/images/${query.data.logo}`}
                 className="h-auto w-32 sm:w-48 md:w-56 1600px:w-fit"
               />
+            ) : (
+              <span />
+            )}
 
-              <Button className="w-fit border-b border-red-900 bg-red-700 px-4">
-                Play
-              </Button>
+            <div className="flex flex-col items-end sm:items-start">
+              {upcoming}
+
+              {canPlay && (
+                <LinkButton
+                  href={`/${locale}/player/${query.data.id}`}
+                  className="w-fit border-b border-red-900 bg-red-700 px-4"
+                >
+                  {dictionary.titlePage.play}
+                </LinkButton>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
 
@@ -210,7 +272,7 @@ export default function Page({
           })}
         </div>
 
-        <Title>Related</Title>
+        <Title>{dictionary.titlePage.related}</Title>
 
         <div className="flex h-fit items-center gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
           {query.data.related.map((it) => (

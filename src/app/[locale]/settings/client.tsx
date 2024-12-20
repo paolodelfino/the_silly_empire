@@ -16,13 +16,22 @@ import useFormSetScTld, { formSetScTld } from "@/stores/forms/useFormSetScTld";
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { locales } from "@/utils/locale.client";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 
 export default function Page({
   dictionary,
 }: {
-  dictionary: Pick<Dictionary, "settings" | "save">;
+  dictionary: Pick<
+    Dictionary,
+    | "settings"
+    | "save"
+    | "langReloadAfterSet"
+    | "copied"
+    | "couldNotCopy"
+    | "invalid"
+  >;
 }) {
   const font = useContext(FontSizeContext);
   const lang = useContext(LanguageContext);
@@ -40,7 +49,7 @@ export default function Page({
 
         const result = await ActionSetScTld(form.values());
         if (result === "set") window.location.reload();
-        else if (result === "not-set") alert("Invalid");
+        else if (result === "not-set") alert(dictionary.invalid);
 
         setScFormIsPending(false);
       }),
@@ -125,9 +134,9 @@ export default function Page({
                           try {
                             navigator.clipboard
                               .writeText("@BelloFigoIlRobot")
-                              .then(() => alert("Copied"));
+                              .then(() => alert(dictionary.copied));
                           } catch (err) {
-                            alert("Could not copy text");
+                            alert(dictionary.couldNotCopy);
                           }
                         }}
                       >
@@ -161,6 +170,8 @@ export default function Page({
       );
   }, [scForm, scTldModalOpen, sc!.outdated]);
 
+  const router = useRouter();
+
   return (
     <div className="">
       <ColoredSuperTitle>{dictionary.settings.title}</ColoredSuperTitle>
@@ -187,7 +198,10 @@ export default function Page({
           selectedItem: lang,
         }}
         setMeta={(value) =>
-          ActionSetLang({ value: value.selectedItem! as any })
+          ActionSetLang({ value: value.selectedItem! as any }).then((data) => {
+            router.replace(data);
+            alert(dictionary.langReloadAfterSet);
+          })
         }
         placeholder={dictionary.settings.language}
         setValue={() => {}}

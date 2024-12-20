@@ -95,6 +95,19 @@ const en: Dictionary = {
     status: "Status",
     genres: "Genres",
     keywords: "Keywords",
+    related: "Related",
+    comingOn1: "Coming on ",
+    comingOn2: "coming on",
+    notYetAvailable1: "Not yet available",
+    notYetAvailable2: "not yet available",
+    season: "Season",
+    play: "Play",
   },
+  scTldOutdated:
+    "Sc'tld is outdated, I'll redirect to settings. Please, update it.",
+  langReloadAfterSet: "If needed, refresh the page or reopen the app.",
+  invalid: "Invalid.",
+  copied: "Copied.",
+  couldNotCopy: "Could not copy text.",
 } satisfies Dictionary;
 export default en;

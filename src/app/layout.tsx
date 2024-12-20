@@ -336,15 +336,19 @@ export default async function RootLayout(
         >
           <FontSizeProvider>
             <LanguageProvider loaded={locale}>
-              <ScProvider loaded={scTldCookie}>
+              <ScProvider
+                loaded={scTldCookie}
+                dicionary={{ scTldOutdated: dictionary.scTldOutdated }}
+              >
                 <Layout
                   authenticated={authenticated}
                   dictionary={{
-                    toolbar: dictionary["toolbar"],
-                    installPrompt: dictionary["installPrompt"],
+                    toolbar: dictionary.toolbar,
+                    installPrompt: dictionary.installPrompt,
                     "settings.language": authenticated
                       ? undefined
                       : dictionary.settings.language,
+                    langReloadAfterSet: dictionary.langReloadAfterSet,
                   }}
                 >
                   {props.children}

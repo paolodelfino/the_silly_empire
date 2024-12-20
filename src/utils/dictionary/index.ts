@@ -87,7 +87,19 @@ export type Dictionary = {
     status: string;
     genres: string;
     keywords: string;
+    related: string;
+    comingOn1: string;
+    comingOn2: string;
+    notYetAvailable1: string;
+    notYetAvailable2: string;
+    season: string;
+    play: string;
   };
+  scTldOutdated: string;
+  langReloadAfterSet: string;
+  invalid: string;
+  copied: string;
+  couldNotCopy: string;
 };
 
 export const dictionary: {

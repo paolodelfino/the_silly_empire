@@ -12,6 +12,7 @@ import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { locales } from "@/utils/locale.client";
 import { localeConfigureZod } from "@/utils/locale.zod";
+import { useRouter } from "next/navigation";
 import { ReactNode, useContext } from "react";
 
 export default function Layout({
@@ -21,15 +22,17 @@ export default function Layout({
 }: {
   children: ReactNode;
   authenticated: boolean;
-  dictionary: {
-    toolbar: Dictionary["toolbar"];
-    installPrompt: Dictionary["installPrompt"];
+  dictionary: Pick<
+    Dictionary,
+    "toolbar" | "installPrompt" | "langReloadAfterSet"
+  > & {
     "settings.language"?: Dictionary["settings"]["language"];
   };
 }) {
   const screen = useContext(ScreenPredictContext);
   const lang = useContext(LanguageContext);
   localeConfigureZod(lang!); // TODO: Maybe I will be constrained to put a loading state to wait for this
+  const router = useRouter();
 
   return (
     <div className={cn("flex flex-col", "min-h-screen w-screen")}>
@@ -44,7 +47,12 @@ export default function Layout({
               selectedItem: lang,
             }}
             setMeta={(value) =>
-              ActionSetLang({ value: value.selectedItem! as any })
+              ActionSetLang({ value: value.selectedItem! as any }).then(
+                (data) => {
+                  router.replace(data);
+                  alert(dictionary.langReloadAfterSet);
+                },
+              )
             }
             placeholder={dictionary["settings.language"]!}
             setValue={() => {}}

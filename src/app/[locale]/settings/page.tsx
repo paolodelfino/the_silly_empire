@@ -8,7 +8,14 @@ export default async function RootPage(props: {
   const dictionary = await getDictionary(params.locale);
   return (
     <Page
-      dictionary={{ settings: dictionary.settings, save: dictionary.save }}
+      dictionary={{
+        settings: dictionary.settings,
+        save: dictionary.save,
+        langReloadAfterSet: dictionary.langReloadAfterSet,
+        copied: dictionary.copied,
+        couldNotCopy: dictionary.couldNotCopy,
+        invalid: dictionary.invalid,
+      }}
     />
   );
 }

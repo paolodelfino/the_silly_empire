@@ -4,6 +4,7 @@ import { z } from "zod";
 
 const schemaTitle = z
   .object({
+    release_date: z.string().trim().min(1).nullable(),
     status: z.enum([
       "Canceled",
       "Post Production",

@@ -96,6 +96,19 @@ const it: Dictionary = {
     status: "Stato",
     genres: "Generi",
     keywords: "Keywords",
+    related: "Correlato",
+    comingOn1: "In arrivo il ",
+    comingOn2: "in arrivo il",
+    notYetAvailable1: "Non ancora disponibile",
+    notYetAvailable2: "non ancora disponibile",
+    season: "Stagione",
+    play: "Riproduci",
   },
+  scTldOutdated:
+    "Il tld di sc è obsoleto, ti reindirizzo alle impostazioni. Per favore, aggiornalo.",
+  langReloadAfterSet: "Se necessario, aggiorna la pagina o riapri l'app.",
+  invalid: "Invalido.",
+  copied: "Copiato.",
+  couldNotCopy: "Non è stato possibile copiare il testo.",
 } satisfies Dictionary;
 export default it;

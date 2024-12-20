@@ -1,5 +1,6 @@
 "use client";
 
+import { Dictionary } from "@/utils/dictionary";
 import { scCheck } from "@/utils/sc";
 import { useRouter } from "next/navigation";
 import { createContext, ReactNode, useEffect, useState } from "react";
@@ -11,9 +12,11 @@ export const ScContext = createContext<State | undefined>(undefined);
 export default function ScProvider({
   children,
   loaded,
+  dicionary,
 }: {
   children?: ReactNode;
   loaded: string;
+  dicionary: Pick<Dictionary, "scTldOutdated">;
 }) {
   const [state, setState] = useState<State>({
     tld: loaded,
@@ -27,9 +30,7 @@ export default function ScProvider({
       setState((state) => ({ ...state, outdated: !isFine }));
 
       if (!isFine) {
-        alert(
-          `Sc'tld is outdated, I'll redirect to settings. Please, update it.`,
-        );
+        alert(dicionary.scTldOutdated);
         router.replace(`/settings`);
       }
     });

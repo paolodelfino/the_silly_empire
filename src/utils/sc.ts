@@ -166,6 +166,7 @@ export async function scTitle(id: number) {
 
   const json = JSON.parse(decodeUtf8(decodeHtml(data!)));
   return {
+    release_date: json.props.title.release_date,
     status: json.props.title.status,
     scws_id: json.props.title.scws_id,
     imdb_id: json.props.title.imdb_id,
@@ -203,7 +204,7 @@ export async function scTitle(id: number) {
       (it: any) => it.type === "background",
     ).filename,
     logo: json.props.title.images.find((it: any) => it.type === "logo")
-      .filename,
+      ?.filename,
     type: json.props.title.type,
   } satisfies z.infer<typeof schemaTitle> as z.infer<typeof schemaTitle>;
 }
