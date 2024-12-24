@@ -133,7 +133,7 @@ const it: Dictionary = {
       "Se abusi della riproduzione dei titoli, probabilmente rovinerai l'esperienza di tutti.",
     rule3:
       "Sei hai dei popup blockers abilitati, metti questo dominio nella whitelist.",
-    rule4: "I dati sono salvati solo sul dispositivo in uso",
+    rule4: "I dati sono salvati solo sul dispositivo in uso.",
     rule5: "Alcune cose non vengono tradotte, come ad esempio le immagini.",
   },
 } satisfies Dictionary;

@@ -3,7 +3,6 @@
 import ActionSetLang from "@/actions/ActionSetLang";
 import FieldSelect from "@/components/form_ui/FieldSelect";
 import { Logo } from "@/components/icons";
-import InstallPrompt from "@/components/InstallPrompt";
 import { LanguageContext } from "@/components/LanguageProvider";
 import { ScreenPredictContext } from "@/components/ScreenPredictProvider";
 import Toolbar from "@/components/Toolbar";
@@ -80,8 +79,6 @@ export default function Layout({
           {children}
         </main>
       </div>
-
-      {authenticated && <InstallPrompt dictionary={dictionary.installPrompt} />}
     </div>
   );
 }

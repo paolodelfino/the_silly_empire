@@ -131,7 +131,7 @@ const en: Dictionary = {
     rule2:
       "If you abuse title watching, you'll probably ruin everyone's experience.",
     rule3: "If you have popup blockers enabled, whitelist this domain.",
-    rule4: "The data is only saved on the client",
+    rule4: "The data is only saved on the client.",
     rule5: "Some of the things don't get translated, for example, images.",
   },
 } satisfies Dictionary;
