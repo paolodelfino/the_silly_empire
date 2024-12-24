@@ -1,13 +1,15 @@
 "use client";
 
-import TitleCard from "@/components/title/TitleCard";
+import TitleCard, { TitleCardProgress } from "@/components/TitleCard";
 import { ColoredSuperTitle } from "@/components/ui/SuperTitle";
 import Title from "@/components/ui/Title";
+import { db } from "@/db/db";
 import useInfiniteQuery from "@/hooks/useInfiniteQuery";
 import useQueryFeatured from "@/stores/queries/useQueryFeatured";
 import useQueryUpcoming from "@/stores/queries/useQueryUpcoming";
 import { Dictionary } from "@/utils/dictionary";
-import { useEffect, useMemo } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
+import React, { useEffect, useMemo } from "react";
 
 export default function Page({
   dictionary,
@@ -54,6 +56,7 @@ export default function Page({
 
   const upcomingSlider = useMemo(() => {
     if (upcoming.data === undefined) return <p>{dictionary.loadingNoCache}</p>;
+    else if (upcoming.data.length <= 0) return null;
     else
       return (
         <div className="flex h-fit gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
@@ -70,17 +73,45 @@ export default function Page({
       );
   }, [upcoming, dictionary]);
 
+  const continueWatching = useLiveQuery(() => {
+    return db.continueWatchingTitle.orderBy("lastUpdated").reverse().toArray();
+  });
+
+  const continueWatchingSlider = useMemo(() => {
+    if (continueWatching === undefined) return <p>{dictionary.fetching}</p>;
+    else if (continueWatching.length <= 0) return null;
+    else
+      return (
+        <div className="flex h-fit gap-5 overflow-x-scroll pb-4 pl-[calc(0.75rem+env(safe-area-inset-left))] pr-[calc(0.75rem+env(safe-area-inset-right))] pt-3">
+          {continueWatching.map((it) => (
+            <TitleCardProgress data={it} key={it.titleId} />
+          ))}
+        </div>
+      );
+  }, [continueWatching, dictionary]);
+
   return (
     <div className="w-full">
       <ColoredSuperTitle className="bg-white text-black">
         {dictionary.home.title}
       </ColoredSuperTitle>
 
+      {continueWatchingSlider !== null && (
+        <React.Fragment>
+          <Title>{dictionary.home.continueWatching}</Title>
+          {continueWatchingSlider}
+        </React.Fragment>
+      )}
+
       <Title>{dictionary.home.featured}</Title>
       {featuredSlider}
 
-      <Title>{dictionary.home.upcoming}</Title>
-      {upcomingSlider}
+      {upcomingSlider !== null && (
+        <React.Fragment>
+          <Title>{dictionary.home.upcoming}</Title>
+          {upcomingSlider}
+        </React.Fragment>
+      )}
     </div>
   );
 }

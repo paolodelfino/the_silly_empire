@@ -6,6 +6,12 @@ export function rem(px: string | number) {
   return n / font;
 }
 
+export function px(rem: string | number) {
+  const n = typeof rem === "string" ? parseFloat(rem) : rem;
+  const font = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  return n * font;
+}
+
 export function getDefaultFontSize() {
   const width = window.screen.width;
   if (width >= 2560) return 28;

@@ -12,6 +12,9 @@ export default async function RootPage(props: {
       dictionary={{
         fetching: dictionary.fetching,
         loadingNoCache: dictionary.loadingNoCache,
+        noResult: dictionary.noResult,
+        title: dictionary.toolbar.query,
+        queryResults: dictionary.queryResults,
       }}
     />
   );

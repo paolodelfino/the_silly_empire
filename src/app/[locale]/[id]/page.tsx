@@ -98,6 +98,7 @@ export default async function RootPage(props: {
         fetching: dictionary.fetching,
         loadingNoCache: dictionary.loadingNoCache,
         titlePage: dictionary.titlePage,
+        player: dictionary.player,
       }}
     />
   );

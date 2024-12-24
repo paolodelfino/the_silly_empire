@@ -321,6 +321,7 @@ export default async function RootLayout(
           `${geistSans.variable} ${geistMono.variable} font-sans antialiased`,
           "flex",
           "bg-black text-white",
+          "overflow-y-scroll",
         )}
         style={{
           textRendering: "optimizeLegibility",

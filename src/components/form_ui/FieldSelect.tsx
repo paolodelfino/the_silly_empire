@@ -3,6 +3,7 @@
 import { IcBaselineCloud } from "@/components/icons";
 import { Button, ErrorButton, IconButton } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
+import { Props } from "@/utils/component";
 import { FormField } from "@/utils/form";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom";
@@ -12,6 +13,7 @@ import ReactDOM from "react-dom";
 type Item = {
   content: string;
   id: string;
+  disabled?: boolean;
 };
 
 type Meta = {
@@ -55,6 +57,7 @@ export default function FieldSelect({
   acceptIndeterminate,
   placeholder,
   full,
+  buttonClassName,
 }: {
   acceptIndeterminate?: boolean;
   setValue: (value: Value) => void;
@@ -64,6 +67,7 @@ export default function FieldSelect({
   disabled?: boolean;
   placeholder: string;
   full?: boolean; // TODO: Temporary
+  buttonClassName?: string; // TODO: Temporary
 }) {
   useEffect(() => {
     setValue(
@@ -95,10 +99,10 @@ export default function FieldSelect({
   const touchDown = useRef(false);
 
   return (
-    <div className="flex items-center">
+    <div className="flex shrink-0 items-center">
       <Button
         disabled={disabled}
-        className={cn(full && "w-full text-start", "z-[3]")}
+        className={cn(full && "w-full text-start", "z-[3]", buttonClassName)}
         TextProps={{
           className: cn(selectedItem === undefined && "text-neutral-400"),
         }}
@@ -140,12 +144,16 @@ export default function FieldSelect({
               {meta.items.map((it) => (
                 <Button
                   key={it.id}
-                  disabled={disabled}
+                  disabled={disabled || it.disabled}
                   action={(e) => {
-                    setMeta({
-                      selectedItem: it.id,
-                    });
-                    setOpen(false);
+                    {
+                      if (!it.disabled && !disabled) {
+                        setMeta({
+                          selectedItem: it.id,
+                        });
+                        setOpen(false);
+                      }
+                    }
                   }}
                   className="text-start"
                 >

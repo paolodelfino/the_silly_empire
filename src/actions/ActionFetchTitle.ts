@@ -2,11 +2,13 @@
 
 import schemaFetchTitle from "@/schemas/schemaFetchTitle";
 import { FormValues } from "@/utils/form";
-import { scTitle } from "@/utils/sc";
+import { SC_DEFAULT_TLD, scTitle } from "@/utils/sc";
+import { cookies } from "next/headers";
 
 export default async function ActionFetchTitle(
   values: FormValues<typeof schemaFetchTitle>,
 ) {
   const { id } = schemaFetchTitle.parse(values);
-  return scTitle(id);
+  const tld = (await cookies()).get("scTld")?.value ?? SC_DEFAULT_TLD;
+  return scTitle(tld, id);
 }

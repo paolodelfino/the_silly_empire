@@ -6,11 +6,10 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "The Silly Empire",
     id: "the_silly_empire",
     description: "",
-    display: "standalone",
+    display: "browser",
     display_override: ["window-controls-overlay"],
     start_url: "/home",
     scope: "/",
-    orientation: "portrait-primary",
     background_color: "black",
     theme_color: "black",
     icons: [

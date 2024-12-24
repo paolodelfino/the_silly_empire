@@ -1,3 +1,4 @@
+import schemaFuzzyQueryTitle from "@/schemas/schemaFuzzyQueryTitle";
 import schemaQueryTitle from "@/schemas/schemaQueryTitle";
 import schemaQueuedTitle from "@/schemas/schemaQueuedTitle";
 import schemaSeason from "@/schemas/schemaSeason";
@@ -12,7 +13,34 @@ const DATA_PAGE_REGEX = new RegExp('<div id="app" data-page="(.+)"><\/div>');
 const DATA_PAGE_GROUP_INDEX = 1;
 export const SC_DEFAULT_TLD = "family";
 
-const scwsUrl = "https://vixcloud.co";
+export const genresMap = {
+  "13": "actionAdventure",
+  "19": "animation",
+  "11": "adventure",
+  "4": "action",
+  "12": "comedy",
+  "2": "crime",
+  "24": "documentary",
+  "1": "drama",
+  "16": "family",
+  "10": "sciFi",
+  "8": "fantasy",
+  "9": "war",
+  "7": "horror",
+  "25": "kids",
+  "26": "koreanDrama",
+  "6": "mystery",
+  "14": "music",
+  "18": "reality",
+  "15": "romance",
+  "3": "sciFiFantasy",
+  "23": "soap",
+  "22": "history",
+  "21": "televisionFilm",
+  "5": "thriller",
+  "17": "warPolitics",
+  "20": "western",
+};
 
 export async function scSearch(
   _offset: number,
@@ -50,6 +78,45 @@ export async function scSearch(
   const json = await result.json();
 
   const entries = json.titles;
+
+  return {
+    data: (entries as any[]).map(
+      (it: any) =>
+        ({
+          id: it.id,
+          poster:
+            it.images.find((it: any) => it.type === "poster")?.filename ??
+            it.images.find((it: any) => it.type === "cover").filename,
+        }) satisfies z.infer<typeof schemaQueuedTitle> as z.infer<
+          typeof schemaQueuedTitle
+        >,
+    ),
+    total: -1,
+  };
+}
+
+export async function scFuzzySearch(
+  _offset: number,
+  values: FormValues<typeof schemaFuzzyQueryTitle>,
+) {
+  const tld = getCookie("scTld") ?? SC_DEFAULT_TLD;
+
+  const offset = z.number().int().gte(0).lte(120).parse(_offset);
+  const { q } = schemaFuzzyQueryTitle.parse(values);
+
+  const url = new URL(`https://streamingcommunity.${tld}/api/search`);
+  url.searchParams.append("offset", offset.toString());
+
+  if (q !== undefined) url.searchParams.append("q", q);
+
+  const result = await fetch(url);
+  if (result.status !== 200) {
+    console.log(result, await result.text());
+    throw new Error("The request went bad");
+  }
+  const json = await result.json();
+
+  const entries = json.data;
 
   return {
     data: (entries as any[]).map(
@@ -125,7 +192,7 @@ export async function scFeatured(tld: string) {
     }
 
     const text = await result.text();
-    const data = DATA_PAGE_REGEX.exec(text)?.[DATA_PAGE_GROUP_INDEX];
+    const data = DATA_PAGE_REGEX.exec(text)![DATA_PAGE_GROUP_INDEX];
 
     const json = JSON.parse(decodeUtf8(decodeHtml(data!)));
     return {
@@ -148,13 +215,14 @@ export async function scFeatured(tld: string) {
 
 export async function scCheck(tld: string) {
   return await urlConnectionExists(
-    `https://streamingcommunity.${tld}/api/search`,
+    // `https://streamingcommunity.${tld}/api/search`,
+    `https://cdn.streamingcommunity.${tld}/images/03fc83e6-2326-437f-86c9-9240f21dd625.webp`,
   );
 }
 
-export async function scTitle(id: number) {
+export async function scTitle(tld: string, id: number) {
   const result = await fetch(
-    `https://streamingcommunity.family/titles/${id}-dummy`,
+    `https://streamingcommunity.${tld}/titles/${id}-dummy`,
   );
   if (result.status !== 200) {
     console.log(result, await result.text());
@@ -162,7 +230,7 @@ export async function scTitle(id: number) {
   }
 
   const text = await result.text();
-  const data = DATA_PAGE_REGEX.exec(text)?.[DATA_PAGE_GROUP_INDEX];
+  const data = DATA_PAGE_REGEX.exec(text)![DATA_PAGE_GROUP_INDEX];
 
   const json = JSON.parse(decodeUtf8(decodeHtml(data!)));
   return {
@@ -179,6 +247,7 @@ export async function scTitle(id: number) {
     seasons: json.props.title.seasons.map(
       (it: any) =>
         ({
+          id: it.id,
           number: it.number,
           episodes_count: it.episodes_count,
           release_date: it.release_date,
@@ -203,15 +272,19 @@ export async function scTitle(id: number) {
     background: json.props.title.images.find(
       (it: any) => it.type === "background",
     ).filename,
+    poster:
+      json.props.title.images.find((it: any) => it.type === "poster")
+        ?.filename ??
+      json.props.title.images.find((it: any) => it.type === "cover").filename,
     logo: json.props.title.images.find((it: any) => it.type === "logo")
       ?.filename,
     type: json.props.title.type,
   } satisfies z.infer<typeof schemaTitle> as z.infer<typeof schemaTitle>;
 }
 
-export async function scSeason(id: number, number: number) {
+export async function scSeason(tld: string, id: number, number: number) {
   const result = await fetch(
-    `https://streamingcommunity.family/titles/${id}-dummy/stagione-${number}`,
+    `https://streamingcommunity.${tld}/titles/${id}-dummy/stagione-${number}`,
   );
   if (result.status !== 200) {
     console.log(result, await result.text());
@@ -219,10 +292,11 @@ export async function scSeason(id: number, number: number) {
   }
 
   const text = await result.text();
-  const data = DATA_PAGE_REGEX.exec(text)?.[DATA_PAGE_GROUP_INDEX];
+  const data = DATA_PAGE_REGEX.exec(text)![DATA_PAGE_GROUP_INDEX];
 
   const json = JSON.parse(decodeUtf8(decodeHtml(data!)));
   return {
+    id: json.props.loadedSeason.id,
     release_date: json.props.loadedSeason.release_date,
     episodes: json.props.loadedSeason.episodes.map(
       (it: any) =>
@@ -240,31 +314,62 @@ export async function scSeason(id: number, number: number) {
   } satisfies z.infer<typeof schemaSeason> as z.infer<typeof schemaSeason>;
 }
 
-export const genresMap = {
-  "13": "actionAdventure",
-  "19": "animation",
-  "11": "adventure",
-  "4": "action",
-  "12": "comedy",
-  "2": "crime",
-  "24": "documentary",
-  "1": "drama",
-  "16": "family",
-  "10": "sciFi",
-  "8": "fantasy",
-  "9": "war",
-  "7": "horror",
-  "25": "kids",
-  "26": "koreanDrama",
-  "6": "mystery",
-  "14": "music",
-  "18": "reality",
-  "15": "romance",
-  "3": "sciFiFantasy",
-  "23": "soap",
-  "22": "history",
-  "21": "televisionFilm",
-  "5": "thriller",
-  "17": "warPolitics",
-  "20": "western",
-};
+export async function scPlaylist(
+  tld: string,
+  scwsId: number,
+  titleId: number,
+  episodeId?: number,
+) {
+  async function get(url: string) {
+    const result = await fetch(url, {
+      // next: { revalidate: revalidate },
+    });
+    if (result.status !== 200) {
+      console.log(result, await result.text());
+      throw new Error("The request went bad");
+    }
+
+    const text = await result.text();
+    return text;
+  }
+
+  let url = new URL(`https://streamingcommunity.${tld}/watch/${titleId}`);
+
+  if (episodeId !== undefined)
+    url.searchParams.append("e", episodeId.toString());
+
+  let text = await get(url.toString());
+  let data = new RegExp('<div id="app" data-page="(.+)">.+<\/div>').exec(text)![
+    DATA_PAGE_GROUP_INDEX
+  ];
+  let json = JSON.parse(decodeUtf8(decodeHtml(data!)));
+
+  let embedUrl = json.props.embedUrl;
+  // console.log(embedUrl);
+
+  text = await get(embedUrl);
+  data = new RegExp('(https.+)"').exec(text)![1];
+
+  embedUrl = data.replaceAll("&amp;", "&");
+  // console.log(embedUrl);
+
+  text = await get(embedUrl);
+  // writeFileSync("what we do in the shadows s4 e1.html", text);
+  const result = new RegExp(
+    "token': '(.+)',\n[ ]+'expires': '(.+)',\n.+\n.+\n.+url: '(.+)',\n[ ]+}\n[ ]+window.canPlayFHD = (false|true)",
+  ).exec(text)!;
+
+  const token = result[1];
+  const expires = result[2];
+  url = new URL(result[3]);
+  const canPlayFHD = result[4];
+  const b = url.searchParams.get("b");
+
+  url = new URL(`https://vixcloud.co/playlist/${scwsId}`);
+  url.searchParams.append("token", token);
+  url.searchParams.append("expires", expires);
+  if (b !== null) url.searchParams.append("b", b);
+  if (canPlayFHD === "true") url.searchParams.append("h", "1");
+
+  return url.toString();
+}

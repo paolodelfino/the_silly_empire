@@ -17,6 +17,8 @@ const en: Dictionary = {
       howTo1: "Open Telegram, send a random message to ",
       howTo2: " and set the following part of the url ",
       howTo3: " in the input below.",
+      howTo4:
+        "If it still doesn't work, then try to navigate to the url, the bot sent you, using a browser and then see what's the last part of the url when the page has loaded and use it.",
     },
   },
   login: {
@@ -41,6 +43,7 @@ const en: Dictionary = {
   },
   fetching: "fetching...",
   loadingNoCache: "loading no cache",
+  noResult: "No result",
   queryForm: {
     kind: {
       movie: "Movie",
@@ -79,6 +82,7 @@ const en: Dictionary = {
     title: "Home",
     featured: "Featured",
     upcoming: "Upcoming",
+    continueWatching: "Continue watching",
   },
   save: "Save",
   titleStatus: {
@@ -104,10 +108,21 @@ const en: Dictionary = {
     play: "Play",
   },
   scTldOutdated:
-    "Sc'tld is outdated, I'll redirect to settings. Please, update it.",
+    "Sc'tld is outdated, I'll redirect to settings. Please, update it. If you're logging in, then update it after you logged in.",
   langReloadAfterSet: "If needed, refresh the page or reopen the app.",
   invalid: "Invalid.",
   copied: "Copied.",
   couldNotCopy: "Could not copy text.",
+  queryResults: {
+    morePrecise: "More precise",
+    moreFuzzy: "More fuzzy",
+  },
+  player: {
+    findPlayingEpisode: "Find playing episode",
+    season: "Season",
+    comingOn: "coming on",
+    episodeFetching: "Fetching",
+    episodePlaying: "Playing",
+  },
 } satisfies Dictionary;
 export default en;

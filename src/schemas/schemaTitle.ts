@@ -24,6 +24,7 @@ const schemaTitle = z
     // paramount_id: z.literal(null),
     seasons: z.array(
       z.object({
+        id: z.number().int().gte(0),
         number: z.number().int(),
         episodes_count: z.number().int().gte(0),
         release_date: z.string().trim().min(1).nullable(),
@@ -35,6 +36,7 @@ const schemaTitle = z
     logo: z.string().trim().min(1),
     type: z.enum(["movie", "tv"]),
     background: z.string().trim().min(1),
+    poster: z.string().trim().min(1),
     id: z.number().gte(0).int(),
   })
   .strict();

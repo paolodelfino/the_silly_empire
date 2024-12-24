@@ -8,7 +8,6 @@ import { LanguageContext } from "@/components/LanguageProvider";
 import { ScreenPredictContext } from "@/components/ScreenPredictProvider";
 import Toolbar from "@/components/Toolbar";
 import Text from "@/components/ui/Text";
-import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { locales } from "@/utils/locale.client";
 import { localeConfigureZod } from "@/utils/locale.zod";
@@ -35,7 +34,7 @@ export default function Layout({
   const router = useRouter();
 
   return (
-    <div className={cn("flex flex-col", "min-h-screen w-screen")}>
+    <div className="flex h-full min-h-screen w-full flex-col">
       <div className="flex w-full items-center pl-[calc(env(safe-area-inset-left)+0.5rem)] pr-[calc(env(safe-area-inset-right)+0.5rem)] pt-safe-top app-region-drag">
         <Logo />
         <Text>The Silly Empire</Text>
@@ -69,7 +68,17 @@ export default function Layout({
           }
           dictionary={dictionary.toolbar}
         />
-        {children}
+        <main
+          className="h-full w-full"
+          style={{
+            maxWidth:
+              authenticated && screen !== undefined && screen >= 1600
+                ? "calc(100% - 11rem)"
+                : "100%",
+          }}
+        >
+          {children}
+        </main>
       </div>
 
       {authenticated && <InstallPrompt dictionary={dictionary.installPrompt} />}

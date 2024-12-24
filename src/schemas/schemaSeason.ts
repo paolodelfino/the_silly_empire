@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const schemaSeason = z
   .object({
+    id: z.number().int().gte(0),
     release_date: z.string().trim().min(1).nullable(),
     episodes: z.array(
       z.object({

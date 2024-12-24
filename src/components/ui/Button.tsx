@@ -70,7 +70,7 @@ export function IconButton({
       // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
       audio.play().catch((e) => console.log(e));
     };
-  }, []);
+  }, [disabled]);
   const playAnim = useCallback(
     (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
       const button = e.target as HTMLButtonElement;
@@ -110,7 +110,7 @@ export function IconButton({
               playAnim(e);
             }
 
-            action?.(e);
+            if (!disabled) action?.(e);
           } else touchDown.current = true;
         }
 
@@ -138,7 +138,7 @@ export function IconButton({
                 playAnim(e);
               }
 
-              action?.(e);
+              if (!disabled) action?.(e);
             }
           }
         }
@@ -263,7 +263,7 @@ export function Button({
       // TODO: Maybe do something about the error. Also because you can catch NotAllowedError even only on the first click, which means from the second click onward it be play the sound
       audio.play().catch((e) => console.log(e));
     };
-  }, []);
+  }, [disabled]);
   const playAnim = useCallback(
     (e: React.PointerEvent<HTMLButtonElement> | PointerEvent) => {
       const button = e.target as HTMLButtonElement;
@@ -299,7 +299,7 @@ export function Button({
               playAnim(e);
             }
 
-            action?.(e);
+            if (!disabled) action?.(e);
           } else touchDown.current = true;
         }
 
@@ -327,7 +327,7 @@ export function Button({
                 playAnim(e);
               }
 
-              action?.(e);
+              if (!disabled) action?.(e);
             }
           }
         }

@@ -18,6 +18,7 @@ export type Dictionary = {
       howTo1: string;
       howTo2: string;
       howTo3: string;
+      howTo4: string;
     };
   };
   login: {
@@ -38,9 +39,14 @@ export type Dictionary = {
     service: string;
     age: string;
   };
+  queryResults: {
+    morePrecise: string;
+    moreFuzzy: string;
+  };
   notFound: string;
   fetching: string;
   loadingNoCache: string;
+  noResult: string;
   queryForm: {
     kind: {
       movie: string;
@@ -79,6 +85,7 @@ export type Dictionary = {
     title: string;
     featured: string;
     upcoming: string;
+    continueWatching: string;
   };
   save: string;
   titleStatus: Record<z.infer<typeof schemaTitle>["status"], string>;
@@ -100,6 +107,13 @@ export type Dictionary = {
   invalid: string;
   copied: string;
   couldNotCopy: string;
+  player: {
+    findPlayingEpisode: string;
+    season: string;
+    comingOn: string;
+    episodeFetching: string;
+    episodePlaying: string;
+  };
 };
 
 export const dictionary: {

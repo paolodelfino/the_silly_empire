@@ -8,16 +8,17 @@ import {
   SimpleIconsPrimevideo,
 } from "@/components/icons";
 import { LanguageContext } from "@/components/LanguageProvider";
+import Player from "@/components/Player";
 import { ScContext } from "@/components/ScProvider";
-import TitleCard from "@/components/title/TitleCard";
-import { LinkButton } from "@/components/ui/Button";
+import TitleCard from "@/components/TitleCard";
+import { Button, LinkButton } from "@/components/ui/Button";
 import Text from "@/components/ui/Text";
 import Title from "@/components/ui/Title";
 import useQueryFetchTitle from "@/stores/queries/useQueryFetchTitle";
 import { cn } from "@/utils/cn";
 import { Dictionary } from "@/utils/dictionary";
 import { formValuesToString } from "@/utils/url.client";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 export default function Page({
   params,
@@ -28,12 +29,13 @@ export default function Page({
     genres: Record<string, string>;
   } & Pick<
     Dictionary,
-    "loadingNoCache" | "fetching" | "titleStatus" | "titlePage"
+    "loadingNoCache" | "fetching" | "titleStatus" | "titlePage" | "player"
   >;
 }) {
   const sc = useContext(ScContext);
   const locale = useContext(LanguageContext);
   const query = useQueryFetchTitle();
+  const [playerOpen, setPlayerOpen] = useState(false);
 
   useEffect(() => {
     query.active();
@@ -49,57 +51,6 @@ export default function Page({
       query.inactive();
     };
   }, []);
-
-  // const season = useQueryFetchSeason();
-
-  // useEffect(() => {
-  //   query.active();
-  //   season.active();
-
-  //   if (params.id !== query.meta.lastId) {
-  //     query.reset();
-  //     season.reset();
-  //     query.active();
-  //     season.active();
-  //     query.setMeta({ lastId: params.id });
-  //     season.setMeta({ season: undefined });
-
-  //     query.fetch({ id: params.id }).then((data) => {
-  //       if (data.type === "tv")
-  //         season.setMeta({
-  //           season: fieldSelect({
-  //             items:
-  //               data.seasons.length > 0
-  //                 ? data.seasons.map((it) => ({
-  //                     content: `Season ${it.number} (${it.episodes_count})`,
-  //                     id: it.number.toString(),
-  //                   }))
-  //                 : [{ content: "Not yet released", id: "not_yet_released" }],
-  //           }),
-  //         });
-  //     });
-
-  //     return () => {
-  //       query.inactive();
-  //       season.inactive();
-  //     };
-  //   }
-  // }, [params.id]);
-
-  // useEffect(() => {
-  //   if (
-  //     season.meta.season?.value !== undefined &&
-  //     season.meta.season.value !== "not_yet_released" &&
-  //     season.isActive &&
-  //     season.meta.season.value !== season.meta.lastSeason
-  //   ) {
-  //     season.setMeta({ lastSeason: season.meta.season.value });
-  //     season.fetch({
-  //       number: Number(season.meta.season.value!),
-  //       id: query.data!.id,
-  //     });
-  //   }
-  // }, [season.meta.season?.value]);
 
   const canPlay = useMemo(
     () =>
@@ -164,12 +115,12 @@ export default function Page({
               {upcoming}
 
               {canPlay && (
-                <LinkButton
-                  href={`/${locale}/player/${query.data.id}`}
+                <Button
+                  action={() => setPlayerOpen(true)}
                   className="w-fit border-b border-red-900 bg-red-700 px-4"
                 >
                   {dictionary.titlePage.play}
-                </LinkButton>
+                </Button>
               )}
             </div>
           </div>
@@ -265,7 +216,7 @@ export default function Page({
             return (
               <LinkButton
                 key={keyword}
-                href={`/${locale}/fuzzy/${formValuesToString({ search: keyword })}`}
+                href={`/${locale}/query/${formValuesToString({ search: keyword })}`}
                 className="[&.hover]:scale-[1.01]"
               >{`${keyword}`}</LinkButton>
             );
@@ -280,43 +231,17 @@ export default function Page({
           ))}
         </div>
 
-        {/* {season.meta.season !== undefined && (
-          <FieldSelect
-            setMeta={(value) => {
-              const a = { ...season.meta.season! };
-              a.meta = { ...a.meta, ...value };
-              season.setMeta({ season: a });
+        {playerOpen && (
+          <Player
+            data={query.data}
+            close={() => setPlayerOpen(false)}
+            dictionary={{
+              player: dictionary.player,
+              fetching: dictionary.fetching,
+              loadingNoCache: dictionary.loadingNoCache,
             }}
-            setValue={(value) => {
-              const a = { ...season.meta.season! };
-              a.value = value;
-              season.setMeta({ season: a });
-            }}
-            meta={season.meta.season.meta}
-            error={season.meta.season.error}
-            disabled={false}
-            placeholder={"Season"}
           />
         )}
-
-        {season.isFetching && season.data === undefined && (
-          <p>loading no cache</p>
-        )}
-        {season.isFetching && season.data !== undefined && <p>fetching...</p>}
-        {!season.isFetching &&
-          season.data !== undefined &&
-          season.data.episodes.length <= 0 && (
-            <Text>Coming on {season.data.release_date}</Text>
-          )}
-        {!season.isFetching &&
-          season.data !== undefined &&
-          season.data.episodes.length > 0 && (
-            <div>
-              {season.data.episodes.map((it) => (
-                <div key={it.id}>{it.number}</div>
-              ))}
-            </div>
-          )} */}
       </div>
     </div>
   );

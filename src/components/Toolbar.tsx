@@ -18,7 +18,8 @@ export default function Toolbar({
       className={cn(
         variant === "mobile" &&
           "fixed bottom-0 z-[5] w-full bg-black pb-safe-bottom pl-safe-left pr-safe-right",
-        variant === "monitor" && "sticky top-0 h-full max-h-screen",
+        variant === "monitor" &&
+          "sticky top-0 h-full max-h-screen w-44 shrink-0",
       )}
     >
       <ul
@@ -57,7 +58,7 @@ export default function Toolbar({
             variant === "mobile" && "shrink-0",
           )}
         >
-          Try Grok
+          Grok
         </LinkButton>
         <LinkButton
           href="/settings"

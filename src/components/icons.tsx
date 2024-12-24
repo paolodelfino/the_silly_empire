@@ -189,3 +189,396 @@ export function CibImdb({ className, ...rest }: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function IcBaselineViewSidebar({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M16 20H2V4h14zm2-12h4V4h-4zm0 12h4v-4h-4zm0-6h4v-4h-4z"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselineClose({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselineHighlight({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="m6 14l3 3v5h6v-5l3-3V9H6zm5-12h2v3h-2zM3.5 5.88l1.41-1.41l2.12 2.12L5.62 8zm13.46.71l2.12-2.12l1.41 1.41L18.38 8z"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselinePlayArrow({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path fill="currentColor" d="M8 5v14l11-7z"></path>
+    </svg>
+  );
+}
+
+export function IcBaselineReplay5({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6s-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8s-3.58-8-8-8"
+      ></path>
+      <path
+        fill="currentColor"
+        d="m10.69 13.9l.25-2.17h2.39v.71h-1.7l-.11.92c.03-.02.07-.03.11-.05s.09-.04.15-.05s.12-.03.18-.04s.13-.02.2-.02c.21 0 .39.03.55.1s.3.16.41.28s.2.27.25.45s.09.38.09.6q0 .285-.09.54c-.09.255-.15.32-.27.45s-.27.24-.45.31s-.39.12-.64.12c-.18 0-.36-.03-.53-.08s-.32-.14-.46-.24s-.24-.24-.32-.39s-.13-.33-.13-.53h.84c.02.18.08.32.19.41s.25.15.42.15a.49.49 0 0 0 .45-.23c.04-.07.08-.15.11-.25s.03-.2.03-.31s-.01-.21-.04-.31s-.07-.17-.13-.24s-.13-.12-.21-.15s-.19-.05-.3-.05c-.08 0-.15.01-.2.02s-.11.03-.15.05s-.08.05-.12.07s-.07.06-.1.09z"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselineForward5({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M18 13c0 3.31-2.69 6-6 6s-6-2.69-6-6s2.69-6 6-6v4l5-5l-5-5v4c-4.42 0-8 3.58-8 8s3.58 8 8 8s8-3.58 8-8z"
+      ></path>
+      <path
+        fill="currentColor"
+        d="M12.03 15.38c-.44 0-.58-.31-.6-.56h-.84c.03.85.79 1.25 1.44 1.25c.93 0 1.44-.63 1.44-1.43c0-1.33-.97-1.44-1.3-1.44c-.2 0-.43.05-.64.16l.11-.92h1.7v-.71h-2.39l-.25 2.17l.67.17c.13-.13.28-.23.57-.23c.4 0 .69.23.69.75c-.01.05.02.79-.6.79"
+      ></path>
+    </svg>
+  );
+}
+
+export function EosIconsLoading({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8A8 8 0 0 1 12 20Z"
+        opacity={0.5}
+      ></path>
+      <path
+        fill="currentColor"
+        d="M20 12h2A10 10 0 0 0 12 2V4A8 8 0 0 1 20 12Z"
+      >
+        <animateTransform
+          attributeName="transform"
+          dur="1s"
+          from="0 12 12"
+          repeatCount="indefinite"
+          to="360 12 12"
+          type="rotate"
+        ></animateTransform>
+      </path>
+    </svg>
+  );
+}
+
+export function IcBaselinePause({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path fill="currentColor" d="M6 19h4V5H6zm8-14v14h4V5z"></path>
+    </svg>
+  );
+}
+
+export function IcBaselineVolumeMute({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path fill="currentColor" d="M7 9v6h4l5 5V4l-5 5z"></path>
+    </svg>
+  );
+}
+
+export function IcBaselineVolumeDown({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M18.5 12A4.5 4.5 0 0 0 16 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02M5 9v6h4l5 5V4L9 9z"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselineVolumeUp({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M3 9v6h4l5 5V4L7 9zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselineVolumeOff({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63m2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71M4.27 3L3 4.27L7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a9 9 0 0 0 3.69-1.81L19.73 21L21 19.73l-9-9zM12 4L9.91 6.09L12 8.18z"
+      ></path>
+    </svg>
+  );
+}
+
+// export function IcBaselineSubtitles({
+//   className,
+//   ...rest
+// }: SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       fill="none"
+//       className={cn("size-8", className)}
+//       {...rest}
+//       viewBox="0 0 24 24"
+//     >
+//       <path
+//         fill="currentColor"
+//         d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2M4 12h4v2H4zm10 6H4v-2h10zm6 0h-4v-2h4zm0-4H10v-2h10z"
+//       ></path>
+//     </svg>
+//   );
+// }
+
+// export function IcBaselineLanguage({
+//   className,
+//   ...rest
+// }: SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       fill="none"
+//       className={cn("size-8", className)}
+//       {...rest}
+//       viewBox="0 0 24 24"
+//     >
+//       <path
+//         fill="currentColor"
+//         d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m6.93 6h-2.95a15.7 15.7 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8M12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96M4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A8 8 0 0 1 5.08 16m2.95-8H5.08a8 8 0 0 1 4.33-3.56A15.7 15.7 0 0 0 8.03 8M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2m.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2z"
+//       ></path>
+//     </svg>
+//   );
+// }
+
+// export function IcBaselineHighQuality({
+//   className,
+//   ...rest
+// }: SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       fill="none"
+//       className={cn("size-8", className)}
+//       {...rest}
+//       viewBox="0 0 24 24"
+//     >
+//       <path
+//         fill="currentColor"
+//         d="M19 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m-8 11H9.5v-2h-2v2H6V9h1.5v2.5h2V9H11zm7-1c0 .55-.45 1-1 1h-.75v1.5h-1.5V15H14c-.55 0-1-.45-1-1v-4c0-.55.45-1 1-1h3c.55 0 1 .45 1 1zm-3.5-.5h2v-3h-2z"
+//       ></path>
+//     </svg>
+//   );
+// }
+
+export function IcBaselineFitScreen({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M17 4h3c1.1 0 2 .9 2 2v2h-2V6h-3zM4 8V6h3V4H4c-1.1 0-2 .9-2 2v2zm16 8v2h-3v2h3c1.1 0 2-.9 2-2v-2zM7 18H4v-2H2v2c0 1.1.9 2 2 2h3zM18 8H6v8h12z"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselineAspectRatio({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M19 12h-2v3h-3v2h5zM7 9h3V7H5v5h2zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16.01H3V4.99h18z"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselineFullscreen({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M7 14H5v5h5v-2H7zm-2-4h2V7h3V5H5zm12 7h-3v2h5v-5h-2zM14 5v2h3v3h2V5z"
+      ></path>
+    </svg>
+  );
+}
+
+export function IcBaselineFullscreenExit({
+  className,
+  ...rest
+}: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      className={cn("size-8", className)}
+      {...rest}
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M5 16h3v3h2v-5H5zm3-8H5v2h5V5H8zm6 11h2v-3h3v-2h-5zm2-11V5h-2v5h5V8z"
+      ></path>
+    </svg>
+  );
+}

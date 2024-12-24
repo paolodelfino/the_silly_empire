@@ -18,6 +18,8 @@ const it: Dictionary = {
       howTo1: "Apri Telegram, invia un messaggio casuale a ",
       howTo2: " e inserisci la seguente parte dello url ",
       howTo3: " nel campo sottostante.",
+      howTo4:
+        "Se ancora non funziona, allora prova a navigare allo url che il bot ti ha inviato, tramite un browser e, una volta che la pagina è caricata, vedi e utilizza l'ultima parte del nuovo url nella barra di navigazione.",
     },
   },
   login: {
@@ -42,6 +44,7 @@ const it: Dictionary = {
   },
   fetching: "recupero...",
   loadingNoCache: "caricamento no cache",
+  noResult: "Nessun risultato",
   queryForm: {
     kind: {
       movie: "Film",
@@ -80,6 +83,7 @@ const it: Dictionary = {
     title: "Home",
     featured: "In primo piano",
     upcoming: "In arrivo",
+    continueWatching: "Riprendi dove hai lasciato",
   },
   save: "Salva",
   titleStatus: {
@@ -105,10 +109,21 @@ const it: Dictionary = {
     play: "Riproduci",
   },
   scTldOutdated:
-    "Il tld di sc è obsoleto, ti reindirizzo alle impostazioni. Per favore, aggiornalo.",
+    "Il tld di sc è obsoleto, ti reindirizzo alle impostazioni. Per favore, aggiornalo. Se non sei ancora registrato, allora aggiornalo una volta registrato.",
   langReloadAfterSet: "Se necessario, aggiorna la pagina o riapri l'app.",
   invalid: "Invalido.",
   copied: "Copiato.",
   couldNotCopy: "Non è stato possibile copiare il testo.",
+  queryResults: {
+    morePrecise: "Più preciso",
+    moreFuzzy: "Più approssimativo",
+  },
+  player: {
+    findPlayingEpisode: "Trova l'episodio in riproduzione",
+    season: "Stagione",
+    comingOn: "in arrivo il",
+    episodeFetching: "Recupero",
+    episodePlaying: "In riproduzione",
+  },
 } satisfies Dictionary;
 export default it;
