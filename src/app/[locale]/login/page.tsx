@@ -23,7 +23,7 @@ export default async function Page(props: {
         sameSite: "lax",
         priority: "high",
       });
-      redirect(`/${params.locale}/home`);
+      redirect(`/${params.locale}/help`);
     }
   }
 

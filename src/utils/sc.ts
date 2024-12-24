@@ -11,7 +11,7 @@ import { z } from "zod";
 
 const DATA_PAGE_REGEX = new RegExp('<div id="app" data-page="(.+)"><\/div>');
 const DATA_PAGE_GROUP_INDEX = 1;
-export const SC_DEFAULT_TLD = "family";
+export const SC_DEFAULT_TLD = "prof";
 
 export const genresMap = {
   "13": "actionAdventure",

@@ -6,6 +6,7 @@ const it: Dictionary = {
     home: "Home",
     settings: "Impostazioni",
     query: "Cerca",
+    help: "Aiuto",
   },
   settings: {
     title: "Impostazioni",
@@ -124,6 +125,16 @@ const it: Dictionary = {
     comingOn: "in arrivo il",
     episodeFetching: "Recupero",
     episodePlaying: "In riproduzione",
+  },
+  help: {
+    title: "Aiuto",
+    rule1: "Non condividere la tua chiave.",
+    rule2:
+      "Se abusi della riproduzione dei titoli, probabilmente rovinerai l'esperienza di tutti.",
+    rule3:
+      "Sei hai dei popup blockers abilitati, metti questo dominio nella whitelist.",
+    rule4: "I dati sono salvati solo sul dispositivo in uso",
+    rule5: "Alcune cose non vengono tradotte, come ad esempio le immagini.",
   },
 } satisfies Dictionary;
 export default it;

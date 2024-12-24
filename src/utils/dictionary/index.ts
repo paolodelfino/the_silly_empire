@@ -7,6 +7,7 @@ export type Dictionary = {
     home: string;
     settings: string;
     query: string;
+    help: string;
   };
   settings: {
     title: string;
@@ -113,6 +114,14 @@ export type Dictionary = {
     comingOn: string;
     episodeFetching: string;
     episodePlaying: string;
+  };
+  help: {
+    title: string;
+    rule1: string;
+    rule2: string;
+    rule3: string;
+    rule4: string;
+    rule5: string;
   };
 };
 

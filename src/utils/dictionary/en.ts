@@ -6,6 +6,7 @@ const en: Dictionary = {
     home: "Home",
     settings: "Settings",
     query: "Query",
+    help: "Help",
   },
   settings: {
     title: "Settings",
@@ -123,6 +124,15 @@ const en: Dictionary = {
     comingOn: "coming on",
     episodeFetching: "Fetching",
     episodePlaying: "Playing",
+  },
+  help: {
+    title: "Help",
+    rule1: "Do not share your key.",
+    rule2:
+      "If you abuse title watching, you'll probably ruin everyone's experience.",
+    rule3: "If you have popup blockers enabled, whitelist this domain.",
+    rule4: "The data is only saved on the client",
+    rule5: "Some of the things don't get translated, for example, images.",
   },
 } satisfies Dictionary;
 export default en;

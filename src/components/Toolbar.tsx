@@ -13,6 +13,7 @@ export default function Toolbar({
 }) {
   if (!authenticated) return undefined;
 
+  // TODO: Add locale to href
   return (
     <nav
       className={cn(
@@ -82,6 +83,16 @@ export default function Toolbar({
             Test
           </LinkButton>
         )}
+        <LinkButton
+          href="/help"
+          className={cn(
+            variant === "monitor" && "min-w-32 text-start",
+            "[&.hover]:bg-gray-500 [&.hover_p]:text-white",
+            variant === "mobile" && "shrink-0",
+          )}
+        >
+          {dictionary.help}
+        </LinkButton>
       </ul>
     </nav>
   );

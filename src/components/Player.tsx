@@ -91,6 +91,7 @@ export default function Player({
   const [currentSubtitleTrack, setCurrentSubtitleTrack] = useState<number>(-1);
   const ref = useRef<HTMLDivElement | null>(null);
   const [fullscreen, setFullscreen] = useState(false);
+  const maxTimeRef = useRef(-1);
 
   const playlistFetch = useCallback(
     (
@@ -115,6 +116,7 @@ export default function Player({
     playlist.active();
 
     if (data.id !== season.meta.lastTitleId) {
+      maxTimeRef.current = -1;
       season.reset();
       season.active();
       season.setMeta({
@@ -190,6 +192,7 @@ export default function Player({
       });
       video.current.addEventListener("loadeddata", () => {
         setMaxTime(video.current!.duration * 1000);
+        maxTimeRef.current = video.current!.duration;
         setVolume(video.current!.volume);
       });
 
@@ -235,31 +238,30 @@ export default function Player({
   }, []);
 
   const updateTime = useCallback(() => {
+    clearInterval(interval.current);
     interval.current = setInterval(() => {
-      setCurrentTime(video.current!.currentTime * 1000);
+      if (maxTimeRef.current !== -1) {
+        setCurrentTime(video.current!.currentTime * 1000);
 
-      db.continueWatchingTitle.put({
-        titleId: data.id,
-        seasonNumber: playlist.meta.lastSeasonNumber,
-        episodeNumber: playlist.meta.lastEpisodeNumber,
-        poster: data.poster,
-        currentTime: video.current!.currentTime,
-        maxTime: maxTime / 1000,
-        lastUpdated: new Date(),
-      });
+        db.continueWatchingTitle.put({
+          titleId: data.id,
+          seasonNumber: playlist.meta.lastSeasonNumber,
+          episodeNumber: playlist.meta.lastEpisodeNumber,
+          poster: data.poster,
+          currentTime: video.current!.currentTime,
+          maxTime: maxTimeRef.current,
+          lastUpdated: new Date(),
+        });
+      }
     }, 1000);
-  }, [playlist, maxTime]);
+  }, [playlist, data]);
 
   useEffect(() => {
-    clearInterval(interval.current);
-    if (video.current !== null) {
-      video.current.addEventListener("play", updateTime);
-    }
+    video.current?.addEventListener("play", updateTime);
     return () => {
       video.current?.removeEventListener("play", updateTime);
-      clearInterval(interval.current);
     };
-  }, [video.current, updateTime]);
+  }, [video, updateTime]);
 
   useEffect(() => {
     if (playlist.data !== undefined && video.current !== null) {
@@ -496,6 +498,7 @@ export default function Player({
             }
           }}
         >
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
             ref={video}
             // playsInline
@@ -979,7 +982,7 @@ export default function Player({
                             "opacity-50",
                         )}
                       >
-                        <img src={`${sc!.cdn}/images/${it.cover}`} />
+                        <img alt="" src={`${sc!.cdn}/images/${it.cover}`} />
 
                         <div className="absolute left-0 top-0 flex h-full w-full flex-col bg-gradient-to-t from-neutral-900">
                           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

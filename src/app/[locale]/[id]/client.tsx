@@ -97,6 +97,7 @@ export default function Page({
       <div className="1600px:mr-4">
         <div className="relative flex h-auto w-full overflow-hidden rounded">
           <img
+            alt=""
             src={`${sc!.cdn}/images/${query.data.background}`}
             className="w-full"
           />
@@ -104,6 +105,7 @@ export default function Page({
           <div className="absolute bottom-0 left-0 flex h-full w-full items-end justify-between gap-4 bg-gradient-to-t from-neutral-900 p-2 sm:flex-col sm:items-start sm:justify-end sm:p-10">
             {query.data.logo !== undefined ? (
               <img
+                alt=""
                 src={`${sc!.cdn}/images/${query.data.logo}`}
                 className="h-auto w-32 sm:w-48 md:w-56 1600px:w-fit"
               />

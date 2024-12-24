@@ -2,17 +2,19 @@ import Page from "@/app/[locale]/[id]/client";
 import schemaFetchTitle from "@/schemas/schemaFetchTitle";
 import { getDictionary } from "@/utils/locale";
 import { genresMap } from "@/utils/sc";
+import { notFound } from "next/navigation";
 
 export default async function RootPage(props: {
   params: Promise<{ locale: string; id: string }>;
 }) {
   const params = await props.params;
-  const values = schemaFetchTitle.parse({ id: Number(params.id) });
+  const values = schemaFetchTitle.safeParse({ id: Number(params.id) });
+  if (!values.success) notFound();
   const dictionary = await getDictionary(params.locale);
 
   return (
     <Page
-      params={values}
+      params={values.data}
       dictionary={{
         genres: {
           "13": dictionary.queryForm.genre[
