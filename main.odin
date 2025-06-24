@@ -24,8 +24,6 @@ import "ui"
 
 font_inter: int
 font_icons: int
-play_pause_button: ^ui.Widget_Button
-step_button: ^ui.Widget_Button
 
 main :: proc() {
 	start := time.now()
